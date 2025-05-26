@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css'
-import axios from 'axios'
 import Footer from './Footer.jsx'
 import Header from './Header.jsx'
+import Home from './Home.jsx'
 
 function App() {
   return (
     <>
       <Header />
       <main>
-        <p>F1 Tipping hjemskjerm!</p>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Home />} />
+          </Routes>
+        </BrowserRouter>
       </main>
       <Footer />
     </>
