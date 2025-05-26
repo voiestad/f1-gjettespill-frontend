@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from './Theme.jsx'
+import axios from 'axios'
 
 function Logo() {
   return (
@@ -109,7 +110,13 @@ function DropdownMenu(props) {
       }, 10);
     }
   }, [isMenuActive]);
-
+  const [headerState, setHeaderState] = useState(null);
+  async function reloadHeaderState() {
+    axios.get('/api/public/header')
+      .then(res => setHeaderState(res.data))
+      .catch(err => console.error(err));
+  }
+  reloadHeaderState()
   return (
     <>
       <div id="links-container">
@@ -119,8 +126,8 @@ function DropdownMenu(props) {
           style={{maxHeight: '0px'}}
         >
           <DropdownSection category="Tipping" linksRef={linksRef}>
-            <a href="/guess">Tipp</a>
-            <a href="/race-guess">Tippet på løp</a>
+            {headerState && headerState.isAbleToGuess ? <a href="/guess">Tipp</a> : ''}
+            {headerState && headerState.isRaceGuess ? <a href="/race-guess">Tippet på løp</a> : ''}
           </DropdownSection>
           <DropdownSection category="Resultater" linksRef={linksRef}>
             <a href="/user/compare">Sammenlign brukere</a>
@@ -131,14 +138,17 @@ function DropdownMenu(props) {
           <DropdownSection category="Andre" linksRef={linksRef}>
             <a href="/bingo">Bingo</a>
           </DropdownSection>
-          <DropdownSection category="Profil" linksRef={linksRef}>
-            <a href="/user/myprofile">Min Profil</a>
-            <a href="/settings">Innstillinger</a>
-            <a href="#">Logg ut</a>
-          </DropdownSection>
+          {headerState && headerState.isLoggedIn ?
+            <DropdownSection category="Profil" linksRef={linksRef}>
+              <a href="/user/myprofile">Min Profil</a>
+              <a href="/settings">Innstillinger</a>
+              <a href="#">Logg ut</a>
+            </DropdownSection>
+            : ''
+          }
           <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
-          <a href="/admin">Admin Portal</a>
-          <a href="/oauth2/authorization/google">Logg inn</a>
+          {headerState && headerState.isAdmin ? <a href="/admin">Admin Portal</a> : ''}
+          {headerState && !headerState.isLoggedIn ? <a href="/oauth2/authorization/google">Logg inn</a> : ''}
         </div>
       </div>
     </>
