@@ -111,12 +111,14 @@ function DropdownMenu(props) {
     }
   }, [isMenuActive]);
   const [headerState, setHeaderState] = useState(null);
-  async function reloadHeaderState() {
+  function reloadHeaderState() {
     axios.get('/api/public/header')
       .then(res => setHeaderState(res.data))
       .catch(err => console.error(err));
   }
-  reloadHeaderState()
+  useEffect(() => {
+    reloadHeaderState();
+  }, []);
   return (
     <>
       <div id="links-container">
