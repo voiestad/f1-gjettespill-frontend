@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from './Theme.jsx'
 
 function Logo() {
@@ -11,10 +11,14 @@ function Logo() {
   )
 }
 
-function HamburgerMenu() {
+function HamburgerMenu(props) {
+  const { isActive, setActive } = props;
+  function toggleActive() {
+    setActive(!isActive);
+  }
   return (
     <>
-      <button className="icon">
+      <button className="icon" onClick={toggleActive}>
         <svg className="hamburger" viewBox="0 0 15 16">
           <rect x="0" y="2" width="15" height="3" fill="white" />
           <rect x="0" y="7.5" width="15" height="3" fill="white" />
@@ -43,21 +47,33 @@ function Breadcrumbs() {
 }
 
 function DropdownSection(props) {
-  const { category, children } = props;
+  const { category, linksRef, children } = props;
   const [isActive, setActive] = useState(false);
-
+  const subMenuRef = useRef(null);
   function toggleSubMenu() {
     setActive(!isActive);
   }
+  useEffect(() => {
+    const links = linksRef.current;
+    if (links.style.maxHeight == "0px") {
+      return;
+    }
+    const subMenu = subMenuRef.current;
+    links.style.transition = "";
+    links.style.maxHeight = "5000px";
+    if (isActive) {
+      subMenu.style.maxHeight = subMenu.scrollHeight + "px";
+    } else {
+      subMenu.style.maxHeight = "";
+    }
+  }, [isActive]);
   return (
     <>
       <div className="dropdown-section">
         <button className="dropdown-button" onClick={toggleSubMenu}>{category} &#x25BC;</button>
         <div
-          className={`dropdown-content ${isActive ? 'active' : ''}`}
-          style={{
-            maxHeight: isActive ? '1000px' : '0',
-          }}
+          className={isActive ? 'active' : ''}
+          ref={subMenuRef}
         >
           {children}
         </div>
@@ -67,31 +83,55 @@ function DropdownSection(props) {
 }
 
 
-function DropdownMenu() {
-  const {theme, toggleTheme } = useContext(ThemeContext);
+function DropdownMenu(props) {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const themeNames = {
     "light": "Lys",
     "dark": "Mørk",
     "oled": "Mørkere"
   }
+  const { isMenuActive } = props;
+  const linksRef = useRef(null);
+  useEffect(() => {
+    const links = linksRef.current;
+    if (!isMenuActive && links.style.maxHeight == "0px") {
+      return;
+    }
+    links.style = "transition: opacity 0.5s ease;";
+    if (isMenuActive) {
+      links.style = "transition: max-height 0.5s ease, opacity 0.5s ease;";
+      links.style.maxHeight = links.scrollHeight + "px";
+    } else {
+      links.style.maxHeight = links.scrollHeight + "px";
+      setTimeout(event => {
+        links.style = "transition: max-height 0.5s ease, opacity 0.5s ease;";
+        links.style.maxHeight = 0;
+      }, 10);
+    }
+  }, [isMenuActive]);
+
   return (
     <>
       <div id="links-container">
-        <div id="links" style={{ maxHeight: '1000px' }}>
-          <DropdownSection category="Tipping">
+        <div id="links"
+          className={isMenuActive ? 'active' : ''}
+          ref={linksRef}
+          style={{maxHeight: '0px'}}
+        >
+          <DropdownSection category="Tipping" linksRef={linksRef}>
             <a href="/guess">Tipp</a>
             <a href="/race-guess">Tippet på løp</a>
           </DropdownSection>
-          <DropdownSection category="Resultater">
+          <DropdownSection category="Resultater" linksRef={linksRef}>
             <a href="/user/compare">Sammenlign brukere</a>
             <a href="/stats">Statistikk</a>
             <a href="/score">Poengberegning</a>
             <a href="https://app.voiestad.no/f1-old">Resultater før 2025</a>
           </DropdownSection>
-          <DropdownSection category="Andre">
+          <DropdownSection category="Andre" linksRef={linksRef}>
             <a href="/bingo">Bingo</a>
           </DropdownSection>
-          <DropdownSection category="Profil">
+          <DropdownSection category="Profil" linksRef={linksRef}>
             <a href="/user/myprofile">Min Profil</a>
             <a href="/settings">Innstillinger</a>
             <a href="#">Logg ut</a>
@@ -106,14 +146,15 @@ function DropdownMenu() {
 }
 
 function Header() {
+  const [isActive, setActive] = useState(false);
   return (
     <>
       <header>
         <nav className="topnav">
           <Logo />
-          <HamburgerMenu />
+          <HamburgerMenu isActive={isActive} setActive={setActive} />
           <Breadcrumbs />
-          <DropdownMenu />
+          <DropdownMenu isMenuActive={isActive} />
         </nav>
       </header>
     </>
