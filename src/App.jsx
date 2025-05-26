@@ -8,7 +8,7 @@ function App() {
   const [score, setScore] = useState("temp")
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/public/score')
+    axios.get('/api/public/header')
       .then(res => setScore(res.data))
       .catch(err => console.error(err));
   }, [])
