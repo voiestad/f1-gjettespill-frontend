@@ -4,7 +4,7 @@ function Privacy() {
   return (
     <>
       <h2>Personvernerklæring</h2>
-      <div class="paragraph">
+      <div className="paragraph">
         <p>
           Dette er en personvernerklæring for F1 Tipping og gjelder for <Link to="/">f1.voiestad.no</Link>. Nettsiden
           styres av Vebjørn Øiestad og alle spørsmål angående nettsiden kan sendes inn via kontaktskjemaet <Link to="/contact">her</Link>.

@@ -100,7 +100,7 @@ function DropdownMenu(props) {
     "dark": "Mørk",
     "oled": "Mørkere"
   }
-  const { isMenuActive } = props;
+  const { isMenuActive, setActive } = props;
   const linksRef = useRef(null);
   useEffect(() => {
     const links = linksRef.current;
@@ -113,7 +113,7 @@ function DropdownMenu(props) {
       links.style.maxHeight = links.scrollHeight + "px";
     } else {
       links.style.maxHeight = links.scrollHeight + "px";
-      setTimeout(event => {
+      setTimeout(() => {
         links.style = "transition: max-height 0.5s ease, opacity 0.5s ease;";
         links.style.maxHeight = 0;
       }, 10);
@@ -121,13 +121,31 @@ function DropdownMenu(props) {
   }, [isMenuActive]);
   const [headerState, setHeaderState] = useState(null);
   function reloadHeaderState() {
+    setActive(false);
     axios.get('/api/public/header')
       .then(res => setHeaderState(res.data))
       .catch(err => console.error(err));
   }
+  const { pathname } = useLocation();
   useEffect(() => {
     reloadHeaderState();
-  }, []);
+  }, [pathname]);
+  function logout() {
+    axios.get('/api/public/csrf-token')
+      .then(res => {
+        const headerName = res.data.headerName;
+        const token = res.data.token;
+        axios.post('/logout', {}, {
+          headers: {
+            [headerName]: token
+          }
+        })
+        .then(reloadHeaderState())
+        .catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <>
       <div id="links-container">
@@ -153,13 +171,13 @@ function DropdownMenu(props) {
             <DropdownSection category="Profil" linksRef={linksRef}>
               <Link to="/user/myprofile">Min Profil</Link>
               <Link to="/settings">Innstillinger</Link>
-              <Link to="#">Logg ut</Link>
+              <Link onClick={logout}>Logg ut</Link>
             </DropdownSection>
             : ''
           }
           <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
           {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : ''}
-          {headerState && !headerState.isLoggedIn ? <Link to="/oauth2/authorization/google">Logg inn</Link> : ''}
+          {headerState && !headerState.isLoggedIn ? <a href="/oauth2/authorization/google">Logg inn</a> : ''}
         </div>
       </div>
     </>
@@ -175,7 +193,7 @@ function Header() {
           <Logo />
           <HamburgerMenu isActive={isActive} setActive={setActive} />
           <Breadcrumbs />
-          <DropdownMenu isMenuActive={isActive} />
+          <DropdownMenu isMenuActive={isActive} setActive={setActive} />
         </nav>
       </header>
     </>
