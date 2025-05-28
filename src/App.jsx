@@ -7,15 +7,15 @@ import Home from './Home.jsx'
 function App() {
   return (
     <>
-      <Header />
-      <main>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Header />
+        <main>
           <Routes>
             <Route index element={<Home />} />
           </Routes>
-        </BrowserRouter>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </BrowserRouter>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from './Theme.jsx'
 import axios from 'axios'
+import { useLocation } from 'react-router'
 
 function Logo() {
   return (
@@ -31,16 +32,25 @@ function HamburgerMenu(props) {
 }
 
 function Breadcrumbs() {
+  const [breadcrumbs, setBreadcrumbs] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    const pathName = location.pathname;
+    axios.get(`/api/public/breadcrumbs?path=${pathName}`)
+      .then(res => setBreadcrumbs(res.data))
+      .catch(err => console.error(err));
+  }, []);
   return (
     <>
       <div style={{ margin: 0 }}>
         <ol className="breadcrumb">
-          <li>
-            <a href="/">Hjem</a>
-          </li>
-          <li>
-            <div>Test</div>
-          </li>
+          {breadcrumbs ?
+            breadcrumbs.map((crumb) => (
+              <li key={crumb.text}>
+                {crumb.path ? <a href={crumb.path}>{crumb.text}</a> : <div>{crumb.text}</div>}
+              </li>
+            )) : <li><div>Hjem</div></li>
+          }
         </ol>
       </div>
     </>
@@ -125,7 +135,7 @@ function DropdownMenu(props) {
         <div id="links"
           className={isMenuActive ? 'active' : ''}
           ref={linksRef}
-          style={{maxHeight: '0px'}}
+          style={{ maxHeight: '0px' }}
         >
           <DropdownSection category="Tipping" linksRef={linksRef}>
             {headerState && headerState.isAbleToGuess ? <a href="/guess">Tipp</a> : ''}
