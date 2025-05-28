@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react'
-import { ThemeContext } from './Theme.jsx'
+import { ThemeContext } from '../components'
 import axios from 'axios'
 import { useLocation, Link } from 'react-router'
 
@@ -33,13 +33,12 @@ function HamburgerMenu(props) {
 
 function Breadcrumbs() {
   const [breadcrumbs, setBreadcrumbs] = useState(null);
-  const location = useLocation();
+  const { pathname } = useLocation();
   useEffect(() => {
-    const pathName = location.pathname;
-    axios.get(`/api/public/breadcrumbs?path=${pathName}`)
+    axios.get(`/api/public/breadcrumbs?path=${pathname}`)
       .then(res => setBreadcrumbs(res.data))
       .catch(err => console.error(err));
-  }, []);
+  }, [pathname]);
   return (
     <>
       <div style={{ margin: 0 }}>

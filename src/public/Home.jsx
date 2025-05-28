@@ -35,7 +35,6 @@ function Home() {
   useEffect(() => {
     axios.get('/api/public/home')
       .then(res => {
-        console.log(JSON.stringify(res.data));
         setLeaderboard(res.data.leaderboard);
       })
       .catch(err => console.error(err));

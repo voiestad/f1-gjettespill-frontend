@@ -651,3 +651,28 @@ h3 {
 		font-size: smaller;
 	}
 }
+
+.paragraph p {
+	text-align: center;
+	margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+	.paragraph p {
+		width: 80%;
+		font-size: medium;
+	}
+}
+
+@media (min-width: 601px) {
+	.paragraph p {
+		width: 50%;
+	}
+}
+
+#v-logo {
+	background-color: rgb(187, 0, 31);
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+}

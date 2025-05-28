@@ -1,19 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import './App.css'
-import Footer from './Footer.jsx'
-import Header from './Header.jsx'
-import Home from './Home.jsx'
-import Error from './Error.jsx'
+import './App.css';
+import { About, Contact, Error, Footer, Header, Home, Privacy } from './public';
+import { ScrollToTop } from './components';
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <main>
           <Routes>
             <Route path="/" >
-              <Route index element={<Home />}/>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="privacy" element={<Privacy />} />
               <Route path="*" element={<Error />} />
             </Route>
           </Routes>
