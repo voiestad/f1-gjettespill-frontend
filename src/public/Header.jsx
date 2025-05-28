@@ -146,6 +146,11 @@ function DropdownMenu(props) {
       .catch(err => console.error(err));
   }
 
+  function login() {
+    localStorage.setItem("redirectAfterLogin", pathname);
+    window.location.href = "/oauth2/authorization/google";
+  }
+
   return (
     <>
       <div id="links-container">
@@ -177,7 +182,7 @@ function DropdownMenu(props) {
           }
           <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
           {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : ''}
-          {headerState && !headerState.isLoggedIn ? <a href="/oauth2/authorization/google">Logg inn</a> : ''}
+          {headerState && !headerState.isLoggedIn ? <Link onClick={login}>Logg inn</Link> : ''}
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
-import { About, Contact, Error, Footer, Header, Home, Privacy } from './public';
+import { About, Contact, Error, Footer, Header, Home, LoggedIn, Privacy } from './public';
 import { ScrollToTop } from './components';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="logged-in" element={<LoggedIn />} />
               <Route path="privacy" element={<Privacy />} />
               <Route path="*" element={<Error />} />
             </Route>
