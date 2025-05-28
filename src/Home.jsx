@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
 function Leaderboard(props) {
   const leaderboard = props.leaderboard;
@@ -18,7 +19,7 @@ function Leaderboard(props) {
           {leaderboard.map((row) => (
             <tr key={row.guesser.id}>
               <td>{row.rank}</td>
-              <td><a href={`/user/${row.guesser.id}`}>{row.guesser.username}</a></td>
+              <td><Link to={`/user/${row.guesser.id}`}>{row.guesser.username}</Link></td>
               <td>{row.guesser.points}</td>
             </tr>
           ))}

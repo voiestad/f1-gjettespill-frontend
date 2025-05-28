@@ -3,6 +3,7 @@ import './App.css'
 import Footer from './Footer.jsx'
 import Header from './Header.jsx'
 import Home from './Home.jsx'
+import Error from './Error.jsx'
 
 function App() {
   return (
@@ -11,7 +12,10 @@ function App() {
         <Header />
         <main>
           <Routes>
-            <Route index element={<Home />} />
+            <Route path="/" >
+              <Route index element={<Home />}/>
+              <Route path="*" element={<Error />} />
+            </Route>
           </Routes>
         </main>
         <Footer />

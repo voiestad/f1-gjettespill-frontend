@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from './Theme.jsx'
 import axios from 'axios'
-import { useLocation } from 'react-router'
+import { useLocation, Link } from 'react-router'
 
 function Logo() {
   return (
     <>
-      <a id="logo" href="/">
+      <Link id="logo" to="/">
         <h1>F1 Tipping</h1>
-      </a>
+      </Link>
     </>
   )
 }
@@ -47,7 +47,7 @@ function Breadcrumbs() {
           {breadcrumbs ?
             breadcrumbs.map((crumb) => (
               <li key={crumb.text}>
-                {crumb.path ? <a href={crumb.path}>{crumb.text}</a> : <div>{crumb.text}</div>}
+                {crumb.path ? <Link to={crumb.path}>{crumb.text}</Link> : <div>{crumb.text}</div>}
               </li>
             )) : <li><div>Hjem</div></li>
           }
@@ -138,29 +138,29 @@ function DropdownMenu(props) {
           style={{ maxHeight: '0px' }}
         >
           <DropdownSection category="Tipping" linksRef={linksRef}>
-            {headerState && headerState.isAbleToGuess ? <a href="/guess">Tipp</a> : ''}
-            {headerState && headerState.isRaceGuess ? <a href="/race-guess">Tippet på løp</a> : ''}
+            {headerState && headerState.isAbleToGuess ? <Link to="/guess">Tipp</Link> : ''}
+            {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Tippet på løp</Link> : ''}
           </DropdownSection>
           <DropdownSection category="Resultater" linksRef={linksRef}>
-            <a href="/user/compare">Sammenlign brukere</a>
-            <a href="/stats">Statistikk</a>
-            <a href="/score">Poengberegning</a>
-            <a href="https://app.voiestad.no/f1-old">Resultater før 2025</a>
+            <Link to="/user/compare">Sammenlign brukere</Link>
+            <Link to="/stats">Statistikk</Link>
+            <Link to="/score">Poengberegning</Link>
+            <Link to="https://app.voiestad.no/f1-old">Resultater før 2025</Link>
           </DropdownSection>
           <DropdownSection category="Andre" linksRef={linksRef}>
-            <a href="/bingo">Bingo</a>
+            <Link to="/bingo">Bingo</Link>
           </DropdownSection>
           {headerState && headerState.isLoggedIn ?
             <DropdownSection category="Profil" linksRef={linksRef}>
-              <a href="/user/myprofile">Min Profil</a>
-              <a href="/settings">Innstillinger</a>
-              <a href="#">Logg ut</a>
+              <Link to="/user/myprofile">Min Profil</Link>
+              <Link to="/settings">Innstillinger</Link>
+              <Link to="#">Logg ut</Link>
             </DropdownSection>
             : ''
           }
           <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
-          {headerState && headerState.isAdmin ? <a href="/admin">Admin Portal</a> : ''}
-          {headerState && !headerState.isLoggedIn ? <a href="/oauth2/authorization/google">Logg inn</a> : ''}
+          {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : ''}
+          {headerState && !headerState.isLoggedIn ? <Link to="/oauth2/authorization/google">Logg inn</Link> : ''}
         </div>
       </div>
     </>
