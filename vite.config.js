@@ -10,6 +10,10 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
+      '/oauth2/authorization/google': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
     },
   },
 })
