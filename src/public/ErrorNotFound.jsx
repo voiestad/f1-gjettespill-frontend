@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-function Error() {
+function ErrorNotFound() {
   return (
     <>
       <h2>Beklager, vi kunne ikke finne siden du lette etter...</h2>
@@ -12,4 +12,4 @@ function Error() {
   )
 }
 
-export default Error
+export default ErrorNotFound

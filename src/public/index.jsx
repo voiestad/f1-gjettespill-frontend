@@ -1,6 +1,8 @@
 export { default as About } from './About';
+export { default as Bingo } from './Bingo';
 export { default as Contact } from './Contact';
-export { default as Error } from './Error';
+export { default as ErrorNotFound } from './ErrorNotFound';
+export { default as ErrorUnknown } from './ErrorUnknown';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as Home } from './Home';

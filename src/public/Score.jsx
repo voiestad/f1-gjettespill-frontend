@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { ErrorUnknown } from './'
 
 function DiffTable(props) {
   const { title, table } = props
@@ -36,6 +37,7 @@ function Score() {
         if (err.status === 403) {
           setError(<p>Poengberegningen for dette året er ikke tilgjenglig enda.</p>);
         } else {
+          setError(<ErrorUnknown />);
           console.error(err);
         }
       })
@@ -43,6 +45,7 @@ function Score() {
 
   return (
     <>
+      <h2>Poengberegning</h2>
       {scoringTables ?
         <div className="tables">
           <DiffTable title="Sjåfører" table={scoringTables.DRIVER} />

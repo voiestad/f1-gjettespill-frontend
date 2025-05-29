@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Error } from '../public';
+import { ErrorNotFound } from '../public';
 import axios from 'axios';
 import ProfilePage from './ProfilePage';
 
@@ -15,7 +15,7 @@ function User() {
         if (err.status === 403) {
           setError(<p>Tippingen er snart tilgjenglig</p>);
         } else if (err.status === 404 || err.status === 400) { 
-          setError(<Error />);
+          setError(<ErrorNotFound />);
         } else {
           console.error(err);
         }
