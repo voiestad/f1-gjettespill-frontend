@@ -8,23 +8,28 @@ function User() {
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
+  const [raceId, setRaceId] = useState(null);
   useEffect(() => {
-    axios.get(`/api/public/user/${id}`)
+    axios.get(`/api/public/user/${id}`, {
+      params: {
+        raceId: raceId
+      }
+    })
       .then(res => setUserData(res.data))
       .catch(err => {
         if (err.status === 403) {
           setError(<ErrorGuessingNotAvailableYet />);
-        } else if (err.status === 404 || err.status === 400) { 
+        } else if (err.status === 404 || err.status === 400) {
           setError(<ErrorNotFound />);
         } else {
           console.error(err);
         }
       })
-  }, []);
+  }, [raceId]);
   return (
     <>
       {userData ?
-        <ProfilePage userData={userData} />
+        <ProfilePage userData={userData} setRaceId={setRaceId} />
         : ''}
       {error ? error : ''}
     </>

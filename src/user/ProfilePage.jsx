@@ -1,4 +1,6 @@
 import { translateFlag } from '../util/translator';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 function SummaryTable(props) {
   const summary = props.summary
@@ -63,7 +65,7 @@ function ChampionshipTable(props) {
             <tr key={row.competitor}>
               <td>{row.pos}</td>
               <td>{row.competitor}</td>
-              <td>{row.guessed  !== null ? row.guessed : 'N/A'}</td>
+              <td>{row.guessed !== null ? row.guessed : 'N/A'}</td>
               <td>{row.diff !== null ? row.diff : 'N/A'}</td>
               <td>{row.points}</td>
             </tr>
@@ -109,7 +111,7 @@ function FlagTable(props) {
 
 function DriverPlaceTable(props) {
   const { title, placeGuesses } = props;
-  
+
   return (
     <>
       <h3>{title}</h3>
@@ -140,10 +142,45 @@ function DriverPlaceTable(props) {
 }
 
 function ProfilePage(props) {
-  const { user, year, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses, summary } = props.userData
+  const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses, summary } = props.userData
+  const { setRaceId } = props
+  const [races, setRaces] = useState(null);
+  const [years, setYears] = useState(null);
+  function changeYear(year) {
+    axios.get(`/api/public/race/list/${year}`)
+      .then(res => setRaces(res.data))
+      .catch(err => console.error(err));
+  }
+  useEffect(() => {
+    changeYear(y);
+    axios.get('/api/public/year/list')
+      .then(res => setYears(res.data))
+      .catch(err => console.error(err));
+  }, []);
   return (
     <>
-      <h2>{user.username} {year}</h2>
+      <h2>{user.username} {y}</h2>
+      <form>
+        <label>Velg år:
+          <br />
+          {years ?
+            <select defaultValue={y} onChange={(e) => changeYear(e.target.value)}>
+              {years.map((year) => <option key={year} value={year}>{year}</option>)}
+            </select>
+            : ''}
+        </label>
+        <br /><br />
+        <label>Velg løp:
+          <br />
+          {races ?
+            <select defaultValue={raceId} onChange={(e) => setRaceId(e.target.value)}>
+              {races.map((race) =>
+                <option key={race.id} value={race.id}>{race.position}. {race.name}</option>
+              )}
+            </select>
+            : ''}
+        </label>
+      </form>
       <div className="tables">
         <SummaryTable summary={summary} />
         <ChampionshipTable title="Sjåfører" compName="Sjåfør" guesses={driversGuesses} />
