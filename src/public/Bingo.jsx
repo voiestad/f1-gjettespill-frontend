@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { ErrorUnknown } from './';
+import { ErrorUnknown } from '../error';
 import { Link } from 'react-router';
 
 function BingoBoard(props) {

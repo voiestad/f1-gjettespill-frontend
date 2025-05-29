@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { ErrorNotFound } from '../public';
+import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
 import axios from 'axios';
 import ProfilePage from './ProfilePage';
 
@@ -13,7 +13,7 @@ function User() {
       .then(res => setUserData(res.data))
       .catch(err => {
         if (err.status === 403) {
-          setError(<p>Tippingen er snart tilgjenglig</p>);
+          setError(<ErrorGuessingNotAvailableYet />);
         } else if (err.status === 404 || err.status === 400) { 
           setError(<ErrorNotFound />);
         } else {

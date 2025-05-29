@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
-import { About, Bingo, Contact, ErrorNotFound, Footer, Header, Home, LoggedIn, Privacy, Score } from './public';
+import { About, Bingo, Contact, Footer, Header, Home, LoggedIn, Privacy, Score } from './public';
+import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ScrollToTop } from './components';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ErrorUnknown } from './'
+import { ErrorUnknown } from '../error'
 
 function DiffTable(props) {
   const { title, table } = props
