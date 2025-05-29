@@ -63,8 +63,8 @@ function ChampionshipTable(props) {
             <tr key={row.competitor}>
               <td>{row.pos}</td>
               <td>{row.competitor}</td>
-              <td>{row.guessed}</td>
-              <td>{row.diff}</td>
+              <td>{row.guessed  !== null ? row.guessed : 'N/A'}</td>
+              <td>{row.diff !== null ? row.diff : 'N/A'}</td>
               <td>{row.points}</td>
             </tr>
           )}

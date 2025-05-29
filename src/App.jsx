@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
 import { About, Contact, Error, Footer, Header, Home, LoggedIn, Privacy } from './public';
-import { MyProfile, UserList } from './user'
+import { MyProfile, User, UserList } from './user'
 import { ScrollToTop } from './components';
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
               <Route path="user">
                 <Route index element={<UserList />} />
                 <Route path="myprofile" element={<MyProfile />} />
+                <Route path=":id" element={<User />} />
               </Route>
               <Route path="*" element={<Error />} />
             </Route>
