@@ -1,12 +1,22 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function LoggedIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
-    navigate(redirectPath);
+    axios.get('/api/public/user/status')
+      .then(res => {
+        console.log(res.data);
+        if (res.data !== "NO_USERNAME") {
+          const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+          navigate(redirectPath);
+        } else {
+          navigate('/settings/username');
+        }
+      })
+      .catch(err => console.error(err));
   }, []);
 
   return <p>Logger inn...</p>;

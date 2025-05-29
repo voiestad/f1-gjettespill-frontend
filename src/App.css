@@ -676,3 +676,28 @@ h3 {
 	width: 100px;
 	height: 100px;
 }
+
+.pin-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.pin-input {
+	color: var(--color-fg);
+	font-family: monospace;
+	font-size: 1em;
+	border: none;
+	outline: none;
+	padding: 0;
+	width: calc(1.6ch * 19);
+	background: repeating-linear-gradient(90deg, dimgrey 0, dimgrey 1ch, transparent 0, transparent 1.6ch) 0 100%/100% 2px no-repeat;
+	letter-spacing: .6ch;
+	max-width: 100%;
+}
+
+@media (max-width: 600px) {
+	.pin-input {
+		font-size: 0.75em;
+	}
+}
