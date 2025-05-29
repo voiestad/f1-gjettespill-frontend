@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
-import { About, Contact, Error, Footer, Header, Home, LoggedIn, Privacy } from './public';
+import { About, Contact, Error, Footer, Header, Home, LoggedIn, Privacy, Score } from './public';
 import { MyProfile, User, UserList } from './user'
 import { ScrollToTop } from './components';
 
@@ -23,6 +23,7 @@ function App() {
                 <Route path="myprofile" element={<MyProfile />} />
                 <Route path=":id" element={<User />} />
               </Route>
+              <Route path="score" element={<Score />} />
               <Route path="*" element={<Error />} />
             </Route>
           </Routes>
