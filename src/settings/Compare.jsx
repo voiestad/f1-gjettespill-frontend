@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { translateFlag } from '../util/translator';
 
@@ -247,6 +247,8 @@ function Compare() {
 
   const [userGuesses, setUserGuesses] = useState(null);
 
+  const cacheRef = useRef({});
+
   useEffect(() => {
     axios.get('/api/public/year/list')
       .then(res => {
@@ -261,18 +263,31 @@ function Compare() {
       .catch(err => console.error(err));
   }, []);
 
+  async function loadUser(id) {
+    const cache = cacheRef.current;
+    if (cache[id]) {
+      return cache[id];
+    }
+    let res = await axios.get(`/api/public/user/${id}`);
+    cache[id] = res.data;
+    return res.data;
+  }
+
+  async function loadData() {
+    try {
+      let user1Data = await loadUser(user1.id);
+      let user2Data = await loadUser(user2.id);
+      setUserGuesses({ user1: user1Data, user2: user2Data });
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     if (selectedYear == null || user1 == null || user2 == null) {
       return;
     }
-    axios.get(`/api/public/user/${user1.id}`)
-      .then(res => {
-        axios.get(`/api/public/user/${user2.id}`)
-          .then(res2 => {
-            setUserGuesses({ user1: res.data, user2: res2.data });
-          })
-      })
-      .catch(err => console.error(err))
+    loadData();
   }, [selectedYear, user1, user2]);
 
   function getUserFromId(id) {
