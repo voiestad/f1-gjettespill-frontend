@@ -701,3 +701,22 @@ h3 {
 		font-size: 0.75em;
 	}
 }
+
+@media (min-width: 601px) {
+	.big-tables {
+		th,
+		td {
+			font-size: 14px !important;
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.big-tables {
+
+		th,
+		td {
+			font-size: 8px !important;
+		}
+	}
+}

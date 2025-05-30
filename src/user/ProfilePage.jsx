@@ -46,7 +46,7 @@ function SummaryTable(props) {
 }
 
 function ChampionshipTable(props) {
-  const { title, guesses } = props
+  const { title, guesses, compName } = props
   return (
     <>
       <h3>{title}</h3>
@@ -54,7 +54,7 @@ function ChampionshipTable(props) {
         <thead>
           <tr>
             <th>Plass</th>
-            <th>Sjåfør</th>
+            <th>{compName}</th>
             <th>Gjettet</th>
             <th>Diff</th>
             <th>Poeng</th>

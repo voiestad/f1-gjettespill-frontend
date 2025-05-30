@@ -15,7 +15,7 @@ import {
   StatsChooseYear,
   StatsRace
 } from './public';
-import { Settings, UserInformation, Username } from './settings';
+import { Compare, Settings, UserInformation, Username } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
@@ -50,6 +50,7 @@ function App() {
               <Route path="user">
                 <Route index element={<UserList />} />
                 <Route path=":id" element={<User />} />
+                <Route path="compare" element={<Compare />} />
               </Route>
 
               <Route element={<ProtectedRoute />}>
