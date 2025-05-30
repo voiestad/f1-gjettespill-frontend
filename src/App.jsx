@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
 import { About, Bingo, Contact, Footer, Header, Home, LoggedIn, Privacy, Score } from './public';
-import { Settings, Username } from './settings';
+import { Settings, UserInformation, Username } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
@@ -33,6 +33,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="settings">
                   <Route index element={<Settings />} />
+                  <Route path="info" element={<UserInformation />} />
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
