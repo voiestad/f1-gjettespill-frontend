@@ -163,10 +163,7 @@ function UserInformation() {
 
   useEffect(() => {
     axios.get('/api/settings/info')
-      .then(res => {
-        console.log(res.data);
-        setUserInfo(res.data);
-      })
+      .then(res => setUserInfo(res.data))
       .catch(err => console.error(err));
   }, []);
 

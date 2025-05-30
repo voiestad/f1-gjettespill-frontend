@@ -15,3 +15,10 @@ export function translateCategory(category) {
 		case "FLAG" : return "Antall";
 	}
 }
+
+export function translateSession(session) {
+	switch (session) {
+		case "RACE" : return "Løp";
+		case "SPRINT" : return "Sprint";
+	}
+}

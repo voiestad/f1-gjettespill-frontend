@@ -8,3 +8,6 @@ export { default as LoggedIn } from './LoggedIn';
 export { default as Privacy } from './Privacy';
 export { default as RaceGuess } from './RaceGuess';
 export { default as Score } from './Score';
+export { default as StatsChooseRace } from './StatsChooseRace';
+export { default as StatsChooseYear } from './StatsChooseYear';
+export { default as StatsRace } from './StatsRace';

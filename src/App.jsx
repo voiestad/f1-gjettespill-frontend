@@ -1,6 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import './App.css';
-import { About, Bingo, Contact, Footer, Header, Home, LoggedIn, Privacy, RaceGuess, Score } from './public';
+import {
+  About,
+  Bingo,
+  Contact,
+  Footer,
+  Header,
+  Home,
+  LoggedIn,
+  Privacy,
+  RaceGuess,
+  Score,
+  StatsChooseRace,
+  StatsChooseYear,
+  StatsRace
+} from './public';
 import { Settings, UserInformation, Username } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
@@ -26,6 +40,13 @@ function App() {
                 <Route path="username" element={<Username />} />
               </Route>
               <Route path="score" element={<Score />} />
+              <Route path="stats">
+                <Route index element={<StatsChooseYear />} />
+                <Route path=":year">
+                  <Route index element={<StatsChooseRace />} />
+                  <Route path=":raceId" element={<StatsRace />} />
+                </Route>
+              </Route>
               <Route path="user">
                 <Route index element={<UserList />} />
                 <Route path=":id" element={<User />} />

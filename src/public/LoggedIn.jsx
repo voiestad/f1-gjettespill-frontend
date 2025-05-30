@@ -8,7 +8,6 @@ function LoggedIn() {
   useEffect(() => {
     axios.get('/api/public/user/status')
       .then(res => {
-        console.log(res.data);
         if (res.data !== "NO_USERNAME") {
           const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
           navigate(redirectPath);
