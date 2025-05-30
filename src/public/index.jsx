@@ -6,4 +6,5 @@ export { default as Header } from './Header';
 export { default as Home } from './Home';
 export { default as LoggedIn } from './LoggedIn';
 export { default as Privacy } from './Privacy';
+export { default as RaceGuess } from './RaceGuess';
 export { default as Score } from './Score';
