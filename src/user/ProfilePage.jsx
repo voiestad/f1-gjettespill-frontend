@@ -1,144 +1,81 @@
 import { translateFlag } from '../util/translator';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Table from '../util/Table';
 
 function SummaryTable(props) {
   const summary = props.summary
-  return (
-    <>
-      <h3>Oppsummering</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Kategori</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Sjåfører</td>
-            <td>{summary.drivers}</td>
-          </tr>
-          <tr>
-            <td>Konstruktører</td>
-            <td>{summary.constructors}</td>
-          </tr>
-          <tr>
-            <td>Antall</td>
-            <td>{summary.flag}</td>
-          </tr>
-          <tr>
-            <td>1.plass</td>
-            <td>{summary.winner}</td>
-          </tr>
-          <tr>
-            <td>10.plass</td>
-            <td>{summary.tenth}</td>
-          </tr>
-          <tr>
-            <td>Totalt</td>
-            <td>{summary.total}</td>
-          </tr>
-        </tbody>
-      </table>
-    </>
-  );
+  const header = ["Kategori", "Poeng"];
+  const body = [
+    {
+      key: "drivers",
+      values: ["Sjåfører", summary.drivers]
+    },
+    {
+      key: "constructors",
+      values: ["Konstruktører", summary.constructors]
+    },
+    {
+      key: "flag",
+      values: ["Antall", summary.flag]
+    },
+    {
+      key: "winner",
+      values: ["1.plass", summary.winner]
+    },
+    {
+      key: "tenth",
+      values: ["10.plass", summary.tenth]
+    },
+    {
+      key: "total",
+      values: ["Totalt", summary.total]
+    },
+  ];
+  return <Table title="Oppsummering" header={header} body={body} />;
 }
 
 function ChampionshipTable(props) {
-  const { title, guesses, compName } = props
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Plass</th>
-            <th>{compName}</th>
-            <th>Gjettet</th>
-            <th>Diff</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {guesses.map((row) =>
-            <tr key={row.competitor}>
-              <td>{row.pos}</td>
-              <td>{row.competitor}</td>
-              <td>{row.guessed !== null ? row.guessed : 'N/A'}</td>
-              <td>{row.diff !== null ? row.diff : 'N/A'}</td>
-              <td>{row.points}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  );
+  const { title, guesses, compName } = props;
+  const header = ["Plass", compName, "Gjettet", "Diff", "Poeng"];
+  const body = guesses.map(row => ({
+    key: row.competitor,
+    values: [row.pos,
+    row.competitor,
+    row.guessed !== null ? row.guessed : 'N/A',
+    row.diff !== null ? row.diff : 'N/A',
+    row.points]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function FlagTable(props) {
-  const flagGuesses = props.flagGuesses;
-  return (
-    <>
-      <h3>Antall</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Gjettet</th>
-            <th>Faktisk</th>
-            <th>Diff</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {flagGuesses
-            .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
-            .map((row) =>
-              <tr key={row.flag}>
-                <td>{translateFlag(row.flag)}</td>
-                <td>{row.guessed}</td>
-                <td>{row.actual}</td>
-                <td>{row.diff}</td>
-                <td>{row.points}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  );
+  const header = ["Type", "Gjettet", "Faktisk", "Diff", "Poeng"];
+  const body = props.flagGuesses
+    .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
+    .map(row => ({
+      key: row.flag,
+      values: [translateFlag(row.flag),
+      row.guessed,
+      row.actual,
+      row.diff,
+      row.points]
+    }));
+  return <Table title="Antall" header={header} body={body} />;
 }
 
 function DriverPlaceTable(props) {
   const { title, placeGuesses } = props;
-
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Løp</th>
-            <th>Gjettet</th>
-            <th>Startet</th>
-            <th>Plass</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {placeGuesses.map((row) =>
-            <tr key={row.raceName}>
-              <td>{row.raceName}</td>
-              <td>{row.driver}</td>
-              <td>{row.startPos}</td>
-              <td>{row.finishPos}</td>
-              <td>{row.points}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+const header = ["Løp", "Gjettet", "Startet", "Plass", "Poeng"];
+  const body = placeGuesses.map(row => ({
+      key: row.raceName,
+      values: [row.raceName,
+      row.driver,
+      row.startPos,
+      row.finishPos,
+      row.points]
+    }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function ProfilePage(props) {

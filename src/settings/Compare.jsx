@@ -1,90 +1,53 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { translateFlag } from '../util/translator';
+import Table from '../util/Table';
 
 function SummaryTable(props) {
   const { user1, user2 } = props;
-
-  return (
-    <>
-      <h3>Oppsummering</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Poeng</th>
-            <th>Kategori</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{user1.drivers}</td>
-            <td>Sjåfører</td>
-            <td>{user2.drivers}</td>
-          </tr>
-          <tr>
-            <td>{user1.constructors}</td>
-            <td>Konstruktører</td>
-            <td>{user2.constructors}</td>
-          </tr>
-          <tr>
-            <td>{user1.flag}</td>
-            <td>Antall</td>
-            <td>{user2.flag}</td>
-          </tr>
-          <tr>
-            <td>{user1.winner}</td>
-            <td>1.plass</td>
-            <td>{user2.winner}</td>
-          </tr>
-          <tr>
-            <td>{user1.tenth}</td>
-            <td>10.plass</td>
-            <td>{user2.tenth}</td>
-          </tr>
-          <tr>
-            <td>{user1.total}</td>
-            <td>Totalt</td>
-            <td>{user2.total}</td>
-          </tr>
-        </tbody>
-      </table>
-    </>
-  );
+  const header = ["Poeng", "Kategori", "Poeng"];
+  const body = [
+    {
+      key: "drivers",
+      values: [user1.drivers, "Sjåfører", user2.drivers]
+    },
+    {
+      key: "constructors",
+      values: [user1.constructors, "Konstruktører", user2.constructors]
+    },
+    {
+      key: "flag",
+      values: [user1.flag, "Antall", user2.flag]
+    },
+    {
+      key: "winner",
+      values: [user1.winner, "1.plass", user2.winner]
+    },
+    {
+      key: "tenth",
+      values: [user1.tenth, "10.plass", user2.tenth]
+    },
+    {
+      key: "total",
+      values: [user1.total, "Totalt", user2.total]
+    },
+  ];
+  return <Table title="Oppsummering" header={header} body={body} />;
 }
 
 function ChampionshipTable(props) {
   const { title, compName, user1, user2 } = props
-
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Poeng</th>
-            <th>Gjettet</th>
-            <th>Plass</th>
-            <th>{compName}</th>
-            <th>Gjettet</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {user1.map((row, i) =>
-            <tr key={row.competitor}>
-              <td>{row.points}</td>
-              <td>{row.guessed !== null ? row.guessed : 'N/A'}</td>
-              <td>{row.pos}</td>
-              <td>{row.competitor}</td>
-              <td>{user2[i].guessed !== null ? user2[i].guessed : 'N/A'}</td>
-              <td>{user2[i].points}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  );
+  const header = ["Poeng", "Gjettet", "Plass", compName, "Gjettet", "Poeng"];
+  const body = user1.map((row, i) => ({
+    key: row.competitor,
+    values: [row.points,
+    row.guessed !== null ? row.guessed : 'N/A',
+    row.pos,
+    row.competitor,
+    user2[i].guessed !== null ? user2[i].guessed : 'N/A',
+    user2[i].points]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function FlagTable(props) {
@@ -113,36 +76,17 @@ function FlagTable(props) {
 
     }
   }
-  return (
-    <>
-      <h3>Antall</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Poeng</th>
-            <th>Gjettet</th>
-            <th>Faktisk</th>
-            <th>Type</th>
-            <th>Gjettet</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {user1
-            .map((row, i) =>
-              <tr key={row.flag}>
-                <td>{row.points}</td>
-                <td>{row.guessed}</td>
-                <td>{row.actual}</td>
-                <td>{translateFlag(row.flag)}</td>
-                <td>{user2[i].guessed}</td>
-                <td>{user2[i].points}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  );
+  const header = ["Poeng", "Gjettet", "Faktisk", "Type", "Gjettet", "Poeng"];
+  const body = user1.map((row, i) => ({
+    key: row.flag,
+    values: [row.points,
+    row.guessed,
+    row.actual,
+    translateFlag(row.flag),
+    user2[i].guessed,
+    user2[i].points]
+  }));
+  return <Table title="Antall" header={header} body={body} />;
 }
 
 function DriverPlaceTable(props) {
@@ -198,44 +142,21 @@ function DriverPlaceTable(props) {
     }
     placeGuesses.push(row);
   }
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Poeng</th>
-            <th>Plass</th>
-            <th>Startet</th>
-            <th>Gjettet</th>
-            <th>Løp</th>
-            <th>Gjettet</th>
-            <th>Startet</th>
-            <th>Plass</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {placeGuesses.map((row) =>
-            <tr key={row.raceName}>
-              <td>{row.points1}</td>
-              <td>{row.finishPos1}</td>
-              <td>{row.startPos1}</td>
-              <td>{row.driver1}</td>
-              <td>{row.raceName}</td>
-              <td>{row.driver2}</td>
-              <td>{row.startPos2}</td>
-              <td>{row.finishPos2}</td>
-              <td>{row.points2}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Poeng", "Plass", "Startet", "Gjettet", "Løp", "Gjettet", "Startet", "Plass", "Poeng"];
+  const body = placeGuesses.map((row) => ({
+    key: row.raceName,
+    values: [row.points1,
+    row.finishPos1,
+    row.startPos1,
+    row.driver1,
+    row.raceName,
+    row.driver2,
+    row.startPos2,
+    row.finishPos2,
+    row.points2]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
-
-
 
 function Compare() {
   const [years, setYears] = useState(null);

@@ -1,161 +1,54 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { translateFlag, translateCategory } from '../util/translator';
-
-function SingleElementTable(props) {
-  const { header, body } = props;
-  return (
-    <>
-      <h3></h3>
-      <table>
-        <thead>
-          <tr>
-            <th>{header}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{body}</td>
-          </tr>
-        </tbody>
-      </table>
-    </>
-  )
-}
+import Table from '../util/Table';
 
 function ChampionshipTable(props) {
   const { competitorName, competitors } = props;
-  return (
-    <>
-      <h3>Tippet {competitorName.toLowerCase()}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Plass</th>
-            <th>{competitorName}</th>
-            <th>År</th>
-          </tr>
-        </thead>
-        <tbody>
-          {competitors.map((row) =>
-            <tr key={`${row.year}-${row.competitor}`}>
-              <td>{row.position}</td>
-              <td>{row.competitor}</td>
-              <td>{row.year}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Plass", competitorName, "År"];
+  const body = competitors.map((row) => ({
+    key: `${row.year}-${row.competitor}`,
+    values: [row.position, row.competitor, row.year]
+  }));
+  return <Table title={`Tippet ${competitorName.toLowerCase()}`} header={header} body={body} />;
 }
 
 function FlagTable(props) {
-  const { flags } = props;
-  return (
-    <>
-      <h3>Tippet antall</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Tippet</th>
-            <th>År</th>
-          </tr>
-        </thead>
-        <tbody>
-          {flags
-            .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
-            .map((row) =>
-              <tr key={`${row.year}-${row.flag}`}>
-                <td>{translateFlag(row.flag)}</td>
-                <td>{row.guessed}</td>
-                <td>{row.year}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Type", "Tippet", "År"];
+  const body = props.flags
+    .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
+    .map((row) => ({
+      key: `${row.year}-${row.flag}`,
+      values: [translateFlag(row.flag), row.guessed, row.year]
+    }));
+  return <Table title="Tippet antall" header={header} body={body} />;
 }
 
 function PlaceGuessTable(props) {
-  const { placeGuess } = props;
-  return (
-    <>
-      <h3>Tippet løp</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Tippet</th>
-            <th>Løp</th>
-            <th>År</th>
-          </tr>
-        </thead>
-        <tbody>
-          {placeGuess.map((row) =>
-              <tr key={`${row.year}-${row.category}-${row.raceName}`}>
-                <td>{translateCategory(row.category)}</td>
-                <td>{row.driver}</td>
-                <td>{row.raceName}</td>
-                <td>{row.year}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Type", "Tippet", "Løp", "År"];
+  const body = props.placeGuess.map((row) => ({
+    key: `${row.year}-${row.category}-${row.raceName}`,
+    values: [translateCategory(row.category), row.driver, row.raceName, row.year]
+  }));
+  return <Table title="Tippet løp" header={header} body={body} />;
 }
 
 function NotifiedTable(props) {
-  const { notifiedCount } = props;
-  return (
-    <>
-      <h3>Påminnelser e-post</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Løp</th>
-            <th>Antall påminnelser</th>
-            <th>År</th>
-          </tr>
-        </thead>
-        <tbody>
-          {notifiedCount.map((row) =>
-              <tr key={`${row.year}-${row.raceName}`}>
-                <td>{row.raceName}</td>
-                <td>{row.timesNotified}</td>
-                <td>{row.year}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Løp", "Antall påminnelser", "År"];
+  const body = props.notifiedCount.map((row) => ({
+    key: `${row.year}-${row.raceName}`,
+    values: [row.raceName, row.timesNotified, row.year]
+  }));
+  return <Table title="Påminnelser e-post" header={header} body={body} />;
 }
 
 function EmailPreferenceTable(props) {
-  const { preferences } = props;
-  return (
-    <>
-      <h3>Preferanser påminnelser</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Timer før løp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {preferences.map((preference) =>
-              <tr key={preference}>
-                <td>{preference}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Timer før løp"];
+  const body = props.preferences.map((preference) => ({
+    key: preference,
+    values: [preference]
+  }));
+  return <Table title="Preferanser påminnelser" header={header} body={body} />;
 }
 
 function UserInformation() {
@@ -172,10 +65,10 @@ function UserInformation() {
       <h2>Brukerinformasjon</h2>
       {info ?
         <div className="tables">
-          <SingleElementTable header="Brukernavn" body={info.user.username} />
-          <SingleElementTable header="Bruker-ID" body={info.user.id} />
-          <SingleElementTable header="Google-ID" body={info.user.googleId} />
-          <SingleElementTable header="E-post" body={info.email} />
+          <Table title="" header={["Brukernavn"]} body={[{ key: info.user.username, values: [info.user.username] }]} />
+          <Table title="" header={["Bruker-ID"]} body={[{ key: info.user.id, values: [info.user.id] }]} />
+          <Table title="" header={["Google-ID"]} body={[{ key: info.user.googleId, values: [info.user.googleId] }]} />
+          <Table title="" header={["E-post"]} body={[{ key: info.email, values: [info.email] }]} />
           <ChampionshipTable competitorName="Sjåfør" competitors={info.driverGuess} />
           <ChampionshipTable competitorName="Konstruktør" competitors={info.constructorGuess} />
           <FlagTable flags={info.flagGuess} />

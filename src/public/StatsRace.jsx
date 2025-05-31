@@ -3,92 +3,41 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import { ErrorUnknown } from '../error';
 import { translateFlag, translateSession } from '../util/translator';
+import Table from '../util/Table';
 
 function StartingGridTable(props) {
-  const { grid } = props
-  return (
-    <>
-      <h3>Startoppstilling</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Plass</th>
-            <th>Sjåfør</th>
-          </tr>
-        </thead>
-        <tbody>
-          {grid.map((row) =>
-            <tr key={row.name}>
-              <td>{row.position}</td>
-              <td>{row.name}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const { grid } = props;
+  const header = ["Plass", "Sjåfør"];
+  const body = grid.map((row) => ({
+    key: row.name,
+    values: [row.position, row.name]
+  }));
+  return <Table title="Startoppstilling" header={header} body={body} />;
 }
 
 function ResultsTable(props) {
   const { title, competitorName, results } = props;
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Plass</th>
-            <th>{competitorName}</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map((row) =>
-            <tr key={row.name}>
-              <td>{row.position}</td>
-              <td>{row.name}</td>
-              <td>{row.points}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Plass", competitorName, "Poeng"];
+  const body = results.map((row) => ({
+    key: row.name,
+    values: [row.position, row.name, row.points]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function FlagTable(props) {
   const { flags } = props;
-  return (
-    <>
-      <h3>Flagg</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Økt</th>
-            <th>Runde</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {flags
-            .sort((a, b) => {
-              if (a.round === b.round) {
-                return translateFlag(a.type).localeCompare(translateFlag(b.type))
-              }
-              return a.round - b.round;
-
-            })
-            .map((row) =>
-              <tr key={row.id}>
-                <td>{translateSession(row.sessionType)}</td>
-                <td>{row.round}</td>
-                <td>{translateFlag(row.type)}</td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Økt", "Runde", "Type"];
+  const body = flags.sort((a, b) => {
+    if (a.round === b.round) {
+      return translateFlag(a.type).localeCompare(translateFlag(b.type))
+    }
+    return a.round - b.round;
+  }).map((row) => ({
+    key: row.id,
+    values: [translateSession(row.sessionType), row.round, translateFlag(row.type)]
+  }));
+  return <Table title="Flagg" header={header} body={body} />;
 }
 
 function StatsRace() {

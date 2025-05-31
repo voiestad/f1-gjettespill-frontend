@@ -1,30 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ErrorUnknown } from '../error'
+import Table from '../util/Table';
 
 function DiffTable(props) {
   const { title, table } = props
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Differanse</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(table).sort().map((diff) =>
-            <tr key={diff}>
-              <td>{diff}</td>
-              <td>{table[diff]}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Differanse", "Poeng"];
+  const body = Object.keys(table).sort().map((diff) => ({
+    key: diff,
+    values: [diff, table[diff]]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function Score() {

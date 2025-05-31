@@ -1,32 +1,17 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import Table from '../util/Table';
 
 function Leaderboard(props) {
-  const leaderboard = props.leaderboard;
-  return (
-    <>
-      <h3>Rangering</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Plass</th>
-            <th>Navn</th>
-            <th>Poeng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboard.map((row) => (
-            <tr key={row.guesser.id}>
-              <td>{row.rank}</td>
-              <td><Link to={`/user/${row.guesser.id}`}>{row.guesser.username}</Link></td>
-              <td>{row.guesser.points}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Plass", "Navn", "Poeng"];
+  const body = props.leaderboard.map((row) => ({
+    key: row.guesser.id,
+    values: [row.rank,
+    <Link to={`/user/${row.guesser.id}`}>{row.guesser.username}</Link>,
+    row.guesser.points]
+  }));
+  return <Table title="Rangering" header={header} body={body} />;
 }
 
 function Home() {

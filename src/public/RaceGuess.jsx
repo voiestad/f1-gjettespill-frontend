@@ -1,33 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ErrorGuessingNotAvailableYet, ErrorUnknown } from '../error';
+import Table from '../util/Table';
 
-function Table(props) {
+function GuessesTable(props) {
   const { title, guesses } = props;
-
-  return (
-    <>
-      <h3>{title}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Navn</th>
-            <th>Tippet</th>
-            <th>Startet</th>
-          </tr>
-        </thead>
-        <tbody>
-          {guesses.map((row) =>
-            <tr key={row.user}>
-              <td>{row.user}</td>
-              <td>{row.driver}</td>
-              <td>{row.position}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </>
-  )
+  const header = ["Navn", "Tippet", "Startet"];
+  const body = guesses.map((row) => ({
+    key: row.user,
+    values: [row.user, row.driver, row.position]
+  }));
+  return <Table title={title} header={header} body={body} />;
 }
 
 function RaceGuess() {
@@ -53,8 +36,8 @@ function RaceGuess() {
         <>
           <h2>{guesses.name}</h2>
           <div className="tables">
-            <Table guesses={guesses.first} title="1.plass" />
-            <Table guesses={guesses.tenth} title="10.plass" />
+            <GuessesTable guesses={guesses.first} title="1.plass" />
+            <GuessesTable guesses={guesses.tenth} title="10.plass" />
           </div>
         </>
         : ''}
