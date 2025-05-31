@@ -19,6 +19,14 @@ import { Compare, Settings, UserInformation, Username } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
+import {
+  GuessChooseCategory,
+  GuessWinner,
+  GuessFlags,
+  GuessTenth,
+  RankingConstructors,
+  RankingDrivers
+} from "./guess";
 
 function App() {
   return (
@@ -54,6 +62,14 @@ function App() {
               </Route>
 
               <Route element={<ProtectedRoute />}>
+                <Route path="guess">
+                  <Route index element={<GuessChooseCategory />} />
+                  <Route path="driver" element={<RankingDrivers />} />
+                  <Route path="constructor" element={<RankingConstructors />} />
+                  <Route path="flag" element={<GuessFlags />} />
+                  <Route path="tenth" element={<GuessTenth />} />
+                  <Route path="first" element={<GuessWinner />} />
+                </Route>
                 <Route path="settings">
                   <Route index element={<Settings />} />
                   <Route path="info" element={<UserInformation />} />

@@ -720,3 +720,7 @@ h3 {
 		}
 	}
 }
+
+.selected .item {
+	color: red;
+}
