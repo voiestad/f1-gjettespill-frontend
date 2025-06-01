@@ -529,8 +529,8 @@ h3 {
 	}
 }
 
-#loader {
-	display: none;
+.loading-container {
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;

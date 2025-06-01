@@ -5,6 +5,7 @@ import {
   Bingo,
   Contact,
   Footer,
+  GitHub,
   Header,
   Home,
   LoggedIn,
@@ -15,7 +16,7 @@ import {
   StatsChooseYear,
   StatsRace
 } from './public';
-import { Compare, Settings, UserInformation, Username } from './settings';
+import { Compare, Mail, Settings, UserInformation, Username } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
@@ -41,6 +42,7 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="bingo" element={<Bingo />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="github" element={<GitHub />} />
               <Route path="logged-in" element={<LoggedIn />} />
               <Route path="privacy" element={<Privacy />} />
               <Route path="race-guess" element={<RaceGuess />} />
@@ -73,6 +75,7 @@ function App() {
                 <Route path="settings">
                   <Route index element={<Settings />} />
                   <Route path="info" element={<UserInformation />} />
+                  <Route path="mail" element={<Mail />} />
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
