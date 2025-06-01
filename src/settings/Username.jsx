@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ErrorNotLoggedIn } from '../error';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 function Username() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -10,7 +10,7 @@ function Username() {
   const [username, setUsername] = useState(null);
   const [referralCode, setReferralCode] = useState(null);
   const [hasChanged, setHasChanged] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get('/api/public/user/status')
       .then(res => {
@@ -42,12 +42,14 @@ function Username() {
       .then(res => {
         const headerName = res.data.headerName;
         const token = res.data.token;
-        axios.post('/logout', {}, {
+        axios.post('/api/logout', {}, {
           headers: {
             [headerName]: token
           }
         })
-          .then(reloadHeaderState())
+          .then(res => {
+            navigate('/');
+          })
           .catch(err => console.error(err));
       })
       .catch(err => console.error(err));

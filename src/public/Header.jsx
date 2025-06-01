@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from '../components'
 import axios from 'axios'
-import { useLocation, Link } from 'react-router'
+import { useLocation, Link, useNavigate } from 'react-router'
 
 function Logo() {
   return (
@@ -102,6 +102,8 @@ function DropdownMenu(props) {
   }
   const { isMenuActive, setActive } = props;
   const linksRef = useRef(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const links = linksRef.current;
     if (!isMenuActive && links.style.maxHeight == "0px") {
@@ -130,18 +132,22 @@ function DropdownMenu(props) {
   useEffect(() => {
     reloadHeaderState();
   }, [pathname]);
+
   function logout() {
     axios.get('/api/public/csrf-token')
       .then(res => {
         const headerName = res.data.headerName;
         const token = res.data.token;
-        axios.post('/logout', {}, {
+        axios.post('/api/logout', {}, {
           headers: {
             [headerName]: token
           }
         })
-        .then(reloadHeaderState())
-        .catch(err => console.error(err));
+          .then(res => {
+            navigate('/');
+            reloadHeaderState();
+          })
+          .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
   }
