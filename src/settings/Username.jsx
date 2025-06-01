@@ -92,7 +92,7 @@ function Username() {
                 {isNewUser ?
                   <label>Invitasjonskode<br />
                     <div className="pin-container">
-                      <input type="text" className="pin-input" inputMode="numeric"
+                      <input id="pin-input19" type="text" className="pin-input" inputMode="numeric"
                         autoComplete="off" onChange={validateContent} />
                     </div>
                   </label>

@@ -16,7 +16,7 @@ import {
   StatsChooseYear,
   StatsRace
 } from './public';
-import { Compare, Mail, Settings, UserInformation, Username } from './settings';
+import { Compare, Mail, Settings, UserInformation, Username, VerificationCode } from './settings';
 import { ErrorNotFound } from './error';
 import { MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
@@ -75,7 +75,10 @@ function App() {
                 <Route path="settings">
                   <Route index element={<Settings />} />
                   <Route path="info" element={<UserInformation />} />
-                  <Route path="mail" element={<Mail />} />
+                  <Route path="mail">
+                    <Route index element={<Mail />} />
+                    <Route path="verification" element={<VerificationCode />} />
+                  </Route>
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
