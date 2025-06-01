@@ -1,3 +1,4 @@
+export { default as DeleteAccount } from './DeleteAccount';
 export { default as Mail } from './Mail';
 export { default as ReferralCode } from './ReferralCode';
 export { default as Settings } from './Settings';
