@@ -16,9 +16,9 @@ import {
   StatsChooseYear,
   StatsRace
 } from './public';
-import { Compare, Mail, Settings, UserInformation, Username, VerificationCode } from './settings';
+import { Mail, ReferralCode, Settings, UserInformation, Username, VerificationCode } from './settings';
 import { ErrorNotFound } from './error';
-import { MyProfile, User, UserList } from './user'
+import { Compare, MyProfile, User, UserList } from './user'
 import { ProtectedRoute, ScrollToTop } from './components';
 import {
   GuessChooseCategory,
@@ -79,6 +79,7 @@ function App() {
                     <Route index element={<Mail />} />
                     <Route path="verification" element={<VerificationCode />} />
                   </Route>
+                  <Route path="referral" element={<ReferralCode />} />
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
