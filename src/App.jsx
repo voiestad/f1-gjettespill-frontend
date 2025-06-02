@@ -37,7 +37,8 @@ import {
   RankingDrivers
 } from "./guess";
 import {
-  AdminPortal
+  AdminPortal,
+  Backup
 } from './admin';
 import AdminRoute from "./components/AdminRoute";
 
@@ -78,7 +79,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="admin" element={<AdminRoute />}>
                   <Route index element={<AdminPortal />} />
-                  <Route path="backup" />
+                  <Route path="backup" element={<Backup />} />
                   <Route path="bingo" />
                   <Route path="flag">
                     <Route path=":year">
@@ -96,13 +97,13 @@ function App() {
                       <Route path="manage">
                         <Route path=":raceId" />
                       </Route>
-                      <Route path="cutoff"/>
+                      <Route path="cutoff" />
                       <Route path="competitors">
                         <Route path="constructors" />
                         <Route path="drivers" />
                         <Route path="alias" />
                       </Route>
-                      <Route path="points"/>
+                      <Route path="points" />
                     </Route>
                   </Route>
                 </Route>
