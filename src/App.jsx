@@ -37,6 +37,7 @@ import {
   RankingDrivers
 } from "./guess";
 import {
+  AdminBingomasters,
   AdminPortal,
   Backup
 } from './admin';
@@ -80,7 +81,7 @@ function App() {
                 <Route path="admin" element={<AdminRoute />}>
                   <Route index element={<AdminPortal />} />
                   <Route path="backup" element={<Backup />} />
-                  <Route path="bingo" />
+                  <Route path="bingo" element={<AdminBingomasters />} />
                   <Route path="flag">
                     <Route path=":year">
                       <Route path=":raceId" />
