@@ -39,7 +39,10 @@ import {
 import {
   AdminBingomasters,
   AdminPortal,
-  Backup
+  Backup,
+  LogChooseCategory,
+  LogChooseDate,
+  LogView
 } from './admin';
 import AdminRoute from "./components/AdminRoute";
 
@@ -83,13 +86,17 @@ function App() {
                   <Route path="backup" element={<Backup />} />
                   <Route path="bingo" element={<AdminBingomasters />} />
                   <Route path="flag">
+                    <Route index />
                     <Route path=":year">
+                      <Route index />
                       <Route path=":raceId" />
                     </Route>
                   </Route>
                   <Route path="log">
+                    <Route index element={<LogChooseCategory />} />
                     <Route path=":logType">
-                      <Route path=":date" />
+                      <Route index element={<LogChooseDate />} />
+                      <Route path=":date" element={<LogView />} />
                     </Route>
                   </Route>
                   <Route path="season">
