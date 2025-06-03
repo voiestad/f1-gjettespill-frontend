@@ -40,6 +40,9 @@ import {
   AdminBingomasters,
   AdminPortal,
   Backup,
+  FlagChooseRace,
+  FlagChooseYear,
+  FlagRegister,
   LogChooseCategory,
   LogChooseDate,
   LogView
@@ -86,10 +89,10 @@ function App() {
                   <Route path="backup" element={<Backup />} />
                   <Route path="bingo" element={<AdminBingomasters />} />
                   <Route path="flag">
-                    <Route index />
+                    <Route index element={<FlagChooseYear />} />
                     <Route path=":year">
-                      <Route index />
-                      <Route path=":raceId" />
+                      <Route index element={<FlagChooseRace />} />
+                      <Route path=":raceId" element={<FlagRegister />} />
                     </Route>
                   </Route>
                   <Route path="log">
