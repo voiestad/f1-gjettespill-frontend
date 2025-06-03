@@ -5,9 +5,14 @@ export {
   FlagChooseRace,
   FlagChooseYear,
   FlagRegister
-} from './Flag';    
+} from './Flag';
 export {
-    LogChooseDate as LogChooseDate,
-    LogChooseCategory as LogChooseCategory,
-    LogView as LogView
+  LogChooseDate,
+  LogChooseCategory,
+  LogView
 } from './Logging';
+export {
+  SeasonAdd,
+  SeasonChooseCategory,
+  SeasonChooseYear
+} from './season';

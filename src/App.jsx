@@ -45,7 +45,10 @@ import {
   FlagRegister,
   LogChooseCategory,
   LogChooseDate,
-  LogView
+  LogView,
+  SeasonAdd,
+  SeasonChooseCategory,
+  SeasonChooseYear
 } from './admin';
 import AdminRoute from "./components/AdminRoute";
 
@@ -103,13 +106,17 @@ function App() {
                     </Route>
                   </Route>
                   <Route path="season">
-                    <Route path="add" />
+                    <Route index element={<SeasonChooseYear />} />
+                    <Route path="add" element={<SeasonAdd />} />
                     <Route path=":year">
+                      <Route index element={<SeasonChooseCategory />} />
                       <Route path="manage">
+                        <Route index />
                         <Route path=":raceId" />
                       </Route>
                       <Route path="cutoff" />
                       <Route path="competitors">
+                        <Route index />
                         <Route path="constructors" />
                         <Route path="drivers" />
                         <Route path="alias" />
