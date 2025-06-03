@@ -14,5 +14,6 @@ export {
 export {
   SeasonAdd,
   SeasonChooseCategory,
-  SeasonChooseYear
+  SeasonChooseYear,
+  SeasonManageRaces
 } from './season';

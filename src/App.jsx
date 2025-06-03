@@ -48,7 +48,8 @@ import {
   LogView,
   SeasonAdd,
   SeasonChooseCategory,
-  SeasonChooseYear
+  SeasonChooseYear,
+  SeasonManageRaces
 } from './admin';
 import AdminRoute from "./components/AdminRoute";
 
@@ -63,7 +64,12 @@ function App() {
             <Route path="/" >
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
-              <Route path="bingo" element={<Bingo />} />
+              <Route path="bingo" element={<Bingo />}>
+                <Route path="admin">
+                  <Route index />
+                  <Route path=":year" />
+                </Route>
+              </Route>
               <Route path="contact" element={<Contact />} />
               <Route path="github" element={<GitHub />} />
               <Route path="logged-in" element={<LoggedIn />} />
@@ -111,8 +117,8 @@ function App() {
                     <Route path=":year">
                       <Route index element={<SeasonChooseCategory />} />
                       <Route path="manage">
-                        <Route index />
-                        <Route path=":raceId" />
+                        <Route index element={<SeasonManageRaces />} />
+                        <Route path=":raceId" element={<StatsRace />} />
                       </Route>
                       <Route path="cutoff" />
                       <Route path="competitors">
