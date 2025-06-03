@@ -1,8 +1,8 @@
 import Countdown from "./Countdown"
 import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import ChooseDriver from "./ChooseDriver";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { ErrorGuessingNotAvailableYet } from "../error";
 
 function GuessWinner() {

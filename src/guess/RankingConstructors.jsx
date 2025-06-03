@@ -1,7 +1,7 @@
 import Countdown from "./Countdown"
 import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { ErrorGuessingNotAvailableYet } from "../error";
 import RankCompetitors from "./RankCompetitors";
 import qs from 'qs';

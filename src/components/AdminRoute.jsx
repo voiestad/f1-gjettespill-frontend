@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Outlet, Link } from 'react-router';
+import { Outlet } from 'react-router';
 import { useState, useEffect } from 'react';
 import { ErrorNotAdmin, ErrorUnknown } from '../error';
 
