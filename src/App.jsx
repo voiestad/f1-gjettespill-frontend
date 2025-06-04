@@ -27,7 +27,7 @@ import {
 } from './settings';
 import { ErrorNotFound } from './error';
 import { Compare, MyProfile, User, UserList } from './user'
-import { ProtectedRoute, ScrollToTop } from './components';
+import { AdminRoute, BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
 import {
   GuessChooseCategory,
   GuessWinner,
@@ -40,6 +40,8 @@ import {
   AdminBingomasters,
   AdminPortal,
   Backup,
+  BingoMasterPortalChangeBingo,
+  BingomasterPortalChooseYear,
   FlagChooseRace,
   FlagChooseYear,
   FlagRegister,
@@ -51,7 +53,6 @@ import {
   SeasonChooseYear,
   SeasonManageRaces
 } from './admin';
-import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -64,12 +65,7 @@ function App() {
             <Route path="/" >
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
-              <Route path="bingo" element={<Bingo />}>
-                <Route path="admin">
-                  <Route index />
-                  <Route path=":year" />
-                </Route>
-              </Route>
+              <Route path="bingo" element={<Bingo />} />
               <Route path="contact" element={<Contact />} />
               <Route path="github" element={<GitHub />} />
               <Route path="logged-in" element={<LoggedIn />} />
@@ -129,6 +125,12 @@ function App() {
                       </Route>
                       <Route path="points" />
                     </Route>
+                  </Route>
+                </Route>
+                <Route path="bingo">
+                  <Route path="admin" element={<BingomasterRoute />}>
+                    <Route index element={<BingomasterPortalChooseYear />} />
+                    <Route path=":year" element={<BingoMasterPortalChangeBingo />} />
                   </Route>
                 </Route>
                 <Route path="guess">
