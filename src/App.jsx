@@ -51,6 +51,7 @@ import {
   SeasonAdd,
   SeasonChooseCategory,
   SeasonChooseYear,
+  SeasonCutoff,
   SeasonManageRaces,
   SeasonRoute
 } from './admin';
@@ -117,7 +118,7 @@ function App() {
                         <Route index element={<SeasonManageRaces />} />
                         <Route path=":raceId" element={<StatsRace />} />
                       </Route>
-                      <Route path="cutoff" />
+                      <Route path="cutoff" element={<SeasonCutoff />} />
                       <Route path="competitors">
                         <Route index />
                         <Route path="constructors" />
