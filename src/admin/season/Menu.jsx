@@ -1,7 +1,7 @@
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, Outlet, useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { ErrorNotFound } from '../../error';
+import { ErrorNotFound, ErrorUnknown } from '../../error';
 
 export function SeasonChooseYear() {
   const [years, setYears] = useState();
@@ -99,32 +99,42 @@ export function SeasonAdd() {
 }
 
 export function SeasonChooseCategory() {
-  const [yearExist, setYearExist] = useState(null);
+  const { year } = useParams();
+
+  return (
+    <>
+      <h2>{year}</h2>
+      <div className="linkList">
+        <Link to={`/admin/season/${year}/manage`}>Endring av løp</Link>
+        <Link to={`/admin/season/${year}/cutoff`}>Frister</Link>
+        <Link to={`/admin/season/${year}/competitors`}>F1 deltakere</Link>
+        <Link to={`/admin/season/${year}/points`}>Poengsystem</Link>
+      </div>
+    </>
+  )
+}
+
+export function SeasonRoute() {
+  const [content, setContent] = useState(null);
   const { year } = useParams();
 
   useEffect(() => {
     axios.get('/api/public/year/list')
-      .then(res => setYearExist(res.data.indexOf(parseInt(year)) != -1))
-      .catch(err => console.error(err));
-  }, []);
-
+      .then(res => {
+        if (res.data.indexOf(parseInt(year)) == -1) {
+          setContent(<ErrorNotFound />);
+        } else {
+          setContent(<Outlet />);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setContent(<ErrorUnknown />);
+      });
+  }, [])
   return (
     <>
-      {yearExist != null
-        ? (yearExist ?
-          <>
-            <h2>{year}</h2>
-            <div className="linkList">
-              <Link to={`/admin/season/${year}/manage`}>Endring av løp</Link>
-              <Link to={`/admin/season/${year}/cutoff`}>Frister</Link>
-              <Link to={`/admin/season/${year}/competitors`}>F1 deltakere</Link>
-              <Link to={`/admin/season/${year}/points`}>Poengsystem</Link>
-            </div>
-          </>
-          : <ErrorNotFound />)
-
-        : ''}
-
+      {content ? content : ''}
     </>
   )
 }

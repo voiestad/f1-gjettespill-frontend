@@ -4,7 +4,6 @@ import axios from 'axios';
 
 function SeasonManageRaces() {
   const { year } = useParams();
-  const [yearExist, setYearExist] = useState(null);
   const [races, setRaces] = useState(null);
   const [selectedRace, setSelectedRace] = useState(null);
   const [newPos, setNewPos] = useState(null);
@@ -12,15 +11,8 @@ function SeasonManageRaces() {
   const navigate = useNavigate();
 
   function loadRaces() {
-    axios.get('/api/public/year/list')
-      .then(res => {
-        setYearExist(res.data.indexOf(parseInt(year)) != -1);
-        if (res.data.indexOf(parseInt(year)) != -1) {
-          axios.get(`/api/public/race/list/${year}`)
-            .then(res => setRaces(res.data))
-            .catch(err => console.error(err));
-        }
-      })
+    axios.get(`/api/public/race/list/${year}`)
+      .then(res => setRaces(res.data))
       .catch(err => console.error(err));
   }
 
@@ -156,50 +148,43 @@ function SeasonManageRaces() {
   }, []);
   return (
     <>
-      {yearExist != null
-        ? (yearExist ?
-          <>
-            <h2>Løp {year}</h2>
-            <form>
-              <input type="number" min="1" max="100" pattern="[0-9]*" inputMode="numeric"
-                onChange={e => setNewPos(e.target.value)} placeholder="Ny plass" style={{width: "75px"}}/>
-              <input type="submit" onClick={changePos} value="Endre plass" />
-              <input type="submit" onClick={reloadRace} value="&#10227;" />
-              <input type="submit" onClick={deleteRace} value="&#128465;" />
-              <div className="tables">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Navn</th>
-                      <th>ID</th>
-                      <th>Velg</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {races ?
-                      races.map(race =>
-                        <tr key={race.id}>
-                          <td>{race.position}</td>
-                          <td><Link to={`/admin/season/${year}/manage/${race.id}`}>{race.name}</Link></td>
-                          <td>{race.id}</td>
-                          <td><input type="radio" name="select" onClick={e => setSelectedRace(race.id)} /></td>
-                        </tr>
-                      )
-                      : <></>}
-                  </tbody>
-                </table>
-              </div>
-            </form>
-            <form>
-              <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
-                onChange={e => setNewRaceId(e.target.value)} placeholder="Race ID" />
-              <input type="submit" value="Legg til løp" onClick={addRace} />
-            </form>
-          </>
-          : <ErrorNotFound />)
-
-        : ''}
+      <h2>Løp {year}</h2>
+      <form>
+        <input type="number" min="1" max="100" pattern="[0-9]*" inputMode="numeric"
+          onChange={e => setNewPos(e.target.value)} placeholder="Ny plass" style={{ width: "75px" }} />
+        <input type="submit" onClick={changePos} value="Endre plass" />
+        <input type="submit" onClick={reloadRace} value="&#10227;" />
+        <input type="submit" onClick={deleteRace} value="&#128465;" />
+        <div className="tables">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Navn</th>
+                <th>ID</th>
+                <th>Velg</th>
+              </tr>
+            </thead>
+            <tbody>
+              {races ?
+                races.map(race =>
+                  <tr key={race.id}>
+                    <td>{race.position}</td>
+                    <td><Link to={`/admin/season/${year}/manage/${race.id}`}>{race.name}</Link></td>
+                    <td>{race.id}</td>
+                    <td><input type="radio" name="select" onClick={e => setSelectedRace(race.id)} /></td>
+                  </tr>
+                )
+                : <></>}
+            </tbody>
+          </table>
+        </div>
+      </form>
+      <form>
+        <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
+          onChange={e => setNewRaceId(e.target.value)} placeholder="Race ID" />
+        <input type="submit" value="Legg til løp" onClick={addRace} />
+      </form>
     </>
   )
 }

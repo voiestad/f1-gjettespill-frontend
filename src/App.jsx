@@ -51,7 +51,8 @@ import {
   SeasonAdd,
   SeasonChooseCategory,
   SeasonChooseYear,
-  SeasonManageRaces
+  SeasonManageRaces,
+  SeasonRoute
 } from './admin';
 
 function App() {
@@ -110,7 +111,7 @@ function App() {
                   <Route path="season">
                     <Route index element={<SeasonChooseYear />} />
                     <Route path="add" element={<SeasonAdd />} />
-                    <Route path=":year">
+                    <Route path=":year" element={<SeasonRoute />}>
                       <Route index element={<SeasonChooseCategory />} />
                       <Route path="manage">
                         <Route index element={<SeasonManageRaces />} />

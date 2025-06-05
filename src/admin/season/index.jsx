@@ -1,6 +1,7 @@
 export {
   SeasonAdd,
   SeasonChooseYear,
-  SeasonChooseCategory
+  SeasonChooseCategory,
+  SeasonRoute
 } from './Menu';
 export { default as SeasonManageRaces } from './Manage';
