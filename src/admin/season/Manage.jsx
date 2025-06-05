@@ -159,10 +159,10 @@ function SeasonManageRaces() {
           <table>
             <thead>
               <tr>
-                <th>#</th>
-                <th>Navn</th>
-                <th>ID</th>
-                <th>Velg</th>
+                <th style={{position: 'static'}}>#</th>
+                <th style={{position: 'static'}}>Navn</th>
+                <th style={{position: 'static'}}>ID</th>
+                <th style={{position: 'static'}}>Velg</th>
               </tr>
             </thead>
             <tbody>
