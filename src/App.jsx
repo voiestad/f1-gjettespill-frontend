@@ -53,6 +53,7 @@ import {
   SeasonChooseYear,
   SeasonCutoff,
   SeasonManageRaces,
+  SeasonPoints,
   SeasonRoute
 } from './admin';
 
@@ -125,7 +126,7 @@ function App() {
                         <Route path="drivers" />
                         <Route path="alias" />
                       </Route>
-                      <Route path="points" />
+                      <Route path="points" element={<SeasonPoints />} />
                     </Route>
                   </Route>
                 </Route>
