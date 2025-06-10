@@ -14,9 +14,13 @@ export {
 } from './Logging';
 export {
   SeasonAdd,
+  SeasonAlias,
   SeasonChooseCategory,
   SeasonChooseYear,
+  SeasonCompetitors,
+  SeasonConstructors,
   SeasonCutoff,
+  SeasonDrivers,
   SeasonManageRaces,
   SeasonPoints,
   SeasonRoute

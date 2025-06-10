@@ -49,9 +49,13 @@ import {
   LogChooseDate,
   LogView,
   SeasonAdd,
+  SeasonAlias,
   SeasonChooseCategory,
   SeasonChooseYear,
+  SeasonCompetitors,
+  SeasonConstructors,
   SeasonCutoff,
+  SeasonDrivers,
   SeasonManageRaces,
   SeasonPoints,
   SeasonRoute
@@ -121,10 +125,10 @@ function App() {
                       </Route>
                       <Route path="cutoff" element={<SeasonCutoff />} />
                       <Route path="competitors">
-                        <Route index />
-                        <Route path="constructors" />
-                        <Route path="drivers" />
-                        <Route path="alias" />
+                        <Route index element={<SeasonCompetitors />} />
+                        <Route path="constructors" element={<SeasonConstructors />} />
+                        <Route path="drivers" element={<SeasonDrivers />} />
+                        <Route path="alias" element={<SeasonAlias />} />
                       </Route>
                       <Route path="points" element={<SeasonPoints />} />
                     </Route>
