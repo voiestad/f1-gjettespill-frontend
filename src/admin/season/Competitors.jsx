@@ -21,6 +21,7 @@ export function SeasonConstructors() {
   const [constructors, setConstructors] = useState(null);
   const [positions, setPositions] = useState(null);
   const [newConstructor, setNewConstructor] = useState("");
+
   function loadConstructors() {
     axios.get(`/api/admin/season/competitors/constructors/list/${year}`)
       .then(res => {
@@ -201,7 +202,198 @@ export function SeasonConstructors() {
 }
 
 export function SeasonDrivers() {
+  const { year } = useParams();
+  const [positions, setPositions] = useState(null);
+  const [newDriver, setNewDriver] = useState("");
+  const [drivers, setDrivers] = useState(null);
+  const [constructors, setConstructors] = useState(null);
+  
+  function loadConstructors() {
+    axios.get(`/api/admin/season/competitors/constructors/list/${year}`)
+      .then(res => setConstructors(res.data))
+      .catch(err => console.error(err));
+  }
 
+  function loadDrivers() {
+    axios.get(`/api/admin/season/competitors/drivers/list/${year}`)
+      .then(res => {
+        setDrivers(res.data);
+        setPositions(res.data.map(_ => 1));
+      })
+      .catch(err => console.error(err));
+  }
+
+  useEffect(() => {
+    loadDrivers();
+    loadConstructors();
+  }, []);
+
+  function changePos(event, driver, newPosition) {
+    event.preventDefault();
+    axios.get('/api/public/csrf-token')
+      .then(res => {
+        const headerName = res.data.headerName;
+        const token = res.data.token;
+        axios.post('/api/admin/season/competitors/drivers/move', {},
+          {
+            params: {
+              year: year,
+              driver: driver,
+              newPosition: newPosition
+            },
+            headers: {
+              [headerName]: token
+            }
+          })
+          .then(res => {
+            loadDrivers();
+          })
+          .catch(err => {
+            alert('Kunne ikke endre plass');
+            console.error(err);
+          })
+      })
+      .catch(err => console.error(err));
+  }
+
+  function changeTeam(event, driver) {
+    event.preventDefault();
+    const team = new FormData(event.target).get('team');
+    if (!team) {
+      return;
+    }
+    axios.get('/api/public/csrf-token')
+      .then(res => {
+        const headerName = res.data.headerName;
+        const token = res.data.token;
+        axios.post('/api/admin/season/competitors/drivers/set-team', {},
+          {
+            params: {
+              year: year,
+              driver: driver,
+              team: team
+            },
+            headers: {
+              [headerName]: token
+            }
+          })
+          .then(res => {
+            loadDrivers();
+          })
+          .catch(err => {
+            alert('Kunne ikke endre lag');
+            console.error(err);
+          })
+      })
+      .catch(err => console.error(err));
+  }
+
+  function deleteDriver(event, driver) {
+    event.preventDefault();
+    if (!confirm("Er du sikker på at du ville slette sjåføren?")) {
+      return;
+    }
+    axios.get('/api/public/csrf-token')
+      .then(res => {
+        const headerName = res.data.headerName;
+        const token = res.data.token;
+        axios.post('/api/admin/season/competitors/drivers/delete', {},
+          {
+            params: {
+              year: year,
+              driver: driver
+            },
+            headers: {
+              [headerName]: token
+            }
+          })
+          .then(res => {
+            loadDrivers();
+          })
+          .catch(err => {
+            alert('Kunne ikke slette sjåføren');
+            console.error(err);
+          })
+      })
+      .catch(err => console.error(err));
+  }
+
+  function updatePos(index, value) {
+    setPositions(positions.map((pos, i) =>
+      i === index ? value : pos
+    ))
+  }
+
+  function addDriver(event) {
+    event.preventDefault();
+    if (!newDriver) {
+      return;
+    }
+    axios.get('/api/public/csrf-token')
+      .then(res => {
+        const headerName = res.data.headerName;
+        const token = res.data.token;
+        axios.post('/api/admin/season/competitors/drivers/add', {},
+          {
+            params: {
+              year: year,
+              driver: newDriver
+            },
+            headers: {
+              [headerName]: token
+            }
+          })
+          .then(res => {
+            loadDrivers();
+            setNewDriver("");
+          })
+          .catch(err => {
+            alert('Kunne ikke legge til sjåfør');
+            console.error(err);
+          })
+      })
+      .catch(err => console.error(err));
+  }
+
+  return (
+    <>
+      <h2>Sjåfører {year}</h2>
+      <form>
+        <input type="text" placeholder="Sjåførnavn" value={newDriver}
+          onChange={e => setNewDriver(e.target.value)} />
+        <input type="submit" value="Legg til sjåfør" onClick={addDriver} />
+      </form>
+      {constructors && drivers ?
+        drivers.map((driver, index) =>
+          <div key={driver.competitor}>
+            <p>{index + 1}. {driver.competitor}</p>
+            <form>
+              {positions[index]}<br />
+              <input type="range" min="1" max={drivers.length} value={positions[index]}
+                onChange={e => updatePos(index, e.target.value)} />
+              <br />
+              <input type="submit" value="Endre plass"
+                onClick={e => changePos(e, driver.competitor, positions[index])} />
+            </form>
+            <br />
+            <form onSubmit={e => changeTeam(e, driver.competitor)}>
+              <select name="team" defaultValue={driver.value ? driver.value : ''}>
+                <option value="">Velg lag</option>
+                {constructors.map(constructor => 
+                  <option key={constructor.competitor}>{constructor.competitor}</option>
+                )}
+              </select>
+              <input type="submit" value="Sett lag" />
+            </form>
+            <form>
+              <input type="submit" value="&#128465;"
+                onClick={e => deleteDriver(e, driver.competitor)} />
+            </form>
+          </div>
+        )
+        : ''}
+    </>
+  )
 }
 
 export function SeasonAlias() {
