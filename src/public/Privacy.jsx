@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 function Privacy() {
   return (
     <>
+      <title>Personvernerklæring</title>
       <h2>Personvernerklæring</h2>
       <div className="paragraph">
         <p>

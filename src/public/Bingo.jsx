@@ -46,6 +46,7 @@ function Bingo() {
 
   return (
     <>
+      <title>Bingo</title>
       {bingoBoardData ? <BingoBoard bingoBoardData={bingoBoardData} /> : ''}
       {error ? error : ''}
       {isBingoMaster ? <Link to="/bingo/admin">Endre bingo</Link> : ''}

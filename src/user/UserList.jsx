@@ -12,6 +12,7 @@ function UserList() {
 
   return (
     <>
+      <title>Brukere</title>
       <h2>Brukere</h2>
       <div className="linkList">
         {userList ?

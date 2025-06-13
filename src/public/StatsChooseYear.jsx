@@ -18,6 +18,7 @@ function StatsChooseYear() {
   }, []);
   return (
     <>
+      <title>Statistikk - Velg år</title>
       {years ?
         <>
           <h2>Velg år</h2>

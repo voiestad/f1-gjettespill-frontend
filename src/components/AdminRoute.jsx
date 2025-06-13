@@ -10,14 +10,24 @@ function AdminRoute() {
     axios.get('/api/public/header')
       .then(res => {
         if (!res.data.isAdmin) {
-          setContent(<ErrorNotAdmin />);
+          setContent(
+            <>
+              <title>F1 Tipping</title>
+              <ErrorNotAdmin />
+            </>
+          );
         } else {
           setContent(<Outlet />);
         }
       })
       .catch(err => {
         console.error(err);
-        setContent(<ErrorUnknown />);
+        setContent(
+          <>
+            <title>F1 Tipping</title>
+            <ErrorUnknown />
+          </>
+        );
       });
   }, [])
   return (

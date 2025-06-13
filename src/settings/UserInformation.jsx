@@ -62,6 +62,7 @@ function UserInformation() {
 
   return (
     <>
+      <title>Brukerinformasjon</title>
       <h2>Brukerinformasjon</h2>
       {info ?
         <div className="tables">

@@ -18,7 +18,12 @@ function LoggedIn() {
       .catch(err => console.error(err));
   }, []);
 
-  return <p>Logger inn...</p>;
+  return (
+    <>
+      <title>Logger inn...</title>
+      <p>Logger inn...</p>;
+    </>
+  )
 };
 
 export default LoggedIn

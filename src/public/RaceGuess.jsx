@@ -30,17 +30,17 @@ function RaceGuess() {
       });
   }, []);
   return (
-
     <>
       {guesses ?
         <>
+          <title>{guesses.name}</title>
           <h2>{guesses.name}</h2>
           <div className="tables">
             <GuessesTable guesses={guesses.first} title="1.plass" />
             <GuessesTable guesses={guesses.tenth} title="10.plass" />
           </div>
         </>
-        : ''}
+        : <title>Tippet på løp</title>}
       {error ? error : ''}
     </>
   )

@@ -24,6 +24,7 @@ export function LogView() {
   }, []);
   return (
     <>
+      <title>{capitalize(logType)} log: {date}</title>
       <h2>{capitalize(logType)} log: {date}</h2>
       <div className="log">
         <p>
@@ -51,6 +52,7 @@ export function LogChooseDate() {
   }, [logType]);
   return (
     <>
+      <title>{capitalize(logType)}</title>
       <h2>{capitalize(logType)}</h2>
       <div className="linkList">
         {dates ?
@@ -65,6 +67,7 @@ export function LogChooseDate() {
 export function LogChooseCategory() {
   return (
     <>
+      <title>Logging</title>
       <h2>Logging</h2>
       <div className="linkList">
         <Link to="/admin/log/info">Info</Link>

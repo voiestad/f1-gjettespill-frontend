@@ -67,6 +67,7 @@ function VerificationCode() {
       {
         hasCode ?
           <>
+            <title>Verifiser e-post</title>
             <h2>Verifiser e-post</h2>
             <form>
               <div className="pin-container">

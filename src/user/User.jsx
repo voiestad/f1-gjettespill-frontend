@@ -28,9 +28,13 @@ function User() {
   }, [raceId]);
   return (
     <>
+
       {userData ?
-        <ProfilePage userData={userData} setRaceId={setRaceId} />
-        : ''}
+        <>
+          <title>{userData.user.username}</title>
+          <ProfilePage userData={userData} setRaceId={setRaceId} />
+        </>
+        : <title>Laster bruker...</title>}
       {error ? error : ''}
     </>
   );

@@ -45,6 +45,7 @@ function GuessTenth() {
 
   return (
     <>
+      <title>Tipp 10.plass</title>
       {data ?
         <>
           <h2>Tipp 10.plass i {data.race.name}</h2>
@@ -52,7 +53,7 @@ function GuessTenth() {
           <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
         </>
         : ''}
-      {error ? <ErrorGuessingNotAvailableYet /> : ''}
+      {error ? error : ''}
     </>
   )
 }

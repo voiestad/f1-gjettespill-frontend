@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { ErrorUnknown } from '../error';
+import { ErrorNotFound, ErrorUnknown } from '../error';
 import { translateFlag, translateSession } from '../util/translator';
 import Table from '../util/Table';
 
@@ -49,13 +49,14 @@ function StatsRace() {
       .then(res => setStats(res.data))
       .catch(err => {
         console.error(err);
-        setError(<ErrorUnknown />);
+        setError(<ErrorNotFound />);
       });
   }, []);
   return (
     <>
       {stats ?
         <>
+          <title>{`Statistikk - ${stats.name}`}</title>
           <h2>{stats.name}</h2>
           <div className="tables">
             <StartingGridTable grid={stats.startingGrid} />

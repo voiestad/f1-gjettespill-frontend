@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 function AdminPortal() {
   return (
     <>
+    <title>Admin portal</title>
     <h2>Admin portal</h2>
     <div className="linkList">
       <Link to="/admin/flag">Registrer flagg</Link>

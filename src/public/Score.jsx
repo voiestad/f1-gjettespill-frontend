@@ -38,6 +38,7 @@ function Score() {
 
   return (
     <>
+      <title>Poengberegning</title>
       <h2>Poengberegning</h2>
       {scoringTables && categories ?
         <div className="tables">

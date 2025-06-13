@@ -45,6 +45,7 @@ function GuessWinner() {
 
   return (
     <>
+      <h2>Tipp vinner</h2>
       {data ?
         <>
           <h2>Tipp vinneren i {data.race.name}</h2>

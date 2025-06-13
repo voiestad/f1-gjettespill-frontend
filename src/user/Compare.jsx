@@ -225,6 +225,7 @@ function Compare() {
 
   return (
     <>
+      <title>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</title>
       <h2>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</h2>
       <form>
         <label>Velg år:

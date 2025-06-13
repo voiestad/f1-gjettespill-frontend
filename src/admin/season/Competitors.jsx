@@ -6,6 +6,7 @@ export function SeasonCompetitors() {
   const { year } = useParams();
   return (
     <>
+      <title>Deltakere {year}</title>
       <h2>Deltakere {year}</h2>
       <div className="linkList">
         <Link to={`/admin/season/${year}/competitors/constructors`}>Konstruktører</Link>
@@ -164,6 +165,7 @@ export function SeasonConstructors() {
 
   return (
     <>
+      <title>Konstruktører {year}</title>
       <h2>Konstruktører {year}</h2>
       <form>
         <input type="text" placeholder="Konstruktørnavn" value={newConstructor}
@@ -357,6 +359,7 @@ export function SeasonDrivers() {
 
   return (
     <>
+      <title>Sjåfører {year}</title>
       <h2>Sjåfører {year}</h2>
       <form>
         <input type="text" placeholder="Sjåførnavn" value={newDriver}
@@ -487,6 +490,7 @@ export function SeasonAlias() {
 
   return (
     <>
+      <title>Alternative navn {year}</title>
       <h2>Alternative navn {year}</h2>
       {drivers && aliases ?
         <>

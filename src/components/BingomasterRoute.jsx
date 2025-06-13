@@ -10,14 +10,24 @@ function BingomasterRoute() {
     axios.get('/api/bingomaster')
       .then(res => {
         if (!res.data) {
-          setContent(<ErrorNotAdmin />);
+          setContent(
+            <>
+              <title>F1 Tipping</title>
+              <ErrorNotAdmin />
+            </>
+          );
         } else {
           setContent(<Outlet />);
         }
       })
       .catch(err => {
         console.error(err);
-        setContent(<ErrorUnknown />);
+        setContent(
+          <>
+            <title>F1 Tipping</title>
+            <ErrorUnknown />
+          </>
+        );
       });
   }, [])
   return (

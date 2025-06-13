@@ -85,6 +85,7 @@ function Username() {
     <>
       {isLoggedIn ?
         <>
+          <title>Velg brukernavn</title>
           <h2>Velg brukernavn</h2>
           {message ? message : ''}
           {!hasChanged ?

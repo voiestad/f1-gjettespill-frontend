@@ -148,6 +148,7 @@ function SeasonManageRaces() {
   }, []);
   return (
     <>
+      <title>Løp {year}</title>
       <h2>Løp {year}</h2>
       <form>
         <input type="number" min="1" max="100" pattern="[0-9]*" inputMode="numeric"

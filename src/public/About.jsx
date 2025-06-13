@@ -4,6 +4,7 @@ import logo from '../assets/logo.svg';
 function About() {
   return (
     <>
+      <title>Om F1 Tipping</title>
       <h2>Om F1 Tipping</h2>
       <div className="paragraph">
         <h3>Hva er F1 Tipping?</h3>

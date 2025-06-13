@@ -20,6 +20,7 @@ function MyProfile() {
   }, [raceId]);
   return (
     <>
+      <title>Min profil</title>
       {userData ?
         <ProfilePage userData={userData} setRaceId={setRaceId} />
         : ''}

@@ -17,7 +17,8 @@ function GuessChooseCategory() {
 
   return (
     <>
-      <h2>Velg kategori</h2>
+      <title>Tipping - Velg kategori</title>
+      <h2>Tipping - Velg kategori</h2>
       <div className="linkList">
         {categories ?
           (categories.length > 0 ? categories.map(category =>

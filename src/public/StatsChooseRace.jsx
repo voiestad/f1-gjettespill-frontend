@@ -18,6 +18,7 @@ function StatsChooseRace() {
   }, []);
   return (
     <>
+      <title>Statistikk - Velg løp</title>
       {races ?
         <>
           <h2>Velg løp</h2>

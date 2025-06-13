@@ -43,6 +43,7 @@ function DeleteAccount() {
 
   return (
     <>
+      <title>Slett bruker</title>
       <h2>Slett bruker</h2>
       <p>Skriv inn brukernavnet ditt for å bekrefte: {username ? username : ''}</p>
       <form>

@@ -61,6 +61,7 @@ function ReferralCode() {
 
   return (
     <>
+      <title>Inviter brukere</title>
       <h2>Inviter brukere</h2>
       <form>
         <input type="submit" value="Lag invitasjonskode" onClick={createReferralCode} />

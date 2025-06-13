@@ -26,6 +26,7 @@ function Home() {
   }, []);
   return (
     <>
+      <title>F1 Tipping</title>
       <h2>F1 Tipping hjemskjerm!</h2>
       {leaderboard ?
         <div className="tables">

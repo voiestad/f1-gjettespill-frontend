@@ -95,6 +95,7 @@ function Mail() {
 
   return (
     <>
+      <title>Påminnelser</title>
       <h2>Påminnelser</h2>
       {preferences.hasMail ?
         <div className="tables">

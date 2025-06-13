@@ -80,6 +80,7 @@ function AdminBingomasters() {
   }, []);
   return (
     <>
+      <title>Administrer bingomasters</title>
       <h2>Administrer bingomasters</h2>
       {bingomasters ?
         <>

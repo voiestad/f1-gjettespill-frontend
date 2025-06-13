@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 function Settings() {
   return (
     <>
+      <title>Innstillinger</title>
       <h2>Innstillinger</h2>
       <div className="linkList">
         <Link to="/settings/info">Se brukerinformasjon</Link>

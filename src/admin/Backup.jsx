@@ -25,6 +25,7 @@ function Backup() {
 
   return (
     <>
+      <title>Sikkerhetskopi</title>
       <h2>Sikkerhetskopi</h2>
       <button onClick={downloadBackup}>Last ned sikkerhetskopi</button>
     </>

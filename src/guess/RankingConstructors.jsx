@@ -48,6 +48,7 @@ function RankingConstructors() {
 
   return (
     <>
+      <title>Ranger konstruktørene</title>
       {data ?
         <>
           <h2>Ranger konstruktørene</h2>

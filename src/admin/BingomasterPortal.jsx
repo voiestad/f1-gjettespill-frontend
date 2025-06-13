@@ -12,6 +12,7 @@ export function BingomasterPortalChooseYear() {
   }, []);
   return (
     <>
+      <title>Administrer bingo</title>
       <h2>Administrer bingo</h2>
       <div className="linkList">
         {years ?
@@ -137,6 +138,7 @@ export function BingoMasterPortalChangeBingo() {
         yearExist != null
           ? (yearExist ?
             <>
+              <title>Bingo {year}</title>
               <h2>Bingo {year}</h2>
               {isBingoCard != null ?
                 <>

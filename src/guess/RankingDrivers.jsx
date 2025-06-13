@@ -48,6 +48,7 @@ function RankingDrivers() {
 
   return (
     <>
+      <title>Ranger sjåførene</title>
       {data ?
         <>
           <h2>Ranger sjåførene</h2>

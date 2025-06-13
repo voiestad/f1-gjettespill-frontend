@@ -78,6 +78,7 @@ function GuessFlags() {
     <>
       {data ?
         <>
+          <title>Tipp antall</title>
           <h2>Tipp antall</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <FlagSliders flags={data.flags} />

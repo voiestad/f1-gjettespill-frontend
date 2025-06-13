@@ -200,6 +200,7 @@ function SeasonPoints() {
 
   return (
     <>
+      <title>Poengsystem {year}</title>
       <h2>Poengsystem {year}</h2>
       {scoringTables && categories ?
         <>

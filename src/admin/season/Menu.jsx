@@ -12,6 +12,7 @@ export function SeasonChooseYear() {
   }, []);
   return (
     <>
+      <title>Administrer sesonger</title>
       <h2>Administrer sesonger</h2>
       <div className="linkList">
         {years ?
@@ -66,6 +67,7 @@ export function SeasonAdd() {
 
   return (
     <>
+      <title>Legg til sesong</title>
       {!loader ?
         <>
           <h2>Legg til sesong</h2>
@@ -103,7 +105,8 @@ export function SeasonChooseCategory() {
 
   return (
     <>
-      <h2>{year}</h2>
+      <title>Administrer {year}</title>
+      <h2>Administrer {year}</h2>
       <div className="linkList">
         <Link to={`/admin/season/${year}/manage`}>Endring av løp</Link>
         <Link to={`/admin/season/${year}/cutoff`}>Frister</Link>
@@ -122,14 +125,24 @@ export function SeasonRoute() {
     axios.get('/api/public/year/list')
       .then(res => {
         if (res.data.indexOf(parseInt(year)) == -1) {
-          setContent(<ErrorNotFound />);
+          setContent(
+            <>
+              <title>F1 Tipping</title>
+              <ErrorNotFound />
+            </>
+          );
         } else {
           setContent(<Outlet />);
         }
       })
       .catch(err => {
         console.error(err);
-        setContent(<ErrorUnknown />);
+        setContent(
+          <>
+            <title>F1 Tipping</title>
+            <ErrorUnknown />
+          </>
+        );
       });
   }, [])
   return (

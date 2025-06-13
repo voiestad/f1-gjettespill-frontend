@@ -10,16 +10,31 @@ function ProtectedRoute() {
     axios.get('/api/public/user/status')
       .then(res => {
         if (res.data === "NO_USERNAME") {
-          setContent(<ErrorNoUsername />);
+          setContent(
+            <>
+              <title>F1 Tipping</title>
+              <ErrorNoUsername />
+            </>
+          );
         } else if (res.data === "LOGGED_OUT") {
-          setContent(<ErrorNotLoggedIn />);
+          setContent(
+            <>
+              <title>F1 Tipping</title>
+              <ErrorNotLoggedIn />
+            </>
+          );
         } else {
           setContent(<Outlet />);
         }
       })
       .catch(err => {
         console.error(err);
-        setContent(<ErrorUnknown />);
+        setContent(
+          <>
+            <title>F1 Tipping</title>
+            <ErrorUnknown />
+          </>
+        );
       });
   }, [])
   return (

@@ -11,7 +11,8 @@ export function FlagChooseYear() {
   }, []);
   return (
     <>
-      <h2>Registrer flagg</h2>
+      <title>Registrer flagg - Velg år</title>
+      <h2>Registrer flagg - Velg år</h2>
       <div className="linkList">
         {years ?
           years.map(year =>
@@ -32,7 +33,8 @@ export function FlagChooseRace() {
   }, []);
   return (
     <>
-      <h2>Registrer flagg</h2>
+      <title>Registrer flagg - Velg løp</title>
+      <h2>Registrer flagg - Velg løp</h2>
       <div className="linkList">
         {races ?
           races.map(race =>
@@ -136,7 +138,8 @@ export function FlagRegister() {
   }, []);
   return (
     <>
-      <h2>Registrer flagg</h2>
+      <title>{`Registrer flagg - ${raceId}`}</title>
+      <h2>{`Registrer flagg - ${raceId}`}</h2>
       {sessionTypes && flagTypes ?
         <form>
           <select onChange={e => setSelectedSession(e.target.value)}>
