@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, useRef } from 'react'
 import { ThemeContext } from '../components'
 import axios from 'axios'
 import { useLocation, Link, useNavigate } from 'react-router'
+import Breadcrumbs from './Breadcrumbs'
 
 function Logo() {
   return (
@@ -27,31 +28,6 @@ function HamburgerMenu(props) {
           <rect x="0" y="13" width="15" height="3" fill="white" />
         </svg>
       </button>
-    </>
-  )
-}
-
-function Breadcrumbs() {
-  const [breadcrumbs, setBreadcrumbs] = useState(null);
-  const { pathname } = useLocation();
-  useEffect(() => {
-    axios.get(`/api/public/breadcrumbs?path=${pathname}`)
-      .then(res => setBreadcrumbs(res.data))
-      .catch(err => console.error(err));
-  }, [pathname]);
-  return (
-    <>
-      <div style={{ margin: 0 }}>
-        <ol className="breadcrumb">
-          {breadcrumbs ?
-            breadcrumbs.map((crumb) => (
-              <li key={crumb.text}>
-                {crumb.path ? <Link to={crumb.path}>{crumb.text}</Link> : <div>{crumb.text}</div>}
-              </li>
-            )) : <li><div>Hjem</div></li>
-          }
-        </ol>
-      </div>
     </>
   )
 }
@@ -121,17 +97,21 @@ function DropdownMenu(props) {
       }, 10);
     }
   }, [isMenuActive]);
+
   const [headerState, setHeaderState] = useState(null);
   function reloadHeaderState() {
-    setActive(false);
     axios.get('/api/public/header')
       .then(res => setHeaderState(res.data))
       .catch(err => console.error(err));
   }
   const { pathname } = useLocation();
   useEffect(() => {
-    reloadHeaderState();
+    setActive(false);
   }, [pathname]);
+
+  useEffect(() => {
+    reloadHeaderState();
+  }, []);
 
   function logout() {
     axios.get('/api/public/csrf-token')
