@@ -6,8 +6,8 @@ function Breadcrumbs() {
   const [breadcrumbs, setBreadcrumbs] = useState(null);
   const { pathname } = useLocation();
   useEffect(() => {
-    axios.get(`/api/public/breadcrumbs?path=${pathname}`)
-      .then(res => setBreadcrumbs(res.data))
+    getBreadcrumbs(pathname)
+      .then(res => setBreadcrumbs(res))
       .catch(err => console.error(err));
   }, [pathname]);
 
@@ -26,6 +26,41 @@ function Breadcrumbs() {
       </div>
     </>
   )
+}
+
+async function getBreadcrumbs(path) {
+  const breadcrumbs = [];
+  if (path === "/") {
+    breadcrumbs.push({path: null, text: "Hjem"})
+    return breadcrumbs;
+  }
+  const subPaths = getSubPaths(path);
+  subPaths.pop();
+  breadcrumbs.push({path: "/", text: "Hjem"})
+  for (const subPath of subPaths) {
+    breadcrumbs.push({path: subPath, text: getNameForPath(subPath)});
+  }
+  breadcrumbs.push({path: null, text: getNameForPath(path)});
+  return breadcrumbs;
+}
+
+function getSubPaths(path) {
+  const result = [];
+  let currentPath = "";
+  const segments = path.split("/");
+  for (const segment of segments) {
+    if (!segment) {
+      continue;
+    }
+    currentPath += `/${segment}`;
+    result.push(currentPath);
+  }
+
+  return result;
+}
+
+function getNameForPath(path) {
+  return path;
 }
 
 export default Breadcrumbs
