@@ -76,8 +76,8 @@ function SeasonCutoff() {
 
   return (
     <>
-      <title>Frister {year}</title>
-      <h2>Frister {year}</h2>
+      <title>{`Frister ${year}`}</title>
+      <h2>{`Frister ${year}`}</h2>
       {yearCutoff ?
         <form onSubmit={updateCutoffYear}>
           <label>{year} sesongen<br />

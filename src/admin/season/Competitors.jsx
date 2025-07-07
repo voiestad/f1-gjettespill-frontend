@@ -6,8 +6,8 @@ export function SeasonCompetitors() {
   const { year } = useParams();
   return (
     <>
-      <title>Deltakere {year}</title>
-      <h2>Deltakere {year}</h2>
+      <title>{`Deltakere ${year}`}</title>
+      <h2>{`Deltakere ${year}`}</h2>
       <div className="linkList">
         <Link to={`/admin/season/${year}/competitors/constructors`}>Konstruktører</Link>
         <Link to={`/admin/season/${year}/competitors/drivers`}>Sjåfører</Link>
@@ -165,8 +165,8 @@ export function SeasonConstructors() {
 
   return (
     <>
-      <title>Konstruktører {year}</title>
-      <h2>Konstruktører {year}</h2>
+      <title>{`Konstruktører ${year}`}</title>
+      <h2>{`Konstruktører ${year}`}</h2>
       <form>
         <input type="text" placeholder="Konstruktørnavn" value={newConstructor}
           onChange={e => setNewConstructor(e.target.value)} />
@@ -359,8 +359,8 @@ export function SeasonDrivers() {
 
   return (
     <>
-      <title>Sjåfører {year}</title>
-      <h2>Sjåfører {year}</h2>
+      <title>{`Sjåfører ${year}`}</title>
+      <h2>{`Sjåfører ${year}`}</h2>
       <form>
         <input type="text" placeholder="Sjåførnavn" value={newDriver}
           onChange={e => setNewDriver(e.target.value)} />
@@ -490,8 +490,8 @@ export function SeasonAlias() {
 
   return (
     <>
-      <title>Alternative navn {year}</title>
-      <h2>Alternative navn {year}</h2>
+      <title>{`Alternative navn ${year}`}</title>
+      <h2>{`Alternative navn ${year}`}</h2>
       {drivers && aliases ?
         <>
           <form>

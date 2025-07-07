@@ -105,8 +105,8 @@ export function SeasonChooseCategory() {
 
   return (
     <>
-      <title>Administrer {year}</title>
-      <h2>Administrer {year}</h2>
+      <h2>{`Administrer ${year}`}</h2>
+      <title>{`Administrer ${year}`}</title>
       <div className="linkList">
         <Link to={`/admin/season/${year}/manage`}>Endring av løp</Link>
         <Link to={`/admin/season/${year}/cutoff`}>Frister</Link>
