@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ChooseDriver from "./ChooseDriver";
 import { useNavigate } from 'react-router';
-import { ErrorGuessingNotAvailableYet } from "../error";
+import { ErrorGuessNotAllowedYet } from "../error";
 
 function GuessTenth() {
   const [data, setData] = useState(null);
@@ -17,7 +17,7 @@ function GuessTenth() {
       })
       .catch(err => {
         console.error(err);
-        setError(<ErrorGuessingNotAvailableYet />);
+        setError(<ErrorGuessNotAllowedYet />);
       });
   }, []);
 

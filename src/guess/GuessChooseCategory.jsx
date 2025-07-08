@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
 import { translateCategory } from '../util/translator';
-import { ErrorGuessingNotAvailableYet } from '../error';
+import { ErrorGuessNotAllowedYet } from '../error';
 
 function GuessChooseCategory() {
   const [categories, setCategories] = useState(null);
@@ -18,15 +18,17 @@ function GuessChooseCategory() {
   return (
     <>
       <title>Tipping - Velg kategori</title>
-      <h2>Tipping - Velg kategori</h2>
-      <div className="linkList">
-        {categories ?
-          (categories.length > 0 ? categories.map(category =>
-            <Link key={category} to={`/guess/${category.toLowerCase()}`}>{translateCategory(category)}</Link>
-          )
-            : <ErrorGuessingNotAvailableYet />)
-          : ''}
-      </div>
+      {categories && categories.length > 0 ?
+        <>
+          <h2>Tipping - Velg kategori</h2>
+          <div className="linkList">
+            {categories.map(category =>
+              <Link key={category} to={`/guess/${category.toLowerCase()}`}>{translateCategory(category)}</Link>
+            )}
+          </div>
+        </>
+        : ''}
+      {categories && categories.length === 0 ? <ErrorGuessNotAllowedYet /> : ''}
     </>
   )
 }

@@ -9,6 +9,15 @@ export function ErrorGuessingNotAvailableYet() {
   )
 }
 
+export function ErrorGuessNotAllowedYet() {
+  return (
+    <>
+      <h2>Det vil snart være mulig å tippe...</h2>
+      <Link to="/">Tilbake til hjem</Link>
+    </>
+  )
+}
+
 export function ErrorNotAdmin() {
   return (
     <>

@@ -188,11 +188,11 @@ function getGuessPath(segments) {
     return "Tipping";
   }
   switch (segment.value) {
-    case "drivers": return "Sjåførmesterskap";
-    case "constructors": return "Konstruktørmesterskap";
+    case "driver": return "Sjåførmesterskap";
+    case "constructor": return "Konstruktørmesterskap";
     case "tenth": return "10.plass";
     case "winner": return "1.plass";
-    case "flags": return "Antall";
+    case "flag": return "Antall";
     default: return null;
   };
 }

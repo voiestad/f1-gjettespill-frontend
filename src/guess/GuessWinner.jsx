@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ChooseDriver from "./ChooseDriver";
 import { useNavigate } from 'react-router';
-import { ErrorGuessingNotAvailableYet } from "../error";
+import { ErrorGuessNotAllowedYet } from "../error";
 
 function GuessWinner() {
   const [data, setData] = useState(null);
@@ -17,7 +17,7 @@ function GuessWinner() {
       })
       .catch(err => {
         console.error(err);
-        setError(<ErrorGuessingNotAvailableYet />);
+        setError(<ErrorGuessNotAllowedYet />);
       });
   }, []);
 
@@ -45,7 +45,7 @@ function GuessWinner() {
 
   return (
     <>
-      <h2>Tipp vinner</h2>
+      <title>Tipp vinner</title>
       {data ?
         <>
           <h2>Tipp vinneren i {data.race.name}</h2>
@@ -53,7 +53,7 @@ function GuessWinner() {
           <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
         </>
         : ''}
-      {error ? <ErrorGuessingNotAvailableYet /> : ''}
+      {error ? error : ''}
     </>
   )
 }

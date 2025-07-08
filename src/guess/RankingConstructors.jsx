@@ -2,7 +2,7 @@ import Countdown from "./Countdown"
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ErrorGuessingNotAvailableYet } from "../error";
+import { ErrorGuessNotAllowedYet } from "../error";
 import RankCompetitors from "./RankCompetitors";
 import qs from 'qs';
 
@@ -18,7 +18,7 @@ function RankingConstructors() {
       })
       .catch(err => {
         console.error(err);
-        setError(<ErrorGuessingNotAvailableYet />);
+        setError(<ErrorGuessNotAllowedYet />);
       });
   }, []);
 
@@ -56,7 +56,7 @@ function RankingConstructors() {
           <RankCompetitors initialCompetitors={data.competitors} guessHandler={guessHandler} />
         </>
         : ''}
-      {error ? <ErrorGuessingNotAvailableYet /> : ''}
+      {error ? error : ''}
     </>
   )
 }

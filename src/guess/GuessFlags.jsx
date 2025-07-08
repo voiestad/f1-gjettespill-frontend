@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Countdown from './Countdown';
+import { ErrorGuessNotAllowedYet } from '../error';
 
 function FlagSliders(props) {
   const { yellow: initialYellow, red: initialRed, safetyCar: initialSafetyCar } = props.flags;
@@ -36,25 +37,25 @@ function FlagSliders(props) {
   }
   return (
     <>
-    <form>
-			<label>Antall gule flagg<br />
-			<input type="range"value={yellow} min={0} max={150} onChange={e => setYellow(e.target.value)}/>
-			<br />
-      <div>{yellow}</div>
-      <br/><br/>
-      </label>
-			<label>Antall røde flagg<br />
-			<input type="range" value={red} min={0} max={50} onChange={e => setRed(e.target.value)} />
-      <br />
-			<div>{red}</div>
-      <br /><br />
-      </label>
-			<label>Antall sikkerhetsbiler<br />
-			<input type="range" value={safetyCar} min={0} max={100} onChange={e => setSafetyCar(e.target.value)} /><br />
-			<div>{safetyCar}</div><br /><br />
-      </label>
-			<input type="submit" value="Send inn gjett" onClick={guessHandler}/>
-		</form>
+      <form>
+        <label>Antall gule flagg<br />
+          <input type="range" value={yellow} min={0} max={150} onChange={e => setYellow(e.target.value)} />
+          <br />
+          <div>{yellow}</div>
+          <br /><br />
+        </label>
+        <label>Antall røde flagg<br />
+          <input type="range" value={red} min={0} max={50} onChange={e => setRed(e.target.value)} />
+          <br />
+          <div>{red}</div>
+          <br /><br />
+        </label>
+        <label>Antall sikkerhetsbiler<br />
+          <input type="range" value={safetyCar} min={0} max={100} onChange={e => setSafetyCar(e.target.value)} /><br />
+          <div>{safetyCar}</div><br /><br />
+        </label>
+        <input type="submit" value="Send inn gjett" onClick={guessHandler} />
+      </form>
     </>
   )
 }
@@ -70,21 +71,21 @@ function GuessFlags() {
       })
       .catch(err => {
         console.error(err);
-        setError(<ErrorGuessingNotAvailableYet />);
+        setError(<ErrorGuessNotAllowedYet />);
       });
   }, []);
 
   return (
     <>
+      <title>Tipp antall</title>
       {data ?
         <>
-          <title>Tipp antall</title>
           <h2>Tipp antall</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <FlagSliders flags={data.flags} />
         </>
         : ''}
-      {error ? <ErrorGuessingNotAvailableYet /> : ''}
+      {error ? error : ''}
     </>
   )
 }
