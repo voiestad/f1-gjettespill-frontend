@@ -35,13 +35,9 @@ function Bingo() {
           setError(<ErrorUnknown />);
         }
       })
-    axios.get('/api/bingomaster')
+    axios.get('/api/public/bingomaster')
       .then(res => setIsBingoMaster(res.data))
-      .catch(err => {
-        if (err.status !== 401) {
-          console.error(err);
-        }
-      })
+      .catch(err => console.error(err))
   }, []);
 
   return (
