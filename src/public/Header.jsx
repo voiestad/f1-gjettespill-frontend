@@ -145,10 +145,8 @@ function DropdownMenu(props) {
           ref={linksRef}
           style={{ maxHeight: '0px' }}
         >
-          <DropdownSection category="Tipping" linksRef={linksRef}>
-            {headerState && headerState.isAbleToGuess ? <Link to="/guess">Tipp</Link> : ''}
-            {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Tippet på løp</Link> : ''}
-          </DropdownSection>
+          {headerState && headerState.isAbleToGuess ? <Link to="/guess">Tipp</Link> : ''}
+          {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Tippet på løp</Link> : ''}
           <DropdownSection category="Resultater" linksRef={linksRef}>
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>
