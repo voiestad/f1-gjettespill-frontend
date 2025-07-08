@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import Table from '../util/Table';
 import {
@@ -38,14 +38,15 @@ function Leaderboard(props) {
 function Home() {
   const [leaderboard, setLeaderboard] = useState(null);
   const [graph, setGraph] = useState(null);
+  const graphCache = useRef(null);
   const chartStyle = {
-			display: "flex",
-			maxWidth: "800px",
-			maxHeight: "500px",
-			margin: "0 auto",
-			width: "100%",
-      height: "100%"
-		}
+    display: "flex",
+    maxWidth: "800px",
+    maxHeight: "500px",
+    margin: "0 auto",
+    width: "100%",
+    height: "100%"
+  }
   const chartColor = "grey";
   const options = {
     scales: {
@@ -95,13 +96,44 @@ function Home() {
 
   useEffect(() => {
     loadContent();
+    const interval = setInterval(() => {
+      loadContent();
+    }, 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
+
+  function isNewGraph(graphData) {
+    const currCache = graphCache.current;
+    if (!currCache ||
+      currCache.length !== graphData.length
+      || !currCache.length
+      || currCache[0].scores.length !== currCache[0].scores.length) {
+      return true;
+    }
+    for (let i = 0; i < currCache.length; i++) {
+      const cache = currCache[i];
+      const data = graphData[i];
+      if (cache.name !== data.name) {
+        return true;
+      }
+      for (let j = 0; j < cache.scores.length; j++) {
+        if (cache.scores[j] !== data.scores[j]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   function loadContent() {
     axios.get('/api/public/home')
       .then(res => {
         setLeaderboard(res.data.leaderboard);
         const graphData = res.data.graph;
+        if (!isNewGraph(graphData)) {
+          return;
+        }
+        graphCache.current = graphData;
         const xValues = graphData[0].scores.map((_, i) => i);
         const userScores = [];
         const colors = ["#f7d000", "purple", "red", "green", "blue", "orange"];
@@ -134,9 +166,9 @@ function Home() {
         : ''}
       {graph ?
         <>
-        <div style={chartStyle}>
-          <Line height={null} width={null} data={graph} options={options} />
-        </div>
+          <div style={chartStyle}>
+            <Line redraw={false} height={null} width={null} data={graph} options={options} />
+          </div>
         </>
         : ''}
     </>
