@@ -39,6 +39,7 @@ function Home() {
   const [message, setMessage] = useState(null);
   const [leaderboard, setLeaderboard] = useState(null);
   const [graph, setGraph] = useState(null);
+  const [guessers, setGuessers] = useState(null);
   const graphCache = useRef(null);
   const chartStyle = {
     display: "flex",
@@ -134,6 +135,7 @@ function Home() {
           return;
         }
         setLeaderboard(res.data.leaderboard);
+        setGuessers(res.data.guessers);
         const graphData = res.data.graph;
         if (!isNewGraph(graphData)) {
           return;
@@ -166,6 +168,14 @@ function Home() {
       <h2>F1 Tipping hjemskjerm!</h2>
       {message ?
         <h3>{message}</h3>
+        : ''}
+      {guessers ?
+        <>
+          <h3>Årets deltakere:</h3>
+          <ul>
+            {guessers.map(guesser => <li>{guesser}</li>)}
+          </ul>
+        </>
         : ''}
       {leaderboard ?
         <div className="tables">
