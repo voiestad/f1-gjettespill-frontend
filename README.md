@@ -1,12 +1,32 @@
-# React + Vite
+# F1 Tipping - Frontend
+F1 Tipping er en tippeside der deltakerne tipper på sluttresultatene av Formel 1 sesongen. I tillegg tippes det på hvem som kommer på første- og tiendeplass i hvert løp gjennom året.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dette repoet er koden for frontenden til nettsiden. Koden for backenden ligger [her](https://github.com/Vebb02/f1-backend).
 
-Currently, two official plugins are available:
+## Oversikt
+1. [Utvikler](#utvikler)
+2. [Krav](#krav)
+3. [Oppsett](#oppsett-for-første-gang)
+4. [Kjøre Applikasjonen](#kjøre-applikasjonen)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Utvikler
+**Vebjørn Øiestad**
 
-## Expanding the ESLint configuration
+## Krav
+* Node 20 eller nyere
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Oppsett for Første Gang
+
+For å installere nødvendige pakker, kjør følgende kommando:
+
+```
+npm install
+```
+
+## Kjøre Applikasjonen
+
+For å starte applikasjonen, kjør følgende kommando:
+
+```
+npm run dev
+```
