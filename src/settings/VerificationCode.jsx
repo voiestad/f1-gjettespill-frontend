@@ -71,8 +71,8 @@ function VerificationCode() {
             <h2>Verifiser e-post</h2>
             <form>
               <div className="pin-container">
-                <input id="pin-input9" type="text" class="pin-input" pattern="\d{9}" inputMode="numeric"
-                  autocomplete="off" onChange={validateContent} />
+                <input id="pin-input9" type="text" className="pin-input" pattern="\d{9}" inputMode="numeric"
+                  autoComplete="off" onChange={validateContent} />
               </div>
               <input type="submit" value="Verifiser" onClick={verify} />
             </form>

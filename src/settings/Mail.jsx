@@ -97,21 +97,21 @@ function Mail() {
     <>
       <title>Påminnelser</title>
       <h2>Påminnelser</h2>
-      {preferences.hasMail ?
-        <div className="tables">
-          <Table title="" header={["Antall timer før løp", "Av/på"]}
-            body={Object.keys(preferences.mailOptions).map(option => ({
-              key: option,
-              values: [option, <input type="checkbox"
-                onChange={e => changePreference(!preferences.mailOptions[option], option)}
-                checked={preferences.mailOptions[option]} />]
-            })
-            )} />
-        </div >
-        : ''
-      }
-      {
-        !loader ?
+      {!loader ?
+        <>
+          {preferences.hasMail ?
+            <div className="tables">
+              <Table title="" header={["Antall timer før løp", "Av/på"]}
+                body={Object.keys(preferences.mailOptions).map(option => ({
+                  key: option,
+                  values: [option, <input type="checkbox"
+                    onChange={e => changePreference(!preferences.mailOptions[option], option)}
+                    checked={preferences.mailOptions[option]} />]
+                })
+                )} />
+            </div >
+            : ''
+          }
           <form>
             <div className="paragraph">
               <p>
@@ -125,22 +125,27 @@ function Mail() {
             </div>
             <input type="submit" value="Meld på" onClick={registerMail} />
           </form>
-          : ''}
-      {
-        preferences.hasMail ?
-          <form>
-            <input type="submit" value="Meld av" onClick={unsubscribe} />
-          </form>
-          : ''
+          {
+            preferences.hasMail ?
+              <form>
+                <input type="submit" value="Meld av" onClick={unsubscribe} />
+              </form>
+              : ''
+          }
+        </>
+        :
+        <>
+          {
+            loader ?
+              <div className="loading-container">
+                < div className="loading"></div >
+                <p>Laster...</p>
+              </div >
+              : ''
+          }
+        </>
       }
-      {
-        loader ?
-          <div className="loading-container">
-            <div className="loading"></div>
-            <p>Laster...</p>
-          </div>
-          : ''
-      }
+
     </>
   )
 }
