@@ -36,6 +36,7 @@ function Leaderboard(props) {
 }
 
 function Home() {
+  const [message, setMessage] = useState(null);
   const [leaderboard, setLeaderboard] = useState(null);
   const [graph, setGraph] = useState(null);
   const graphCache = useRef(null);
@@ -128,6 +129,10 @@ function Home() {
   function loadContent() {
     axios.get('/api/public/home')
       .then(res => {
+        if (res.data.leaderboard === null) {
+          setMessage("Sesongen starter snart");
+          return;
+        }
         setLeaderboard(res.data.leaderboard);
         const graphData = res.data.graph;
         if (!isNewGraph(graphData)) {
@@ -159,6 +164,9 @@ function Home() {
     <>
       <title>F1 Tipping</title>
       <h2>F1 Tipping hjemskjerm!</h2>
+      {message ?
+        <h3>{message}</h3>
+        : ''}
       {leaderboard ?
         <div className="tables">
           <Leaderboard leaderboard={leaderboard} />
