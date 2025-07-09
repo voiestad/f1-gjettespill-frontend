@@ -111,6 +111,10 @@ function DropdownMenu(props) {
 
   useEffect(() => {
     reloadHeaderState();
+    const interval = setInterval(() => {
+      reloadHeaderState();
+    }, 10 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   function logout() {
