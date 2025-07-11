@@ -7,7 +7,7 @@ function BingomasterRoute() {
   const [content, setContent] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/bingomaster')
+    axios.get('/api/public/bingomaster')
       .then(res => {
         if (!res.data) {
           setContent(
