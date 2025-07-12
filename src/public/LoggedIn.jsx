@@ -10,6 +10,7 @@ function LoggedIn() {
       .then(res => {
         if (res.data !== "NO_USERNAME") {
           const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+          localStorage.removeItem('redirectAfterLogin');
           navigate(redirectPath);
         } else {
           navigate('/settings/username');
