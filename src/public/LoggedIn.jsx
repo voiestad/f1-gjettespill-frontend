@@ -22,7 +22,7 @@ function LoggedIn() {
   return (
     <>
       <title>Logger inn...</title>
-      <p>Logger inn...</p>;
+      <p>Logger inn...</p>
     </>
   )
 };
