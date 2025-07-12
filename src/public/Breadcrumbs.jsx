@@ -76,6 +76,7 @@ function getNameForPath(path) {
     case "privacy": return "Personvernerklæring";
     case "stats": return getStatsPath(segments);
     case "bingo": return getBingoPath(segments);
+    case "login": return "Innlogging";
     default: return null;
   };
 }

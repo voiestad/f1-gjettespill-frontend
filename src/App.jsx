@@ -9,6 +9,7 @@ import {
   Header,
   Home,
   LoggedIn,
+  Login,
   Privacy,
   RaceGuess,
   Score,
@@ -76,6 +77,7 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="github" element={<GitHub />} />
               <Route path="logged-in" element={<LoggedIn />} />
+              <Route path="login" element={<Login />} />
               <Route path="privacy" element={<Privacy />} />
               <Route path="race-guess" element={<RaceGuess />} />
               <Route path="settings">
