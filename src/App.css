@@ -106,9 +106,10 @@ h1 {
 	color: var(--color-offwhite);
 	-webkit-text-stroke-width: 1px;
 	-webkit-text-stroke-color: black;
-	margin: 0;
+	margin: 4px;
 	padding: 0;
 	flex-grow: 1;
+	font-size: 32px;
 }
 
 div {
@@ -193,7 +194,7 @@ div {
 	display: block;
 	position: absolute;
 	right: 0;
-	transform: translateY(-50%);
+	transform: translateY(-80%);
 	background: none;
 	border: none;
 	color: var(--color-offwhite);
