@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from 'react-router';
+import { lazy } from 'react';
 import './App.css';
 import {
   About,
@@ -17,50 +18,14 @@ import {
   StatsChooseYear,
   StatsRace
 } from './public';
-import {
-  DeleteAccount,
-  Mail,
-  ReferralCode,
-  Settings,
-  UserInformation,
-  Username,
-  VerificationCode
-} from './settings';
 import { ErrorNotFound } from './error';
 import { Compare, MyProfile, User, UserList } from './user'
-import { AdminRoute, BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
-import {
-  GuessChooseCategory,
-  GuessWinner,
-  GuessFlags,
-  GuessTenth,
-  RankingConstructors,
-  RankingDrivers
-} from "./guess";
-import {
-  AdminBingomasters,
-  AdminPortal,
-  Backup,
-  BingoMasterPortalChangeBingo,
-  BingomasterPortalChooseYear,
-  FlagChooseRace,
-  FlagChooseYear,
-  FlagRegister,
-  LogChooseCategory,
-  LogChooseDate,
-  LogView,
-  SeasonAdd,
-  SeasonAlias,
-  SeasonChooseCategory,
-  SeasonChooseYear,
-  SeasonCompetitors,
-  SeasonConstructors,
-  SeasonCutoff,
-  SeasonDrivers,
-  SeasonManageRaces,
-  SeasonPoints,
-  SeasonRoute
-} from './admin';
+import { BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
+import { BingoMasterPortalChangeBingo, BingomasterPortalChooseYear } from './admin/BingomasterPortal';
+
+const AdminRoute = lazy(() => import('./admin/AdminRoute'));
+const SettingsRoute = lazy(() => import('./settings/SettingsRoute'));
+const GuessRoute = lazy(() => import('./guess/GuessRoute'));
 
 function App() {
   return (
@@ -80,9 +45,6 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="privacy" element={<Privacy />} />
               <Route path="race-guess" element={<RaceGuess />} />
-              <Route path="settings">
-                <Route path="username" element={<Username />} />
-              </Route>
               <Route path="score" element={<Score />} />
               <Route path="stats">
                 <Route index element={<StatsChooseYear />} />
@@ -96,70 +58,16 @@ function App() {
                 <Route path=":id" element={<User />} />
                 <Route path="compare" element={<Compare />} />
               </Route>
-
+              <Route path="settings/*" element={<SettingsRoute />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="admin" element={<AdminRoute />}>
-                  <Route index element={<AdminPortal />} />
-                  <Route path="backup" element={<Backup />} />
-                  <Route path="bingo" element={<AdminBingomasters />} />
-                  <Route path="flag">
-                    <Route index element={<FlagChooseYear />} />
-                    <Route path=":year">
-                      <Route index element={<FlagChooseRace />} />
-                      <Route path=":raceId" element={<FlagRegister />} />
-                    </Route>
-                  </Route>
-                  <Route path="log">
-                    <Route index element={<LogChooseCategory />} />
-                    <Route path=":logType">
-                      <Route index element={<LogChooseDate />} />
-                      <Route path=":date" element={<LogView />} />
-                    </Route>
-                  </Route>
-                  <Route path="season">
-                    <Route index element={<SeasonChooseYear />} />
-                    <Route path="add" element={<SeasonAdd />} />
-                    <Route path=":year" element={<SeasonRoute />}>
-                      <Route index element={<SeasonChooseCategory />} />
-                      <Route path="manage">
-                        <Route index element={<SeasonManageRaces />} />
-                        <Route path=":raceId" element={<StatsRace />} />
-                      </Route>
-                      <Route path="cutoff" element={<SeasonCutoff />} />
-                      <Route path="competitors">
-                        <Route index element={<SeasonCompetitors />} />
-                        <Route path="constructors" element={<SeasonConstructors />} />
-                        <Route path="drivers" element={<SeasonDrivers />} />
-                        <Route path="alias" element={<SeasonAlias />} />
-                      </Route>
-                      <Route path="points" element={<SeasonPoints />} />
-                    </Route>
-                  </Route>
-                </Route>
+                <Route path="admin/*" element={<AdminRoute />} />
                 <Route path="bingo">
                   <Route path="admin" element={<BingomasterRoute />}>
                     <Route index element={<BingomasterPortalChooseYear />} />
                     <Route path=":year" element={<BingoMasterPortalChangeBingo />} />
                   </Route>
                 </Route>
-                <Route path="guess">
-                  <Route index element={<GuessChooseCategory />} />
-                  <Route path="driver" element={<RankingDrivers />} />
-                  <Route path="constructor" element={<RankingConstructors />} />
-                  <Route path="flag" element={<GuessFlags />} />
-                  <Route path="tenth" element={<GuessTenth />} />
-                  <Route path="first" element={<GuessWinner />} />
-                </Route>
-                <Route path="settings">
-                  <Route index element={<Settings />} />
-                  <Route path="delete" element={<DeleteAccount />} />
-                  <Route path="info" element={<UserInformation />} />
-                  <Route path="mail">
-                    <Route index element={<Mail />} />
-                    <Route path="verification" element={<VerificationCode />} />
-                  </Route>
-                  <Route path="referral" element={<ReferralCode />} />
-                </Route>
+                <Route path="guess/*" element={<GuessRoute />} />
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
                 </Route>

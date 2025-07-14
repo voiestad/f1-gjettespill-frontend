@@ -1,28 +1,8 @@
 import axios from 'axios';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy } from 'react';
 import { Link } from 'react-router';
 import Table from '../util/Table';
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-Chart.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const HomePageGraph = lazy(() => import('./HomePageGraph'));
 
 function Leaderboard(props) {
   const header = ["Plass", "Navn", "Poeng"];
@@ -41,60 +21,6 @@ function Home() {
   const [graph, setGraph] = useState(null);
   const [guessers, setGuessers] = useState(null);
   const graphCache = useRef(null);
-  const chartStyle = {
-    display: "flex",
-    maxWidth: "800px",
-    maxHeight: "500px",
-    margin: "0 auto",
-    width: "100%",
-    height: "100%"
-  }
-  const chartColor = "grey";
-  const options = {
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Løp"
-        },
-        grid: {
-          color: chartColor,
-          borderColor: chartColor
-        },
-        ticks: {
-          color: chartColor
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: "Poeng"
-        },
-        grid: {
-          color: chartColor,
-          borderColor: chartColor
-        },
-        ticks: {
-          color: chartColor
-        }
-      }
-    },
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: "top",
-        labels: {
-          color: chartColor
-        }
-      },
-      title: {
-        display: true,
-        text: "Utvikling gjennom sesongen",
-        color: chartColor
-      }
-    }
-  };
 
   useEffect(() => {
     loadContent();
@@ -182,13 +108,7 @@ function Home() {
           <Leaderboard leaderboard={leaderboard} />
         </div>
         : ''}
-      {graph ?
-        <>
-          <div style={chartStyle}>
-            <Line redraw={false} height={null} width={null} data={graph} options={options} />
-          </div>
-        </>
-        : ''}
+      {graph ? <HomePageGraph graph={graph} /> : ''}
     </>
   )
 }
