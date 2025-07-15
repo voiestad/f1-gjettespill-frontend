@@ -84,7 +84,11 @@ function ProfilePage(props) {
   const [races, setRaces] = useState(null);
   const [years, setYears] = useState(null);
   function changeYear(year) {
-    axios.get(`/api/public/race/list/${year}`)
+    axios.get(`/api/public/race/list/${year}`, {
+      params: {
+        completedOnly: true
+      }
+    })
       .then(res => setRaces(res.data))
       .catch(err => console.error(err));
   }
