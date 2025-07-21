@@ -55,12 +55,13 @@ function Mail() {
           }
         })
           .then(res => {
-            // alert('Preferansene dine ble endret');
-            loadPreferences();
+            const preferencesCopy = Object.create(preferences);
+            preferencesCopy.mailOptions[option] = !preferencesCopy.mailOptions[option];
+            setPreferences(preferencesCopy);
           })
           .catch(err => {
             alert('Preferansene dine kunne ikke endres. Vennligst prøv igjen');
-            loadPreferences();
+            console.error(err);
           });
       })
       .catch(err => console.error(err));
@@ -81,10 +82,7 @@ function Mail() {
             alert('Du ble avmeldt');
             loadPreferences();
           })
-          .catch(err => {
-            alert('Kunne ikke melde deg av. Vennligst prøv igjen');
-            loadPreferences();
-          });
+          .catch(err => alert('Kunne ikke melde deg av. Vennligst prøv igjen'));
       })
       .catch(err => console.error(err));
   }
