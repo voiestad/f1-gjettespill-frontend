@@ -36,7 +36,6 @@ function AdminBingomasters() {
             }
           })
           .then(res => {
-            alert('Bingomaster ble satt');
             loadBingomasters();
           })
           .catch(err => {
@@ -62,10 +61,7 @@ function AdminBingomasters() {
               [headerName]: token
             }
           })
-          .then(res => {
-            alert('Bingomaster ble fjernet');
-            loadBingomasters();
-          })
+          .then(res => loadBingomasters())
           .catch(err => {
             alert('Brukernavnet var feil');
             console.error(err);

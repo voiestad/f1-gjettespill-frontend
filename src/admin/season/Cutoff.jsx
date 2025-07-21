@@ -38,7 +38,7 @@ function SeasonCutoff() {
           })
           .then(res => {
             loadCutoffs();
-            alert('Den nye fristen ble lagret');
+            // alert('Den nye fristen ble lagret');
           })
           .catch(err => {
             alert('Kunne ikke lagre den nye fristen');
@@ -66,7 +66,7 @@ function SeasonCutoff() {
           })
           .then(res => {
             loadCutoffs();
-            alert('Den nye fristen ble lagret');
+            // alert('Den nye fristen ble lagret');
           })
           .catch(err => {
             alert('Kunne ikke lagre den nye fristen');

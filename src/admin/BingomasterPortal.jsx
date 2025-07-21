@@ -62,7 +62,6 @@ export function BingoMasterPortalChangeBingo() {
             }
           })
           .then(res => {
-            alert('Bingo ble lagt til');
             loadBingoCard();
           })
           .catch(err => {
@@ -91,7 +90,7 @@ export function BingoMasterPortalChangeBingo() {
             }
           })
           .then(res => {
-            alert('Rute ble lagret');
+            // alert('Rute ble lagret');
             loadBingoCard();
           })
           .catch(err => {
@@ -118,9 +117,7 @@ export function BingoMasterPortalChangeBingo() {
               [headerName]: token
             }
           })
-          .then(res => {
-            loadBingoCard();
-          })
+          .then(res => loadBingoCard())
           .catch(err => {
             alert('Kunne ikke endre markering på rute');
             console.error(err);

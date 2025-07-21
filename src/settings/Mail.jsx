@@ -55,7 +55,7 @@ function Mail() {
           }
         })
           .then(res => {
-            alert('Preferansene dine ble endret');
+            // alert('Preferansene dine ble endret');
             loadPreferences();
           })
           .catch(err => {
