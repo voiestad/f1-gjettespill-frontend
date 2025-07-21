@@ -37,8 +37,9 @@ function SeasonCutoff() {
             }
           })
           .then(res => {
-            loadCutoffs();
-            alert('Den nye fristen ble lagret');
+            const submitButton = event.target.getElementsByTagName('input')[1];
+            submitButton.value = "Lagret!";
+            setTimeout(() => submitButton.value = "Sett frist", 1000);
           })
           .catch(err => {
             alert('Kunne ikke lagre den nye fristen');
@@ -65,8 +66,9 @@ function SeasonCutoff() {
             }
           })
           .then(res => {
-            loadCutoffs();
-            alert('Den nye fristen ble lagret');
+            const submitButton = event.target.getElementsByTagName('input')[1];
+            submitButton.value = "Lagret!";
+            setTimeout(() => submitButton.value = "Sett frist", 1000);
           })
           .catch(err => {
             alert('Kunne ikke lagre den nye fristen');
@@ -84,7 +86,7 @@ function SeasonCutoff() {
         <form onSubmit={updateCutoffYear}>
           <label>{year} sesongen<br />
             <input type="datetime-local" defaultValue={yearCutoff} name="cutoff" />
-            <input type="submit" value="Sett cutoff" />
+            <input type="submit" value="Sett frist" />
           </label>
           <br /><br />
         </form>
@@ -94,7 +96,7 @@ function SeasonCutoff() {
         <form key={cutoff.id} onSubmit={e => updateRaceCutoff(e, cutoff.id)}>
           <label>{cutoff.position} {cutoff.name} {cutoff.id}<br />
             <input type="datetime-local" defaultValue={cutoff.cutoff} name="cutoff" />
-            <input type="submit" value="Sett cutoff" />
+            <input type="submit" value="Sett frist" />
           </label>
           <br /><br />
         </form>

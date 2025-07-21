@@ -62,7 +62,6 @@ export function BingoMasterPortalChangeBingo() {
             }
           })
           .then(res => {
-            alert('Bingo ble lagt til');
             loadBingoCard();
           })
           .catch(err => {
@@ -91,8 +90,9 @@ export function BingoMasterPortalChangeBingo() {
             }
           })
           .then(res => {
-            alert('Rute ble lagret');
-            loadBingoCard();
+            const submitButton = event.target.getElementsByTagName('input')[0];
+            submitButton.value = "Lagret!";
+            setTimeout(() => submitButton.value = "Sett ny tekst", 1000);
           })
           .catch(err => {
             alert('Kunne ikke endre tekst på rute');
@@ -119,7 +119,9 @@ export function BingoMasterPortalChangeBingo() {
             }
           })
           .then(res => {
-            loadBingoCard();
+            const bingoCardCopy = Array.of(... bingoCard);
+            bingoCardCopy[id].marked = !bingoCardCopy[id].marked;
+            setBingoCard(bingoCardCopy);
           })
           .catch(err => {
             alert('Kunne ikke endre markering på rute');

@@ -47,10 +47,7 @@ function ReferralCode() {
               [headerName]: token
             }
           })
-          .then(res => {
-            setReferralCode(null);
-            alert('Invitasjonkoden ble slettet');
-          })
+          .then(res => setReferralCode(null))
           .catch(err => {
             alert('Det oppstod en feil ved slettingen');
             console.error(err);
