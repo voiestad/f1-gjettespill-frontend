@@ -192,7 +192,7 @@ function getGuessPath(segments) {
     case "driver": return "Sjåførmesterskap";
     case "constructor": return "Konstruktørmesterskap";
     case "tenth": return "10.plass";
-    case "winner": return "1.plass";
+    case "first": return "1.plass";
     case "flag": return "Antall";
     default: return null;
   };
