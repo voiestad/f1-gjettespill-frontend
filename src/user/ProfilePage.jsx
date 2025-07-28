@@ -9,23 +9,23 @@ function SummaryTable(props) {
   const body = [
     {
       key: "drivers",
-      values: ["Sjåfører", summary.drivers]
+      values: [<a href="#drivers">Sjåfører</a>, summary.drivers]
     },
     {
       key: "constructors",
-      values: ["Konstruktører", summary.constructors]
+      values: [<a href="#constructors">Konstruktører</a>, summary.constructors]
     },
     {
       key: "flag",
-      values: ["Antall", summary.flag]
+      values: [<a href="#flag">Antall</a>, summary.flag]
     },
     {
       key: "winner",
-      values: ["1.plass", summary.winner]
+      values: [<a href="#winner">1.plass</a>, summary.winner]
     },
     {
       key: "tenth",
-      values: ["10.plass", summary.tenth]
+      values: [<a href="#tenth">10.plass</a>, summary.tenth]
     },
     {
       key: "total",
@@ -66,15 +66,15 @@ function FlagTable(props) {
 
 function DriverPlaceTable(props) {
   const { title, placeGuesses } = props;
-const header = ["Løp", "Gjettet", "Startet", "Plass", "Poeng"];
+  const header = ["Løp", "Gjettet", "Startet", "Plass", "Poeng"];
   const body = placeGuesses.map(row => ({
-      key: row.raceName,
-      values: [row.raceName,
-      row.driver,
-      row.startPos,
-      row.finishPos,
-      row.points]
-    }));
+    key: row.raceName,
+    values: [row.raceName,
+    row.driver,
+    row.startPos,
+    row.finishPos,
+    row.points]
+  }));
   return <Table title={title} header={header} body={body} />;
 }
 
@@ -124,11 +124,21 @@ function ProfilePage(props) {
       </form>
       <div className="tables">
         <SummaryTable summary={summary} />
-        <ChampionshipTable title="Sjåfører" compName="Sjåfør" guesses={driversGuesses} />
-        <ChampionshipTable title="Konstruktører" compName="Konstruktør" guesses={constructorsGuesses} />
-        <FlagTable flagGuesses={flagGuesses} />
-        <DriverPlaceTable title="1.plass" placeGuesses={winnerGuesses} />
-        <DriverPlaceTable title="10.plass" placeGuesses={tenthGuesses} />
+        <div id="drivers">
+          <ChampionshipTable title="Sjåfører" compName="Sjåfør" guesses={driversGuesses} />
+        </div>
+        <div id="constructors">
+          <ChampionshipTable title="Konstruktører" compName="Konstruktør" guesses={constructorsGuesses} />
+        </div>
+        <div id="flag">
+          <FlagTable flagGuesses={flagGuesses} />
+        </div>
+        <div id="winner">
+          <DriverPlaceTable title="1.plass" placeGuesses={winnerGuesses} />
+        </div>
+        <div id="tenth">
+          <DriverPlaceTable title="10.plass" placeGuesses={tenthGuesses} />
+        </div>
       </div>
     </>
   )
