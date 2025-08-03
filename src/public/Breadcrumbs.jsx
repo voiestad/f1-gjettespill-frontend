@@ -77,6 +77,7 @@ function getNameForPath(path) {
     case "stats": return getStatsPath(segments);
     case "bingo": return getBingoPath(segments);
     case "login": return "Innlogging";
+    case "github": return "GitHub";
     default: return null;
   };
 }
