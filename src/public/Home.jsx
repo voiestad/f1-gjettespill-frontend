@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect, useRef, lazy } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import { Link } from 'react-router';
 import Table from '../util/Table';
 const HomePageGraph = lazy(() => import('./HomePageGraph'));
@@ -20,38 +20,14 @@ function Home() {
   const [leaderboard, setLeaderboard] = useState(null);
   const [graph, setGraph] = useState(null);
   const [guessers, setGuessers] = useState(null);
-  const graphCache = useRef(null);
 
   useEffect(() => {
     loadContent();
     const interval = setInterval(() => {
       loadContent();
-    }, 60 * 1000);
+    }, 3 * 1000);
     return () => clearInterval(interval);
   }, []);
-
-  function isNewGraph(graphData) {
-    const currCache = graphCache.current;
-    if (!currCache ||
-      currCache.length !== graphData.length
-      || !currCache.length
-      || currCache[0].scores.length !== currCache[0].scores.length) {
-      return true;
-    }
-    for (let i = 0; i < currCache.length; i++) {
-      const cache = currCache[i];
-      const data = graphData[i];
-      if (cache.name !== data.name) {
-        return true;
-      }
-      for (let j = 0; j < cache.scores.length; j++) {
-        if (cache.scores[j] !== data.scores[j]) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
   function loadContent() {
     axios.get('/api/public/home')
@@ -63,10 +39,6 @@ function Home() {
         setLeaderboard(res.data.leaderboard);
         setGuessers(res.data.guessers);
         const graphData = res.data.graph;
-        if (!isNewGraph(graphData)) {
-          return;
-        }
-        graphCache.current = graphData;
         const xValues = graphData[0].scores.map((_, i) => i);
         const userScores = [];
         const colors = ["#f7d000", "purple", "red", "green", "blue", "orange"];
