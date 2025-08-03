@@ -25,7 +25,7 @@ function Home() {
     loadContent();
     const interval = setInterval(() => {
       loadContent();
-    }, 3 * 1000);
+    }, 20 * 1000);
     return () => clearInterval(interval);
   }, []);
 
