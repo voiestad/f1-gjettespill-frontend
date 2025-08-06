@@ -31,10 +31,11 @@ export function SeasonAdd() {
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [noRaces, setNoRaces] = useState(false);
   const navigate = useNavigate();
   function addSeason(event) {
     event.preventDefault();
-    if (!year || !start || !end) {
+    if (!year || ((!start || !end) && !noRaces)) {
       alert('Alle verdiene må være satt')
       return;
     }
@@ -85,6 +86,10 @@ export function SeasonAdd() {
             <label>Slutt<br />
               <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
                 onChange={e => setEnd(e.target.value)} />
+              <br />
+            </label>
+            <label>Uten løp<br />
+              <input type="checkbox" onChange={() => setNoRaces((noRaces) => !noRaces)} />
               <br />
             </label>
             <input type="submit" value="Legg til" onClick={addSeason} />
