@@ -69,7 +69,7 @@ function DriverPlaceTable(props) {
   const header = ["Løp", "Gjettet", "Startet", "Plass", "Poeng"];
   const body = placeGuesses.map(row => ({
     key: row.raceName,
-    values: [row.raceName,
+    values: [`${row.racePos}. ${row.raceName}`,
     row.driver,
     row.startPos,
     row.finishPos,
