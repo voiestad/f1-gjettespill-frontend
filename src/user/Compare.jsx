@@ -130,6 +130,7 @@ function DriverPlaceTable(props) {
       row.startPos1 = user1[i].startPos;
       row.driver1 = user1[i].driver;
       row.raceName = user1[i].raceName;
+      row.racePos = user1[i].racePos;
       i++;
     }
     if (set2) {
@@ -138,6 +139,7 @@ function DriverPlaceTable(props) {
       row.startPos2 = user2[j].startPos;
       row.driver2 = user2[j].driver;
       row.raceName = user2[j].raceName;
+      row.racePos = user2[i].racePos;
       j++;
     }
     placeGuesses.push(row);
@@ -149,7 +151,7 @@ function DriverPlaceTable(props) {
     row.finishPos1,
     row.startPos1,
     row.driver1,
-    row.raceName,
+    `${row.racePos}. ${row.raceName}`,
     row.driver2,
     row.startPos2,
     row.finishPos2,
