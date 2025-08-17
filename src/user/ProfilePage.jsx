@@ -5,31 +5,31 @@ import Table from '../util/Table';
 
 function SummaryTable(props) {
   const summary = props.summary
-  const header = ["Kategori", "Poeng"];
+  const header = ["Kategori", "Plassering", "Poeng"];
   const body = [
     {
       key: "drivers",
-      values: [<a href="#drivers">Sjåfører</a>, summary.drivers]
+      values: [<a href="#drivers">Sjåfører</a>, summary?.drivers.pos, summary?.drivers.value]
     },
     {
       key: "constructors",
-      values: [<a href="#constructors">Konstruktører</a>, summary.constructors]
+      values: [<a href="#constructors">Konstruktører</a>, summary?.constructors.pos, summary?.constructors.value]
     },
     {
       key: "flag",
-      values: [<a href="#flag">Antall</a>, summary.flag]
+      values: [<a href="#flag">Antall</a>, summary?.flag.pos, summary?.flag.value]
     },
     {
       key: "winner",
-      values: [<a href="#winner">1.plass</a>, summary.winner]
+      values: [<a href="#winner">1.plass</a>, summary?.winner.pos, summary?.winner.value]
     },
     {
       key: "tenth",
-      values: [<a href="#tenth">10.plass</a>, summary.tenth]
+      values: [<a href="#tenth">10.plass</a>, summary?.tenth.pos, summary?.tenth.value]
     },
     {
       key: "total",
-      values: ["Totalt", summary.total]
+      values: ["Totalt", summary?.total.pos, summary?.total.value]
     },
   ];
   return <Table title="Oppsummering" header={header} body={body} />;
@@ -42,8 +42,8 @@ function ChampionshipTable(props) {
     key: row.competitor,
     values: [row.pos,
     row.competitor,
-    row.guessed !== null ? row.guessed : 'N/A',
-    row.diff !== null ? row.diff : 'N/A',
+    row.guessed,
+    row.diff,
     row.points]
   }));
   return <Table title={title} header={header} body={body} />;
@@ -79,7 +79,8 @@ function DriverPlaceTable(props) {
 }
 
 function ProfilePage(props) {
-  const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses, summary } = props.userData
+  const { userScores, summary } = props.userData
+  const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses } = userScores;
   const { setRaceId } = props
   const [races, setRaces] = useState(null);
   const [years, setYears] = useState(null);

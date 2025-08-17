@@ -16,7 +16,7 @@ function Table(props) {
           {body.map(row =>
             <tr key={row.key}>
               {row.values.map((cell, i) =>
-                <td key={i}>{cell}</td>
+                <td key={i}>{cell != null ? cell : 'N/A'}</td>
               )}
             </tr>
           )}

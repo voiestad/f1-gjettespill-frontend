@@ -31,7 +31,7 @@ function User() {
 
       {userData ?
         <>
-          <title>{userData.user.username}</title>
+          <title>{userData.userScores.user.username}</title>
           <ProfilePage userData={userData} setRaceId={setRaceId} />
         </>
         : <title>Laster bruker...</title>}
