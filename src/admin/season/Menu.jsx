@@ -117,6 +117,7 @@ export function SeasonChooseCategory() {
         <Link to={`/admin/season/${year}/cutoff`}>Frister</Link>
         <Link to={`/admin/season/${year}/competitors`}>F1 deltakere</Link>
         <Link to={`/admin/season/${year}/points`}>Poengsystem</Link>
+        <Link to={`/admin/season/${year}/results`}>Resultater</Link>
       </div>
     </>
   )

@@ -23,5 +23,6 @@ export {
   SeasonDrivers,
   SeasonManageRaces,
   SeasonPoints,
+  SeasonResults,
   SeasonRoute
 } from './season';

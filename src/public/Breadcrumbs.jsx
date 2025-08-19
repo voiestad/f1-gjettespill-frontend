@@ -141,6 +141,7 @@ function getSeasonPath(segments) {
   switch (nextSegment.value) {
     case "competitors": return getCompetitorsPath(segments);
     case "points": return "Poengsystem";
+    case "results": return "Resultater";
     case "cutoff": return "Frister";
     case "manage": return getManagePath(segments);
     default: return null;

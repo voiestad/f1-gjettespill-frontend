@@ -18,6 +18,7 @@ import {
   SeasonDrivers,
   SeasonManageRaces,
   SeasonPoints,
+  SeasonResults,
   SeasonRoute
 } from './';
 import { StatsRace } from '../public';
@@ -100,6 +101,7 @@ function AdminRoute() {
                 <Route path="alias" element={<SeasonAlias />} />
               </Route>
               <Route path="points" element={<SeasonPoints />} />
+              <Route path="results" element={<SeasonResults />} />
             </Route>
           </Route>
         </Route>
