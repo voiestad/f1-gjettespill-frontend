@@ -4,6 +4,7 @@ import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
 import axios from 'axios';
 import UserStats from './UserStats';
 import Placements from './Placements';
+import RacePicker from './RacePicker';
 
 function User() {
   const { id } = useParams();
@@ -39,11 +40,8 @@ function User() {
     <>
       <title>{placements ? placements.username : 'Laster bruker...'}</title>
       {placements ? <Placements placements={placements} /> : ''}
-      {userData ?
-        <>
-          <UserStats userData={userData} setRaceId={setRaceId} />
-        </>
-        : ''}
+      <RacePicker setRaceId={setRaceId} />
+      {userData ? <UserStats userData={userData} /> : ''}
       {error ? error : ''}
     </>
   );

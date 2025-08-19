@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserStats from './UserStats';
 import Placements from './Placements';
+import RacePicker from './RacePicker';
 
 function MyProfile() {
   const [userData, setUserData] = useState(null);
@@ -32,9 +33,8 @@ function MyProfile() {
     <>
       <title>Min profil</title>
       {placements ? <Placements placements={placements} /> : ''}
-      {userData ?
-        <UserStats userData={userData} setRaceId={setRaceId} />
-        : ''}
+      <RacePicker setRaceId={setRaceId} />
+      {userData ? <UserStats userData={userData} /> : ''}
       {error ? <p>{error}</p> : ''}
     </>
   );

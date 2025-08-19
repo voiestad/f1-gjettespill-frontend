@@ -81,48 +81,9 @@ function DriverPlaceTable(props) {
 function UserStats(props) {
   const { userScores, summary } = props.userData;
   const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses } = userScores;
-  const { setRaceId } = props;
-  const [races, setRaces] = useState(null);
-  const [years, setYears] = useState(null);
-  function changeYear(year) {
-    axios.get(`/api/public/race/list/${year}`, {
-      params: {
-        completedOnly: true
-      }
-    })
-      .then(res => setRaces(res.data))
-      .catch(err => console.error(err));
-  }
-  useEffect(() => {
-    changeYear(y);
-    axios.get('/api/public/year/list')
-      .then(res => setYears(res.data))
-      .catch(err => console.error(err));
-  }, []);
   return (
     <>
-      <h2>{user.username} {y}</h2>
-      <form>
-        <label>Velg år:
-          <br />
-          {years ?
-            <select defaultValue={y} onChange={(e) => changeYear(e.target.value)}>
-              {years.map((year) => <option key={year} value={year}>{year}</option>)}
-            </select>
-            : ''}
-        </label>
-        <br /><br />
-        <label>Velg løp:
-          <br />
-          {races ?
-            <select defaultValue={raceId} onChange={(e) => setRaceId(e.target.value)}>
-              {races.map((race) =>
-                <option key={race.id} value={race.id}>{race.position}. {race.name}</option>
-              )}
-            </select>
-            : ''}
-        </label>
-      </form>
+      <h2>Statistikk {user.username} {y} </h2>
       <div className="tables">
         <SummaryTable summary={summary} />
         <div id="drivers">
