@@ -9,6 +9,7 @@ function User() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [raceId, setRaceId] = useState(null);
+  const [placements, setPlacements] = useState(null);
   useEffect(() => {
     axios.get(`/api/public/user/${id}`, {
       params: {
@@ -26,13 +27,21 @@ function User() {
         }
       })
   }, [raceId]);
+   useEffect(() => {
+    axios.get(`/api/public/user/placements/${id}`)
+      .then(res => setPlacements(res.data))
+      .catch(err => {
+        console.error(err);
+        setError("Du må være innlogget for å se profilen din.");
+      })
+  }, []);
   return (
     <>
 
-      {userData ?
+      {userData && placements ?
         <>
           <title>{userData.userScores.user.username}</title>
-          <ProfilePage userData={userData} setRaceId={setRaceId} />
+          <ProfilePage userData={userData} setRaceId={setRaceId} placements={placements} />
         </>
         : <title>Laster bruker...</title>}
       {error ? error : ''}
