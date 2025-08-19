@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
 import axios from 'axios';
 import ProfilePage from './ProfilePage';
+import Placements from './Placements';
 
 function User() {
   const { id } = useParams();
@@ -32,18 +33,17 @@ function User() {
       .then(res => setPlacements(res.data))
       .catch(err => {
         console.error(err);
-        setError("Du må være innlogget for å se profilen din.");
       })
   }, []);
   return (
     <>
-
-      {userData && placements ?
+      <title>{placements ? placements.username : 'Laster bruker...'}</title>
+      {placements ? <Placements placements={placements} /> : ''}
+      {userData ?
         <>
-          <title>{userData.userScores.user.username}</title>
-          <ProfilePage userData={userData} setRaceId={setRaceId} placements={placements} />
+          <ProfilePage userData={userData} setRaceId={setRaceId} />
         </>
-        : <title>Laster bruker...</title>}
+        : ''}
       {error ? error : ''}
     </>
   );

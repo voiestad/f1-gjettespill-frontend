@@ -3,20 +3,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Table from '../util/Table';
 
-function PlacementsTable(props) {
-  const { previousPlacements } = props;
-  const header = ["Plassering", "År"];
-  const body = previousPlacements.map(row => ({ key: row.value, values: [row.pos, row.value] }));
-  return <Table title="Tidligere plasseringer" header={header} body={body} />;
-}
-
-function MedalTable(props) {
-  const { medals } = props;
-  const header = ["Gull", "Sølv", "Bronse"];
-  const body = [{ key: "row", values: [medals.gold, medals.silver, medals.bronze] }]
-  return <Table title="Medaljer" header={header} body={body} />;
-}
-
 function SummaryTable(props) {
   const summary = props.summary
   const header = ["Kategori", "Plassering", "Poeng"];
@@ -95,7 +81,7 @@ function DriverPlaceTable(props) {
 function ProfilePage(props) {
   const { userScores, summary } = props.userData;
   const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses } = userScores;
-  const { setRaceId, placements } = props;
+  const { setRaceId } = props;
   const [races, setRaces] = useState(null);
   const [years, setYears] = useState(null);
   function changeYear(year) {
@@ -115,11 +101,6 @@ function ProfilePage(props) {
   }, []);
   return (
     <>
-      <h2>{user.username}</h2>
-      <div className="tables">
-        <PlacementsTable previousPlacements={placements.previousPlacements} />
-        <MedalTable medals={placements.medals} />
-      </div>
       <h2>{user.username} {y}</h2>
       <form>
         <label>Velg år:
