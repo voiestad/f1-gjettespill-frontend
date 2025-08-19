@@ -78,7 +78,7 @@ function DriverPlaceTable(props) {
   return <Table title={title} header={header} body={body} />;
 }
 
-function ProfilePage(props) {
+function UserStats(props) {
   const { userScores, summary } = props.userData;
   const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses } = userScores;
   const { setRaceId } = props;
@@ -145,4 +145,4 @@ function ProfilePage(props) {
   )
 }
 
-export default ProfilePage
+export default UserStats

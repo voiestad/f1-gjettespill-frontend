@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
 import axios from 'axios';
-import ProfilePage from './ProfilePage';
+import UserStats from './UserStats';
 import Placements from './Placements';
 
 function User() {
@@ -41,7 +41,7 @@ function User() {
       {placements ? <Placements placements={placements} /> : ''}
       {userData ?
         <>
-          <ProfilePage userData={userData} setRaceId={setRaceId} />
+          <UserStats userData={userData} setRaceId={setRaceId} />
         </>
         : ''}
       {error ? error : ''}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProfilePage from './ProfilePage';
+import UserStats from './UserStats';
 import Placements from './Placements';
 
 function MyProfile() {
@@ -33,7 +33,7 @@ function MyProfile() {
       <title>Min profil</title>
       {placements ? <Placements placements={placements} /> : ''}
       {userData ?
-        <ProfilePage userData={userData} setRaceId={setRaceId} />
+        <UserStats userData={userData} setRaceId={setRaceId} />
         : ''}
       {error ? <p>{error}</p> : ''}
     </>
