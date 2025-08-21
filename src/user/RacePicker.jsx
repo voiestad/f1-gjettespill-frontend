@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 function RacePicker(props) {
-  const { raceId, setRaceId } = props;
+  const { setYear, raceId, setRaceId } = props;
   const [races, setRaces] = useState(null);
   const [years, setYears] = useState(null);
 
   function changeYear(year) {
+    setYear(year);
     axios.get(`/api/public/race/list/${year}`, {
       params: {
         completedOnly: true

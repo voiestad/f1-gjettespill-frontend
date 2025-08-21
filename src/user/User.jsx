@@ -11,15 +11,13 @@ function User() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [raceId, setRaceId] = useState(null);
+  const [year, setYear] = useState(null);
   const [placements, setPlacements] = useState(null);
   useEffect(() => {
-    if (raceId == null) {
-      setUserData(null);
-      return;
-    }
     axios.get(`/api/public/user/${id}`, {
       params: {
-        raceId: raceId
+        raceId: raceId,
+        year: year
       }
     })
       .then(res => setUserData(res.data))
@@ -44,7 +42,7 @@ function User() {
     <>
       <title>{placements ? placements.username : 'Laster bruker...'}</title>
       {placements ? <Placements placements={placements} /> : ''}
-      <RacePicker setRaceId={setRaceId} raceId={raceId} />
+      <RacePicker setRaceId={setRaceId} raceId={raceId} setYear={setYear} />
       {userData ? <UserStats userData={userData} /> : ''}
       {error ? error : ''}
     </>
