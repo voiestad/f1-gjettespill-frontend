@@ -30,7 +30,7 @@ function User() {
           console.error(err);
         }
       })
-  }, [raceId]);
+  }, [raceId, year]);
    useEffect(() => {
     axios.get(`/api/public/user/placements/${id}`)
       .then(res => setPlacements(res.data))
