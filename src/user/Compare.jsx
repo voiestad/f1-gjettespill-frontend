@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { translateFlag } from '../util/translator';
 import Table from '../util/Table';
+import RacePicker from './RacePicker';
 
 function SummaryTable(props) {
   const { user1, user2 } = props;
@@ -139,7 +140,7 @@ function DriverPlaceTable(props) {
       row.startPos2 = user2[j].startPos;
       row.driver2 = user2[j].driver;
       row.raceName = user2[j].raceName;
-      row.racePos = user2[i].racePos;
+      row.racePos = user2[j].racePos;
       j++;
     }
     placeGuesses.push(row);
@@ -161,38 +162,28 @@ function DriverPlaceTable(props) {
 }
 
 function Compare() {
-  const [years, setYears] = useState(null);
   const [users, setUsers] = useState(null);
+  const [raceId, setRaceId] = useState(null);
+  const [year, setYear] = useState(null);
 
-  const [selectedYear, setSelectedYear] = useState(null);
   const [user1, setUser1] = useState(null);
   const [user2, setUser2] = useState(null);
 
   const [userGuesses, setUserGuesses] = useState(null);
 
-  const cacheRef = useRef({});
-
   useEffect(() => {
-    axios.get('/api/public/year/list')
-      .then(res => {
-        setYears(res.data);
-        if (res.data.length > 0) {
-          setSelectedYear(res.data[0]);
-        }
-      })
-      .catch(err => console.error(err));
     axios.get('/api/public/user/list')
       .then(res => setUsers(res.data))
       .catch(err => console.error(err));
   }, []);
 
   async function loadUser(id) {
-    const cache = cacheRef.current;
-    if (cache[id]) {
-      return cache[id];
-    }
-    let res = await axios.get(`/api/public/user/${id}`);
-    cache[id] = res.data;
+    let res = await axios.get(`/api/public/user/${id}`, {
+      params: {
+        raceId: raceId,
+        year: year
+      }
+    });
     return res.data;
   }
 
@@ -207,11 +198,11 @@ function Compare() {
   }
 
   useEffect(() => {
-    if (selectedYear == null || user1 == null || user2 == null) {
+    if (user1 == null || user2 == null) {
       return;
     }
     loadData();
-  }, [selectedYear, user1, user2]);
+  }, [raceId, year, user1, user2]);
 
   function getUserFromId(id) {
     if (id === '') {
@@ -229,18 +220,9 @@ function Compare() {
     <>
       <title>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</title>
       <h2>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</h2>
+      <RacePicker setRaceId={setRaceId} raceId={raceId} setYear={setYear} />
       <form>
-        <label>Velg år:
-          <br />
-          {years ?
-            <select onChange={e => setSelectedYear(e.target.value)}>
-              {years.map((year) =>
-                <option key={year} value={year}>{year}</option>
-              )}
-            </select>
-            : ''}
-        </label>
-        <br /><br />
+        <br />
         <label>Velg brukere:
           <br />
           {users ?

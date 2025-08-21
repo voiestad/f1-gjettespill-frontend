@@ -2,17 +2,21 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 function RacePicker(props) {
-  const { setRaceId } = props;
+  const { setYear, raceId, setRaceId } = props;
   const [races, setRaces] = useState(null);
   const [years, setYears] = useState(null);
 
   function changeYear(year) {
+    setYear(year);
     axios.get(`/api/public/race/list/${year}`, {
       params: {
         completedOnly: true
       }
     })
-      .then(res => setRaces(res.data))
+      .then(res => {
+        setRaces(res.data)
+        setRaceId(res.data[res.data.length - 1]?.id);
+      })
       .catch(err => console.error(err));
   }
 
@@ -20,7 +24,7 @@ function RacePicker(props) {
     axios.get('/api/public/year/list')
       .then(res => {
         setYears(res.data);
-        if (res.data) {
+        if (res.data.length) {
           changeYear(res.data[0]);
         }
       })
@@ -41,7 +45,7 @@ function RacePicker(props) {
       <label>Velg løp:
         <br />
         {races ?
-          <select defaultValue={races[races.length - 1].id} onChange={(e) => setRaceId(e.target.value)}>
+          <select value={raceId} onChange={(e) => setRaceId(e.target.value)}>
             {races.map((race) =>
               <option key={race.id} value={race.id}>{race.position}. {race.name}</option>
             )}
