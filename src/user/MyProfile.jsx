@@ -22,7 +22,7 @@ function MyProfile() {
         console.error(err);
         setError("Du må være innlogget for å se profilen din.");
       })
-  }, [raceId]);
+  }, [raceId, year]);
   useEffect(() => {
     axios.get('/api/user/my-placements')
       .then(res => setPlacements(res.data))
