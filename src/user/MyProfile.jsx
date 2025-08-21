@@ -10,6 +10,10 @@ function MyProfile() {
   const [raceId, setRaceId] = useState(null);
   const [placements, setPlacements] = useState(null);
   useEffect(() => {
+    if (raceId == null) {
+      setUserData(null);
+      return;
+    }
     axios.get('/api/user/my-profile', {
       params: {
         raceId: raceId
@@ -33,7 +37,7 @@ function MyProfile() {
     <>
       <title>Min profil</title>
       {placements ? <Placements placements={placements} /> : ''}
-      <RacePicker setRaceId={setRaceId} />
+      <RacePicker setRaceId={setRaceId} raceId={raceId} />
       {userData ? <UserStats userData={userData} /> : ''}
       {error ? <p>{error}</p> : ''}
     </>
