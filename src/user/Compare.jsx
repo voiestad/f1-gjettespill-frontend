@@ -5,31 +5,31 @@ import Table from '../util/Table';
 
 function SummaryTable(props) {
   const { user1, user2 } = props;
-  const header = ["Poeng", "Kategori", "Poeng"];
+  const header = ["Poeng", "Plassering", "Kategori", "Plassering", "Poeng"];
   const body = [
     {
       key: "drivers",
-      values: [user1.drivers, "Sjåfører", user2.drivers]
+      values: [user1?.drivers.value, user1?.drivers.pos, "Sjåfører", user2?.drivers.pos, user2?.drivers.value]
     },
     {
       key: "constructors",
-      values: [user1.constructors, "Konstruktører", user2.constructors]
+      values: [user1?.constructors.value, user1?.constructors.pos, "Konstruktører", user2?.constructors.pos, user2?.constructors.value]
     },
     {
       key: "flag",
-      values: [user1.flag, "Antall", user2.flag]
+      values: [user1?.flag.value, user1?.flag.pos, "Antall", user2?.flag.pos, user2?.flag.value]
     },
     {
       key: "winner",
-      values: [user1.winner, "1.plass", user2.winner]
+      values: [user1?.winner.value, user1?.winner.pos, "1.plass", user2?.winner.pos, user2?.winner.value]
     },
     {
       key: "tenth",
-      values: [user1.tenth, "10.plass", user2.tenth]
+      values: [user1?.tenth.value, user1?.tenth.pos, "10.plass", user2?.tenth.pos, user2?.tenth.value]
     },
     {
       key: "total",
-      values: [user1.total, "Totalt", user2.total]
+      values: [user1?.total.value, user1?.total.pos, "Totalt", user2?.total.pos, user2?.total.value]
     },
   ];
   return <Table title="Oppsummering" header={header} body={body} />;
@@ -41,10 +41,10 @@ function ChampionshipTable(props) {
   const body = user1.map((row, i) => ({
     key: row.competitor,
     values: [row.points,
-    row.guessed !== null ? row.guessed : 'N/A',
+    row.guessed,
     row.pos,
     row.competitor,
-    user2[i].guessed !== null ? user2[i].guessed : 'N/A',
+    user2[i].guessed,
     user2[i].points]
   }));
   return <Table title={title} header={header} body={body} />;
@@ -58,7 +58,7 @@ function FlagTable(props) {
     if (user1.length > user2.length) {
       for (let row of user1) {
         user2.push({
-          guessed: 'N/A',
+          guessed: null,
           points: 0,
           actual: row.actual,
           flag: row.flag
@@ -67,7 +67,7 @@ function FlagTable(props) {
     } else {
       for (let row of user2) {
         user1.push({
-          guessed: 'N/A',
+          guessed: null,
           points: 0,
           actual: row.actual,
           flag: row.flag
@@ -101,12 +101,12 @@ function DriverPlaceTable(props) {
     const row = {
       points1: 0,
       points2: 0,
-      finishPos1: 'N/A',
-      finishPos2: 'N/A',
-      startPos1: 'N/A',
-      startPos2: 'N/A',
-      driver1: 'N/A',
-      driver2: 'N/A',
+      finishPos1: null,
+      finishPos2: null,
+      startPos1: null,
+      startPos2: null,
+      driver1: null,
+      driver2: null,
     };
     let set1 = false;
     let set2 = false;
@@ -130,6 +130,7 @@ function DriverPlaceTable(props) {
       row.startPos1 = user1[i].startPos;
       row.driver1 = user1[i].driver;
       row.raceName = user1[i].raceName;
+      row.racePos = user1[i].racePos;
       i++;
     }
     if (set2) {
@@ -138,6 +139,7 @@ function DriverPlaceTable(props) {
       row.startPos2 = user2[j].startPos;
       row.driver2 = user2[j].driver;
       row.raceName = user2[j].raceName;
+      row.racePos = user2[i].racePos;
       j++;
     }
     placeGuesses.push(row);
@@ -149,7 +151,7 @@ function DriverPlaceTable(props) {
     row.finishPos1,
     row.startPos1,
     row.driver1,
-    row.raceName,
+    `${row.racePos}. ${row.raceName}`,
     row.driver2,
     row.startPos2,
     row.finishPos2,
@@ -264,15 +266,15 @@ function Compare() {
       {userGuesses ?
         <div className="tables big-tables">
           <SummaryTable user1={userGuesses.user1.summary} user2={userGuesses.user2.summary} />
-          <ChampionshipTable title="Sjåfører" compName="Sjåfør" user1={userGuesses.user1.driversGuesses}
-            user2={userGuesses.user2.driversGuesses} />
-          <ChampionshipTable title="Konstruktører" compName="Konstruktør" user1={userGuesses.user1.constructorsGuesses}
-            user2={userGuesses.user2.constructorsGuesses} />
-          <FlagTable user1={userGuesses.user1.flagGuesses} user2={userGuesses.user2.flagGuesses} />
-          <DriverPlaceTable title="1.plass" user1={userGuesses.user1.winnerGuesses}
-            user2={userGuesses.user2.winnerGuesses} />
-          <DriverPlaceTable title="10.plass" user1={userGuesses.user1.tenthGuesses}
-            user2={userGuesses.user2.tenthGuesses} />
+          <ChampionshipTable title="Sjåfører" compName="Sjåfør" user1={userGuesses.user1.userScores.driversGuesses}
+            user2={userGuesses.user2.userScores.driversGuesses} />
+          <ChampionshipTable title="Konstruktører" compName="Konstruktør" user1={userGuesses.user1.userScores.constructorsGuesses}
+            user2={userGuesses.user2.userScores.constructorsGuesses} />
+          <FlagTable user1={userGuesses.user1.userScores.flagGuesses} user2={userGuesses.user2.userScores.flagGuesses} />
+          <DriverPlaceTable title="1.plass" user1={userGuesses.user1.userScores.winnerGuesses}
+            user2={userGuesses.user2.userScores.winnerGuesses} />
+          <DriverPlaceTable title="10.plass" user1={userGuesses.user1.userScores.tenthGuesses}
+            user2={userGuesses.user2.userScores.tenthGuesses} />
         </div>
         : ''}
     </>

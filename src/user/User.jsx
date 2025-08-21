@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
 import axios from 'axios';
-import ProfilePage from './ProfilePage';
+import UserStats from './UserStats';
+import Placements from './Placements';
+import RacePicker from './RacePicker';
 
 function User() {
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [raceId, setRaceId] = useState(null);
+  const [placements, setPlacements] = useState(null);
   useEffect(() => {
     axios.get(`/api/public/user/${id}`, {
       params: {
@@ -26,15 +29,19 @@ function User() {
         }
       })
   }, [raceId]);
+   useEffect(() => {
+    axios.get(`/api/public/user/placements/${id}`)
+      .then(res => setPlacements(res.data))
+      .catch(err => {
+        console.error(err);
+      })
+  }, []);
   return (
     <>
-
-      {userData ?
-        <>
-          <title>{userData.user.username}</title>
-          <ProfilePage userData={userData} setRaceId={setRaceId} />
-        </>
-        : <title>Laster bruker...</title>}
+      <title>{placements ? placements.username : 'Laster bruker...'}</title>
+      {placements ? <Placements placements={placements} /> : ''}
+      <RacePicker setRaceId={setRaceId} />
+      {userData ? <UserStats userData={userData} /> : ''}
       {error ? error : ''}
     </>
   );

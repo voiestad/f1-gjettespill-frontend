@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProfilePage from './ProfilePage';
+import UserStats from './UserStats';
+import Placements from './Placements';
+import RacePicker from './RacePicker';
 
 function MyProfile() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [raceId, setRaceId] = useState(null);
+  const [placements, setPlacements] = useState(null);
   useEffect(() => {
-    axios.get('/api/user/myprofile', {
+    axios.get('/api/user/my-profile', {
       params: {
         raceId: raceId
       }
@@ -18,12 +21,20 @@ function MyProfile() {
         setError("Du må være innlogget for å se profilen din.");
       })
   }, [raceId]);
+  useEffect(() => {
+    axios.get('/api/user/my-placements')
+      .then(res => setPlacements(res.data))
+      .catch(err => {
+        console.error(err);
+        setError("Du må være innlogget for å se profilen din.");
+      })
+  }, []);
   return (
     <>
       <title>Min profil</title>
-      {userData ?
-        <ProfilePage userData={userData} setRaceId={setRaceId} />
-        : ''}
+      {placements ? <Placements placements={placements} /> : ''}
+      <RacePicker setRaceId={setRaceId} />
+      {userData ? <UserStats userData={userData} /> : ''}
       {error ? <p>{error}</p> : ''}
     </>
   );

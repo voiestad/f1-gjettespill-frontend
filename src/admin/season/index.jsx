@@ -5,6 +5,7 @@ export {
   SeasonChooseCategory,
   SeasonRoute
 } from './Menu';
+export { default as SeasonResults } from './Results';
 export { default as SeasonManageRaces } from './Manage';
 export { default as SeasonPoints } from './Points';
 export {
