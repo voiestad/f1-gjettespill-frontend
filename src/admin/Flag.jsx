@@ -55,6 +55,7 @@ export function FlagRegister() {
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedFlag, setSelectedFlag] = useState(null);
   const [selectedRound, setSelectedRound] = useState(1);
+  const [addText, setAddText] = useState("Legg til");
 
   function deleteFlag(event, id) {
     event.preventDefault();
@@ -108,6 +109,8 @@ export function FlagRegister() {
             }
           })
           .then(res => {
+            setAddText("Lagret!");
+            setTimeout(() => setAddText("Legg til"), 1000);
             loadFlags();
           })
           .catch(err => {
@@ -167,7 +170,7 @@ export function FlagRegister() {
             {selectedRound}
             <br />
           </label>
-          <input type="submit" value="Legg til" onClick={registerFlag} />
+          <input type="submit" value={addText} onClick={registerFlag} />
           <br /><br />
         </form>
         : ''}
