@@ -165,6 +165,10 @@ function DropdownMenu(props) {
           }
           <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
           {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : ''}
+          {headerState && headerState.isAdmin && headerState.ongoingRace ?
+            <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`}>
+              Registrer flagg
+            </Link> : ''}
           {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login">Logg inn</Link> : ''}
         </div>
       </div>
