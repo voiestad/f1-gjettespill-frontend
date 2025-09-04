@@ -38,7 +38,7 @@ function RankingConstructors() {
           paramsSerializer: (params => qs.stringify(params, { arrayFormat: 'repeat' }))
         })
           .then(res => {
-            alert('Tippingen din ble lagret');
+            alert('Gjetningen din ble lagret');
             navigate('/guess');
           })
           .catch(err => console.error(err));

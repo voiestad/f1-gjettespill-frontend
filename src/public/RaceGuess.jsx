@@ -5,7 +5,7 @@ import Table from '../util/Table';
 
 function GuessesTable(props) {
   const { title, guesses } = props;
-  const header = ["Navn", "Tippet", "Startet"];
+  const header = ["Navn", "Gjettet", "Startet"];
   const body = guesses.map((row) => ({
     key: row.user,
     values: [row.user, row.driver, row.position]
@@ -40,7 +40,7 @@ function RaceGuess() {
             <GuessesTable guesses={guesses.tenth} title="10.plass" />
           </div>
         </>
-        : <title>Tippet på løp</title>}
+        : <title>Gjettet på løp</title>}
       {error ? error : ''}
     </>
   )

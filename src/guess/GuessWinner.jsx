@@ -35,7 +35,7 @@ function GuessWinner() {
           }
         })
           .then(res => {
-            alert('Tippingen din ble lagret');
+            alert('Gjetningen din ble lagret');
             navigate('/guess');
           })
           .catch(err => console.error(err));
@@ -45,10 +45,10 @@ function GuessWinner() {
 
   return (
     <>
-      <title>Tipp vinner</title>
+      <title>Gjett vinner</title>
       {data ?
         <>
-          <h2>Tipp vinneren i {data.race.name}</h2>
+          <h2>Gjett vinneren i {data.race.name}</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
         </>

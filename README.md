@@ -1,7 +1,7 @@
-# F1 Tipping - Frontend
-F1 Tipping er en tippeside der deltakerne tipper på sluttresultatene av Formel 1 sesongen. I tillegg tippes det på hvem som kommer på første- og tiendeplass i hvert løp gjennom året.
+# F1 Gjettespill - Frontend
+F1 Gjettespill går ut på at deltakerne gjetter på sluttresultatene av Formel 1 sesongen. I tillegg gjettes det på hvem som kommer på første- og tiendeplass i hvert løp gjennom året. Deretter blir det beregnet poeng utfra hvor nærme gjetningen var det faktiske resultatet. Vinneren for året er den som har flest poeng når sesongen er over.
 
-Dette repoet er koden for frontenden til nettsiden. Koden for backenden ligger [her](https://github.com/Vebb02/f1-backend).
+Dette repoet er koden for frontenden til nettsiden. Koden for backenden ligger [her](https://github.com/voiestad/f1-gjettespill-backend).
 
 ## Oversikt
 1. [Utvikler](#utvikler)

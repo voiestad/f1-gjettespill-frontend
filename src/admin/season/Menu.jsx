@@ -133,7 +133,7 @@ export function SeasonRoute() {
         if (res.data.indexOf(parseInt(year)) == -1) {
           setContent(
             <>
-              <title>F1 Tipping</title>
+              <title>F1 Gjettespill</title>
               <ErrorNotFound />
             </>
           );
@@ -145,7 +145,7 @@ export function SeasonRoute() {
         console.error(err);
         setContent(
           <>
-            <title>F1 Tipping</title>
+            <title>F1 Gjettespill</title>
             <ErrorUnknown />
           </>
         );

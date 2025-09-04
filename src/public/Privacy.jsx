@@ -7,7 +7,7 @@ function Privacy() {
       <h2>Personvernerklæring</h2>
       <div className="paragraph">
         <p>
-          Dette er en personvernerklæring for F1 Tipping og gjelder for <Link to="/">f1.voiestad.no</Link>. Nettsiden
+          Dette er en personvernerklæring for F1 Gjettespill og gjelder for <Link to="/">f1gjettespill.no</Link>. Nettsiden
           styres av Vebjørn Øiestad og alle spørsmål angående nettsiden kan sendes inn via kontaktskjemaet <Link to="/contact">her</Link>.
         </p>
         <h3>Personopplysninger som samles inn</h3>
@@ -15,7 +15,7 @@ function Privacy() {
         <p>
           Google OpenID<br /><br />
           Brukernavn<br /><br />
-          Tipping<br /><br />
+          Gjetning<br /><br />
         </p>
         <h4>Valgfritt</h4>
         <p>
@@ -39,10 +39,10 @@ function Privacy() {
           påminnelser på riktig tidspunkt. I tillegg lagres det også hvor mange ganger en påminnelse blir sendt ut
           for hvert løp for å sende riktig antall påminnelser.
         </p>
-        <h4>Tippedata</h4>
+        <h4>Gjettedata</h4>
         <p>
-          Tippedataen blir brukt til å regne ut en poengsum som blir brukt å rangere deltakerne etter hvor bra de
-          har tippet for å avgjøre vinneren hvert år.
+          Gjettedataen blir brukt til å regne ut en poengsum som blir brukt å rangere deltakerne etter hvor bra de
+          har gjettet for å avgjøre vinneren hvert år.
         </p>
         <h4>Tredjeparter</h4>
         <p>
@@ -71,7 +71,7 @@ function Privacy() {
         <h4>Rett til sletting</h4>
         <p>
           Brukeren din kan når som helst slettes <Link to="/settings/delete">her</Link>. Da vil e-post bli fjernet,
-          brukernavn anonymisert og OpenID fjernet. All tippedataen vil forbli lagret for å bevare integriteten
+          brukernavn anonymisert og OpenID fjernet. All gjettedataen vil forbli lagret for å bevare integriteten
           av statistikken, men dataen vil ikke lengre være tilknyttet dine personopplysinger på noe som helst vis.
         </p>
         <h4>Rett til å klage</h4>

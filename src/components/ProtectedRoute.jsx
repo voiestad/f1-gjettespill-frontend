@@ -12,14 +12,14 @@ function ProtectedRoute() {
         if (res.data === "NO_USERNAME") {
           setContent(
             <>
-              <title>F1 Tipping</title>
+              <title>F1 Gjettespill</title>
               <ErrorNoUsername />
             </>
           );
         } else if (res.data === "LOGGED_OUT") {
           setContent(
             <>
-              <title>F1 Tipping</title>
+              <title>F1 Gjettespill</title>
               <ErrorNotLoggedIn />
             </>
           );
@@ -31,7 +31,7 @@ function ProtectedRoute() {
         console.error(err);
         setContent(
           <>
-            <title>F1 Tipping</title>
+            <title>F1 Gjettespill</title>
             <ErrorUnknown />
           </>
         );

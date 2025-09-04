@@ -65,7 +65,7 @@ function getNameForPath(path) {
   switch (segment.value) {
     case "admin": return getAdminPath(segments);
     case "user": return getUserPath(segments);
-    case "race-guess": return "Tippet på løp";
+    case "race-guess": return "Gjettet på løp";
     case "score": return "Poengberegning";
     case "contact": return "Kontakt";
     case "about": return "Om siden";
@@ -188,7 +188,7 @@ function getUserPath(segments) {
 function getGuessPath(segments) {
   const segment = segments.next();
   if (segment.done) {
-    return "Tipping";
+    return "Gjett";
   }
   switch (segment.value) {
     case "driver": return "Sjåførmesterskap";

@@ -17,10 +17,10 @@ function GuessChooseCategory() {
 
   return (
     <>
-      <title>Tipping - Velg kategori</title>
+      <title>Gjett - Velg kategori</title>
       {categories && categories.length > 0 ?
         <>
-          <h2>Tipping - Velg kategori</h2>
+          <h2>Gjett - Velg kategori</h2>
           <div className="linkList">
             {categories.map(category =>
               <Link key={category} to={`/guess/${category.toLowerCase()}`}>{translateCategory(category)}</Link>

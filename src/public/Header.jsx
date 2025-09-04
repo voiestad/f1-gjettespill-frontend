@@ -8,7 +8,7 @@ function Logo() {
   return (
     <>
       <Link id="logo" to="/">
-        <h1>F1 Tipping</h1>
+        <h1>F1 Gjettespill</h1>
       </Link>
     </>
   )
@@ -144,8 +144,8 @@ function DropdownMenu(props) {
           ref={linksRef}
           style={{ maxHeight: '0px' }}
         >
-          {headerState && headerState.isAbleToGuess ? <Link to="/guess">Tipp</Link> : ''}
-          {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Tippet på løp</Link> : ''}
+          {headerState && headerState.isAbleToGuess ? <Link to="/guess">Gjett</Link> : ''}
+          {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Gjettet på løp</Link> : ''}
           <DropdownSection category="Resultater" linksRef={linksRef}>
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>
