@@ -62,8 +62,8 @@ function Home() {
 
   return (
     <>
-      <title>F1 Tipping</title>
-      <h2>F1 Tipping hjemskjerm!</h2>
+      <title>F1 Gjettespill</title>
+      <h2>Velkommen til F1 Gjettespill!</h2>
       {message ?
         <h3>{message}</h3>
         : ''}

@@ -10,27 +10,27 @@ function ChampionshipTable(props) {
     key: `${row.year}-${row.competitor}`,
     values: [row.position, row.competitor, row.year]
   }));
-  return <Table title={`Tippet ${competitorName.toLowerCase()}`} header={header} body={body} />;
+  return <Table title={`Gjettet ${competitorName.toLowerCase()}`} header={header} body={body} />;
 }
 
 function FlagTable(props) {
-  const header = ["Type", "Tippet", "År"];
+  const header = ["Type", "Gjettet", "År"];
   const body = props.flags
     .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
     .map((row) => ({
       key: `${row.year}-${row.flag}`,
       values: [translateFlag(row.flag), row.guessed, row.year]
     }));
-  return <Table title="Tippet antall" header={header} body={body} />;
+  return <Table title="Gjettet antall" header={header} body={body} />;
 }
 
 function PlaceGuessTable(props) {
-  const header = ["Type", "Tippet", "Løp", "År"];
+  const header = ["Type", "Gjettet", "Løp", "År"];
   const body = props.placeGuess.map((row) => ({
     key: `${row.year}-${row.category}-${row.raceName}`,
     values: [translateCategory(row.category), row.driver, row.raceName, row.year]
   }));
-  return <Table title="Tippet løp" header={header} body={body} />;
+  return <Table title="Gjettet løp" header={header} body={body} />;
 }
 
 function NotifiedTable(props) {

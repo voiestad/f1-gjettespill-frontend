@@ -28,7 +28,7 @@ function FlagSliders(props) {
           }
         })
           .then(res => {
-            alert('Tippingen din ble lagret');
+            alert('Gjetningen din ble lagret');
             navigate('/guess');
           })
           .catch(err => console.error(err));
@@ -77,10 +77,10 @@ function GuessFlags() {
 
   return (
     <>
-      <title>Tipp antall</title>
+      <title>Gjett antall</title>
       {data ?
         <>
-          <h2>Tipp antall</h2>
+          <h2>Gjett antall</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <FlagSliders flags={data.flags} />
         </>

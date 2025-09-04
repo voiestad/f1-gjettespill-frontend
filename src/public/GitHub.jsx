@@ -6,8 +6,8 @@ function GitHub() {
       <title>GitHub</title>
       <h2>GitHub</h2>
       <div className="linkList">
-        <Link to="https://github.com/voiestad/f1-backend">Backend</Link>
-        <Link to="https://github.com/voiestad/f1-frontend">Frontend</Link>
+        <Link to="https://github.com/voiestad/f1-gjettespill-backend">Backend</Link>
+        <Link to="https://github.com/voiestad/f1-gjettespill-frontend">Frontend</Link>
       </div>
     </>
   )

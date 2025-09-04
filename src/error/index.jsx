@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router';
 export function ErrorGuessingNotAvailableYet() {
   return (
     <>
-      <h2>Tippingen er snart tilgjenglig...</h2>
+      <h2>Gjetningene er snart tilgjenglig...</h2>
       <Link to="/">Tilbake til hjem</Link>
     </>
   )
@@ -12,7 +12,7 @@ export function ErrorGuessingNotAvailableYet() {
 export function ErrorGuessNotAllowedYet() {
   return (
     <>
-      <h2>Det vil snart være mulig å tippe...</h2>
+      <h2>Det vil snart være mulig å gjette...</h2>
       <Link to="/">Tilbake til hjem</Link>
     </>
   )

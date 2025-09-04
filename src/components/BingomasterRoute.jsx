@@ -12,7 +12,7 @@ function BingomasterRoute() {
         if (!res.data) {
           setContent(
             <>
-              <title>F1 Tipping</title>
+              <title>F1 Gjettespill</title>
               <ErrorNotAdmin />
             </>
           );
@@ -24,7 +24,7 @@ function BingomasterRoute() {
         console.error(err);
         setContent(
           <>
-            <title>F1 Tipping</title>
+            <title>F1 Gjettespill</title>
             <ErrorUnknown />
           </>
         );

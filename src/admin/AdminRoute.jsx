@@ -36,7 +36,7 @@ function AdminProtectRoute() {
         if (!res.data.isAdmin) {
           setContent(
             <>
-              <title>F1 Tipping</title>
+              <title>F1 Gjettespill</title>
               <ErrorNotAdmin />
             </>
           );
@@ -48,7 +48,7 @@ function AdminProtectRoute() {
         console.error(err);
         setContent(
           <>
-            <title>F1 Tipping</title>
+            <title>F1 Gjettespill</title>
             <ErrorUnknown />
           </>
         );

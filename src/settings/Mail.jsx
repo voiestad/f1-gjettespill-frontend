@@ -113,7 +113,7 @@ function Mail() {
           <form>
             <div className="paragraph">
               <p>
-                Ved å melde deg på for å få påminnelser vil du få en e-post hvis du fremdeles ikke har tippet 1,
+                Ved å melde deg på for å få påminnelser vil du få en e-post hvis du fremdeles ikke har gjettet 1,
                 2, 3, 6, 12 og/eller 24 timer før hvert løp etter hva du selv velger. Du kan når som helst endre
                 tidspunktene du får påminnelse på, eller melde deg helt av.
               </p>
