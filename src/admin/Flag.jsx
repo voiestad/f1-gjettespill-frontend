@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router';
 import axios from 'axios';
+import { translateFlag, translateSession } from '../util/translator';
 
 export function FlagChooseYear() {
   const [years, setYears] = useState(null);
@@ -147,7 +148,7 @@ export function FlagRegister() {
         <form>
           <select onChange={e => setSelectedSession(e.target.value)}>
             {sessionTypes.map(session =>
-              <option key={session} value={session}>{session}</option>
+              <option key={session} value={session}>{translateSession(session)}</option>
             )}
           </select>
           <br /><br />
@@ -157,7 +158,7 @@ export function FlagRegister() {
                 <label key={type}>
                   <input type="radio" checked={type === selectedFlag}
                     onChange={e => setSelectedFlag(type)} required />
-                  {type}
+                  {translateFlag(type)}
                   <br />
                 </label>
               ) : ''}
@@ -178,7 +179,7 @@ export function FlagRegister() {
       {flags ?
         flags.map(flag =>
           <form key={flag.id}>
-            <span>{flag.type}</span> <span>{flag.round}</span> <span>{flag.sessionType}</span>
+            <span>{translateFlag(flag.type)}</span> - <span>Runde: {flag.round}</span> - <span>{translateSession(flag.sessionType)}</span>
             <input type="submit" value="&#128465;" onClick={e => deleteFlag(e, flag.id)} />
           </form>
         ) : ''}

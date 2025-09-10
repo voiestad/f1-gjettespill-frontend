@@ -3,6 +3,9 @@ export function translateFlag(flag) {
 		case "Red Flag" : return "Rødt flagg";
 		case "Yellow Flag" : return "Gult flagg";
 		case "Safety Car" : return "Sikkerhetsbil";
+		case "RED_FLAG" : return "Rødt flagg";
+		case "YELLOW_FLAG" : return "Gult flagg";
+		case "SAFETY_CAR" : return "Sikkerhetsbil";
 	}
 }
 
