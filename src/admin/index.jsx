@@ -14,7 +14,6 @@ export {
 } from './Logging';
 export {
   SeasonAdd,
-  SeasonAlias,
   SeasonChooseCategory,
   SeasonChooseYear,
   SeasonCompetitors,

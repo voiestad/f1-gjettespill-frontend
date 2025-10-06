@@ -9,7 +9,6 @@ import {
   LogChooseDate,
   LogView,
   SeasonAdd,
-  SeasonAlias,
   SeasonChooseCategory,
   SeasonChooseYear,
   SeasonCompetitors,
@@ -98,7 +97,6 @@ function AdminRoute() {
                 <Route index element={<SeasonCompetitors />} />
                 <Route path="constructors" element={<SeasonConstructors />} />
                 <Route path="drivers" element={<SeasonDrivers />} />
-                <Route path="alias" element={<SeasonAlias />} />
               </Route>
               <Route path="points" element={<SeasonPoints />} />
               <Route path="results" element={<SeasonResults />} />

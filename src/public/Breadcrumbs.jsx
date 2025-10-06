@@ -156,7 +156,6 @@ function getCompetitorsPath(segments) {
   switch (segment.value) {
     case "constructors": return "Konstruktører";
     case "drivers": return "Sjåfører";
-    case "alias": return "Alternative navn";
     default: return null;
   };
 }
