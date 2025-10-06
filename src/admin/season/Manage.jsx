@@ -60,7 +60,6 @@ function SeasonManageRaces() {
         axios.post('/api/admin/season/manage/move', {},
           {
             params: {
-              year: year,
               id: selectedRace,
               newPosition: newPos
             },
@@ -125,8 +124,7 @@ function SeasonManageRaces() {
         axios.post('/api/admin/season/manage/delete', {},
           {
             params: {
-              id: selectedRace,
-              year: year
+              id: selectedRace
             },
             headers: {
               [headerName]: token
