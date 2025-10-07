@@ -1,14 +1,16 @@
 import Countdown from "./Countdown"
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import ChooseDriver from "./ChooseDriver";
 import { useNavigate } from 'react-router';
 import { ErrorGuessNotAllowedYet } from "../error";
+import { CsrfTokenContext } from "../components";
 
 function GuessWinner() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
     axios.get('/api/guess/first')
@@ -22,23 +24,17 @@ function GuessWinner() {
   }, []);
 
   function guessHandler(driver) {
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/guess/first', {}, {
+      params: {
+        driver: driver
+      },
+      headers: {
+        [headerName]: token
+      }
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/guess/first', {}, {
-          params: {
-            driver: driver
-          },
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => {
-            alert('Gjetningen din ble lagret');
-            navigate('/guess');
-          })
-          .catch(err => console.error(err));
+        alert('Gjetningen din ble lagret');
+        navigate('/guess');
       })
       .catch(err => console.error(err));
   }

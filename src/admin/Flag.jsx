@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router';
 import axios from 'axios';
 import { translateFlag, translateSession } from '../util/translator';
+import { CsrfTokenContext } from '../components';
 
 export function FlagChooseYear() {
   const [years, setYears] = useState(null);
@@ -57,34 +58,29 @@ export function FlagRegister() {
   const [selectedFlag, setSelectedFlag] = useState(null);
   const [selectedRound, setSelectedRound] = useState(1);
   const [addText, setAddText] = useState("Legg til");
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function deleteFlag(event, id) {
     event.preventDefault();
     if (!confirm('Er du sikker på at du vil slette denne?')) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/flag/delete', {},
-          {
-            params: {
-              id: id
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadFlags();
-          })
-          .catch(err => {
-            alert('Flagg kunne ikke bli slettet');
-            console.error(err);
-          })
+    axios.post('/api/admin/flag/delete', {},
+      {
+        params: {
+          id: id
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadFlags();
+      })
+      .catch(err => {
+        alert('Flagg kunne ikke bli slettet');
+        console.error(err);
+      })
   }
 
   function registerFlag(event) {
@@ -93,33 +89,27 @@ export function FlagRegister() {
       alert('Du må velge flagg');
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/flag/add', {},
-          {
-            params: {
-              flag: selectedFlag,
-              round: selectedRound,
-              sessionType: selectedSession,
-              raceId: raceId,
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            setAddText("Lagret!");
-            setTimeout(() => setAddText("Legg til"), 1000);
-            loadFlags();
-          })
-          .catch(err => {
-            alert('Flagg kunne ikke bli lagt til');
-            console.error(err);
-          })
+    axios.post('/api/admin/flag/add', {},
+      {
+        params: {
+          flag: selectedFlag,
+          round: selectedRound,
+          sessionType: selectedSession,
+          raceId: raceId,
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        setAddText("Lagret!");
+        setTimeout(() => setAddText("Legg til"), 1000);
+        loadFlags();
+      })
+      .catch(err => {
+        alert('Flagg kunne ikke bli lagt til');
+        console.error(err);
+      })
   }
 
   function loadFlags() {

@@ -1,15 +1,17 @@
 import Countdown from "./Countdown"
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { ErrorGuessNotAllowedYet } from "../error";
 import RankCompetitors from "./RankCompetitors";
 import qs from 'qs';
+import { CsrfTokenContext } from "../components";
 
 function RankingDrivers() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
     axios.get('/api/guess/driver')
@@ -23,25 +25,18 @@ function RankingDrivers() {
   }, []);
 
   function guessHandler(drivers) {
-
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/guess/driver', {}, {
+      params: {
+        rankedCompetitors: drivers
+      },
+      headers: {
+        [headerName]: token
+      },
+      paramsSerializer: (params => qs.stringify(params, { arrayFormat: 'repeat' }))
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/guess/driver', {}, {
-          params: {
-            rankedCompetitors: drivers
-          },
-          headers: {
-            [headerName]: token
-          },
-          paramsSerializer: (params => qs.stringify(params, { arrayFormat: 'repeat' }))
-        })
-          .then(res => {
-            alert('Gjetningen din ble lagret');
-            navigate('/guess');
-          })
-          .catch(err => console.error(err));
+        alert('Gjetningen din ble lagret');
+        navigate('/guess');
       })
       .catch(err => console.error(err));
   }

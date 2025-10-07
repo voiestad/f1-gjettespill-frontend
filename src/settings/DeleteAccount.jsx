@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { CsrfTokenContext } from '../components';
 
 function DeleteAccount() {
   const [username, setUsername] = useState(null);
   const [inputUsername, setInputUsername] = useState("");
   const navigate = useNavigate();
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
     axios.get('/api/settings/username')
@@ -15,30 +17,24 @@ function DeleteAccount() {
 
   function deleteAccount(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/settings/delete', {},
-          {
-            params: {
-              username: inputUsername
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            console.log(res.data);
-            alert('Brukeren din ble slettet');
-            navigate('/');
-          })
-          .catch(err => {
-            alert('Brukernavnet var feil');
-            console.error(err);
-          })
+    axios.post('/api/settings/delete', {},
+      {
+        params: {
+          username: inputUsername
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        console.log(res.data);
+        alert('Brukeren din ble slettet');
+        navigate('/');
+      })
+      .catch(err => {
+        alert('Brukernavnet var feil');
+        console.error(err);
+      })
   }
 
   return (

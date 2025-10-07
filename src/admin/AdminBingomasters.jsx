@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { CsrfTokenContext } from '../components';
 
 function AdminBingomasters() {
   const [bingomasters, setBingomasters] = useState(null);
   const [users, setUsers] = useState(null);
   const [bingomasterCandidate, setBingomasterCandidate] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
+
   function loadUsers() {
     axios.get('/api/public/user/list')
       .then(res => setUsers(res.data))
@@ -22,52 +25,40 @@ function AdminBingomasters() {
     if (!bingomasterCandidate) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/bingo/add', {},
-          {
-            params: {
-              bingomaster: bingomasterCandidate
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadBingomasters();
-          })
-          .catch(err => {
-            alert('Brukernavnet var feil');
-            console.error(err);
-          })
+    axios.post('/api/admin/bingo/add', {},
+      {
+        params: {
+          bingomaster: bingomasterCandidate
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadBingomasters();
+      })
+      .catch(err => {
+        alert('Brukernavnet var feil');
+        console.error(err);
+      })
   }
 
   function removeBingomaster(event, bingomaster) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/bingo/remove', {},
-          {
-            params: {
-              bingomaster: bingomaster
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => loadBingomasters())
-          .catch(err => {
-            alert('Brukernavnet var feil');
-            console.error(err);
-          })
+    axios.post('/api/admin/bingo/remove', {},
+      {
+        params: {
+          bingomaster: bingomaster
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => loadBingomasters())
+      .catch(err => {
+        alert('Brukernavnet var feil');
+        console.error(err);
+      })
   }
 
   useEffect(() => {
@@ -101,7 +92,7 @@ function AdminBingomasters() {
                 <option key={user.id} value={user.id}>{user.username}</option>
               )}
             </select>
-            <input type="submit" value="Sett som bingomaster" onClick={setAsBingomaster}/>
+            <input type="submit" value="Sett som bingomaster" onClick={setAsBingomaster} />
           </form>
         </>
         : ''}

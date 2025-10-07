@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { ErrorNotLoggedIn } from '../error';
 import { Link, useNavigate } from 'react-router';
+import { CsrfTokenContext } from '../components';
 
 function Username() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -10,7 +11,9 @@ function Username() {
   const [username, setUsername] = useState(null);
   const [referralCode, setReferralCode] = useState(null);
   const [hasChanged, setHasChanged] = useState(false);
+  const { token, headerName } = useContext(CsrfTokenContext);
   const navigate = useNavigate();
+
   useEffect(() => {
     axios.get('/api/public/user/status')
       .then(res => {
@@ -38,48 +41,36 @@ function Username() {
   }
   function logout(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/logout', {}, {
+      headers: {
+        [headerName]: token
+      }
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/logout', {}, {
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => {
-            navigate('/');
-          })
-          .catch(err => console.error(err));
+        navigate('/');
       })
       .catch(err => console.error(err));
   }
   function changeUsername(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/settings/username/change', {},
-          {
-            params: {
-              username: username,
-              referralCode: referralCode
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(() => {
-            setMessage(<p>Brukernavnet ble satt.</p>);
-            setHasChanged(true);
-          })
-          .catch(err => {
-            setMessage(<p>{err.response.data}</p>);
-            console.error(err);
-          })
+    axios.post('/api/settings/username/change', {},
+      {
+        params: {
+          username: username,
+          referralCode: referralCode
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(() => {
+        setMessage(<p>Brukernavnet ble satt.</p>);
+        setHasChanged(true);
+      })
+      .catch(err => {
+        setMessage(<p>{err.response.data}</p>);
+        console.error(err);
+      })
   }
   return (
     <>

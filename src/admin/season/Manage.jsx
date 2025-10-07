@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link, useParams, useNavigate } from 'react-router';
 import axios from 'axios';
+import { CsrfTokenContext } from '../../components';
 
 function SeasonManageRaces() {
   const { year } = useParams();
@@ -9,6 +10,7 @@ function SeasonManageRaces() {
   const [newPos, setNewPos] = useState(null);
   const [newRaceId, setNewRaceId] = useState(null);
   const navigate = useNavigate();
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function loadRaces() {
     axios.get(`/api/public/race/list/${year}`)
@@ -18,29 +20,23 @@ function SeasonManageRaces() {
 
   function addRace(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/manage/add', {},
-          {
-            params: {
-              year: year,
-              id: newRaceId
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadRaces();
-          })
-          .catch(err => {
-            alert('Kunne ikke legge til løp');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/manage/add', {},
+      {
+        params: {
+          year: year,
+          id: newRaceId
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadRaces();
+      })
+      .catch(err => {
+        alert('Kunne ikke legge til løp');
+        console.error(err);
+      })
   }
 
   function changePos(event) {
@@ -53,29 +49,23 @@ function SeasonManageRaces() {
       alert('Du må velge et løp');
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/manage/move', {},
-          {
-            params: {
-              id: selectedRace,
-              newPosition: newPos
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadRaces();
-          })
-          .catch(err => {
-            alert('Kunne ikke flytte løp');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/manage/move', {},
+      {
+        params: {
+          id: selectedRace,
+          newPosition: newPos
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadRaces();
+      })
+      .catch(err => {
+        alert('Kunne ikke flytte løp');
+        console.error(err);
+      })
   }
 
   function reloadRace(event) {
@@ -84,28 +74,22 @@ function SeasonManageRaces() {
       alert('Du må velge et løp');
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/manage/reload', {},
-          {
-            params: {
-              id: selectedRace
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            navigate(`/admin/season/${year}/manage/${selectedRace}`);
-          })
-          .catch(err => {
-            alert('Kunne ikke laste inn løpet på nytt');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/manage/reload', {},
+      {
+        params: {
+          id: selectedRace
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        navigate(`/admin/season/${year}/manage/${selectedRace}`);
+      })
+      .catch(err => {
+        alert('Kunne ikke laste inn løpet på nytt');
+        console.error(err);
+      })
   }
 
   function deleteRace(event) {
@@ -117,28 +101,22 @@ function SeasonManageRaces() {
     if (!confirm('Er du helt sikker på at du vil slette løpet?')) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/manage/delete', {},
-          {
-            params: {
-              id: selectedRace
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadRaces();
-          })
-          .catch(err => {
-            alert('Kunne ikke slette løp');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/manage/delete', {},
+      {
+        params: {
+          id: selectedRace
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadRaces();
+      })
+      .catch(err => {
+        alert('Kunne ikke slette løp');
+        console.error(err);
+      })
   }
 
   useEffect(() => {
@@ -158,10 +136,10 @@ function SeasonManageRaces() {
           <table>
             <thead>
               <tr>
-                <th style={{position: 'static'}}>#</th>
-                <th style={{position: 'static'}}>Navn</th>
-                <th style={{position: 'static'}}>ID</th>
-                <th style={{position: 'static'}}>Velg</th>
+                <th style={{ position: 'static' }}>#</th>
+                <th style={{ position: 'static' }}>Navn</th>
+                <th style={{ position: 'static' }}>ID</th>
+                <th style={{ position: 'static' }}>Velg</th>
               </tr>
             </thead>
             <tbody>

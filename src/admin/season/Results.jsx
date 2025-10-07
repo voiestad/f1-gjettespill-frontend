@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-
+import { CsrfTokenContext } from '../../components';
 
 function Results() {
   const { year } = useParams();
   const [finished, setFinished] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function checkSeasonStatus() {
     axios.get(`/api/admin/season/results/is-finished/${year}`)
@@ -17,19 +18,13 @@ function Results() {
     if (!confirm('Er du sikker på at du vil avslutte sesongen?')) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/results/finalize', {}, {
-          params: { year: year },
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => checkSeasonStatus())
-          .catch(err => console.error(err));
-      })
+    axios.post('/api/admin/season/results/finalize', {}, {
+      params: { year: year },
+      headers: {
+        [headerName]: token
+      }
+    })
+      .then(res => checkSeasonStatus())
       .catch(err => console.error(err));
 
   }

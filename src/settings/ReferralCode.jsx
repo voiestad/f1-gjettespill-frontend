@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { CsrfTokenContext } from '../components';
 
 function ReferralCode() {
   const [referralCode, setReferralCode] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
     axios.get('/api/settings/referral')
@@ -14,46 +16,34 @@ function ReferralCode() {
 
   function createReferralCode(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/settings/referral/add', {},
-          {
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            setReferralCode(BigInt(res.data.code));
-          })
-          .catch(err => {
-            setMessage(<p>{err.response.data}</p>);
-            console.error(err);
-          })
+    axios.post('/api/settings/referral/add', {},
+      {
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        setReferralCode(BigInt(res.data.code));
+      })
+      .catch(err => {
+        setMessage(<p>{err.response.data}</p>);
+        console.error(err);
+      })
   }
 
   function deleteReferralCode(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/settings/referral/delete', {},
-          {
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => setReferralCode(null))
-          .catch(err => {
-            alert('Det oppstod en feil ved slettingen');
-            console.error(err);
-          })
+    axios.post('/api/settings/referral/delete', {},
+      {
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => setReferralCode(null))
+      .catch(err => {
+        alert('Det oppstod en feil ved slettingen');
+        console.error(err);
+      })
   }
 
   return (

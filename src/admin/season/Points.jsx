@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { DiffTable } from '../../public/Score';
 import { translateCategory } from '../../util/translator';
+import { CsrfTokenContext } from '../../components';
 
 function SetDiffForm(props) {
   const { year } = useParams();
@@ -11,6 +12,7 @@ function SetDiffForm(props) {
   const [diff, setDiff] = useState(0);
   const [maxDiff, setMaxDiff] = useState(0);
   const [points, setPoints] = useState(0);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function updateCategory(event) {
     const category = event.target.value;
@@ -29,33 +31,27 @@ function SetDiffForm(props) {
     if (!category) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/points/set', {},
-          {
-            params: {
-              year: year,
-              category: category,
-              diff: diff,
-              points: points
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            reload();
-          })
-          .catch(err => {
-            alert('Noe gikk galt');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/points/set', {},
+      {
+        params: {
+          year: year,
+          category: category,
+          diff: diff,
+          points: points
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        reload();
+      })
+      .catch(err => {
+        alert('Noe gikk galt');
+        console.error(err);
+      })
   }
-  
+
   return (
     <form>
       <label>
@@ -84,37 +80,32 @@ function AddDiffForm(props) {
   const { year } = useParams();
   const { categories, reload } = props;
   const [category, setCategory] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function addDiff(event) {
     event.preventDefault();
     if (!category) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/points/add', {},
-          {
-            params: {
-              year: year,
-              category: category,
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            reload();
-          })
-          .catch(err => {
-            alert('Noe gikk galt');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/points/add', {},
+      {
+        params: {
+          year: year,
+          category: category,
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        reload();
+      })
+      .catch(err => {
+        alert('Noe gikk galt');
+        console.error(err);
+      })
   }
-  
+
   return (
     <form>
       <label>
@@ -134,37 +125,32 @@ function DeleteDiffForm(props) {
   const { year } = useParams();
   const { categories, reload } = props;
   const [category, setCategory] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function deleteDiff(event) {
     event.preventDefault();
     if (!category) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/points/delete', {},
-          {
-            params: {
-              year: year,
-              category: category,
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            reload();
-          })
-          .catch(err => {
-            alert('Noe gikk galt');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/points/delete', {},
+      {
+        params: {
+          year: year,
+          category: category,
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        reload();
+      })
+      .catch(err => {
+        alert('Noe gikk galt');
+        console.error(err);
+      })
   }
-  
+
   return (
     <form>
       <label>

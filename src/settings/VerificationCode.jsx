@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router';
+import { CsrfTokenContext } from '../components';
 
 function VerificationCode() {
   const [verificationCode, setVerificationCode] = useState("");
   const [hasCode, setHasCode] = useState(null);
   const navigate = useNavigate();
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
     axios.get('/api/settings/mail/verification')
@@ -19,29 +21,23 @@ function VerificationCode() {
       alert('Verifikasjonskoden må inneholde 9 tall');
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/settings/mail/verification', {},
-          {
-            params: {
-              code: verificationCode
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(() => {
-            alert('E-posten ble verifisert');
-            navigate('/settings/mail');
-          })
-          .catch(err => {
-            alert('Verifikasjonskoden var feil, vennligst prøv igjen');
-            console.error(err);
-          })
+    axios.post('/api/settings/mail/verification', {},
+      {
+        params: {
+          code: verificationCode
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(() => {
+        alert('E-posten ble verifisert');
+        navigate('/settings/mail');
+      })
+      .catch(err => {
+        alert('Verifikasjonskoden var feil, vennligst prøv igjen');
+        console.error(err);
+      })
   }
 
   function validateContent(event) {
@@ -82,16 +78,16 @@ function VerificationCode() {
       {
         hasCode != null && !hasCode ?
           <>
-          <h2>Ingen verifikasjonskode funnet...</h2>
-          <p>
-            Det ble ikke funnet en verifikasjonskode på brukeren din.
-            Vennligst legg inn en e-post <Link to="/settings/mail">her</Link>.
-          </p>
+            <h2>Ingen verifikasjonskode funnet...</h2>
+            <p>
+              Det ble ikke funnet en verifikasjonskode på brukeren din.
+              Vennligst legg inn en e-post <Link to="/settings/mail">her</Link>.
+            </p>
           </>
           : ''
       }
       {
-        
+
       }
     </>
   )

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react'
-import { ThemeContext } from '../components'
+import { CsrfTokenContext, ThemeContext } from '../components'
 import axios from 'axios'
 import { useLocation, Link, useNavigate } from 'react-router'
 import Breadcrumbs from './Breadcrumbs'
@@ -70,6 +70,7 @@ function DropdownSection(props) {
 
 
 function DropdownMenu(props) {
+  const { token, headerName } = useContext(CsrfTokenContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const themeNames = {
     "light": "Lys",
@@ -118,20 +119,14 @@ function DropdownMenu(props) {
   }, []);
 
   function logout() {
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/logout', {}, {
+      headers: {
+        [headerName]: token
+      }
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/logout', {}, {
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => {
-            navigate('/');
-            reloadHeaderState();
-          })
-          .catch(err => console.error(err));
+        navigate('/');
+        reloadHeaderState();
       })
       .catch(err => console.error(err));
   }
