@@ -19,7 +19,7 @@ function Privacy() {
         </p>
         <h4>Valgfritt</h4>
         <p>
-          E-post <Link to="#reminders">(med mer)</Link>
+          ID for ntfy-kanal og preferanser for påminnelser
         </p>
         <h3>Bruksområder av personopplysninger</h3>
         <h4>Innlogging</h4>
@@ -32,12 +32,14 @@ function Privacy() {
           redusere personlige opplysninger som er knyttet til brukeren, er det lurt å ikke oppgi fullt navn som
           brukernavn.
         </p>
-        <h4 id="reminders">Påminnelser</h4>
+        <h4>Påminnelser</h4>
         <p>
-          Dersom du velger å melde deg på for å få påminnelser på e-post, vil e-posten kun brukes til å sende
-          påminnelser og ingenting annet. Preferansene for når man ønsker påminnelser blir brukt til å sende
-          påminnelser på riktig tidspunkt. I tillegg lagres det også hvor mange ganger en påminnelse blir sendt ut
-          for hvert løp for å sende riktig antall påminnelser.
+          Dersom du velger å melde deg på for å få påminnelser på via ntfy, kan du lese hvordan personvern håndteres
+          i selve ntfy <Link to="https://ntfy.f1gjettespill.no/docs/privacy/">her</Link>. Kort oppsummert er det svært 
+          begrenset hvilken data som lagres. For at hver enkelt skal kunne få påminnelser utfra om man selv har gjettet
+          eller ikke, knyttes en ID for din personlige kanal til brukeren din, den legger du inn i ntfy. 
+          Preferansene for når man ønsker påminnelser blir brukt til å sende påminnelser på riktig tidspunkt. 
+          I tillegg lagres det også hvor mange ganger en påminnelse blir sendt ut for hvert løp for å sende riktig antall påminnelser.
         </p>
         <h4>Gjettedata</h4>
         <p>
@@ -65,8 +67,8 @@ function Privacy() {
         </p>
         <h4>Rett til begrensning</h4>
         <p>
-          E-post som er lagret for å sende påminnelser kan når som helst fjernes <Link to="/settings/mail">her</Link>.
-          Når e-post blir fjernet vil også preferansene dine og antall påminnelser som er sendt ut fjernes.
+          Du kan når som helst fjerne ntfy-kanalen fra brukeren din. Da vil også preferansene dine og 
+          antall påminnelser som er sendt ut fjernes.
         </p>
         <h4>Rett til sletting</h4>
         <p>
