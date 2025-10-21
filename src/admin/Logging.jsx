@@ -24,7 +24,7 @@ export function LogView() {
   }, []);
   return (
     <>
-      <title>{capitalize(logType)} log: {date}</title>
+      <title>{`${capitalize(logType)} log: ${date}`}</title>
       <h2>{capitalize(logType)} log: {date}</h2>
       <div className="log">
         <p>

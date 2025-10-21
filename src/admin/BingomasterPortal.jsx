@@ -128,7 +128,7 @@ export function BingoMasterPortalChangeBingo() {
         yearExist != null
           ? (yearExist ?
             <>
-              <title>Bingo {year}</title>
+              <title>{`Bingo ${year}`}</title>
               <h2>Bingo {year}</h2>
               {isBingoCard != null ?
                 <>
