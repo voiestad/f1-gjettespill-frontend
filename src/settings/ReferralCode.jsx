@@ -9,7 +9,10 @@ function ReferralCode() {
   useEffect(() => {
     axios.get('/api/settings/referral')
       .then(res => {
-        setReferralCode(BigInt(res.data.code));
+        const code = res.data.code;
+        if (code != null) {
+          setReferralCode(BigInt(code));
+        }
       })
       .catch(err => console.error(err));
   }, []);
@@ -23,7 +26,10 @@ function ReferralCode() {
         }
       })
       .then(res => {
-        setReferralCode(BigInt(res.data.code));
+        const code = res.data.code;
+        if (code != null) {
+          setReferralCode(BigInt(code));
+        }
       })
       .catch(err => {
         setMessage(<p>{err.response.data}</p>);
