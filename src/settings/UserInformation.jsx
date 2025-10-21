@@ -39,10 +39,10 @@ function NotifiedTable(props) {
     key: `${row.year}-${row.raceName}`,
     values: [row.raceName, row.timesNotified, row.year]
   }));
-  return <Table title="Påminnelser e-post" header={header} body={body} />;
+  return <Table title="Påminnelser" header={header} body={body} />;
 }
 
-function EmailPreferenceTable(props) {
+function GuessReminderPreferenceTable(props) {
   const header = ["Timer før løp"];
   const body = props.preferences.map((preference) => ({
     key: preference,
@@ -69,13 +69,13 @@ function UserInformation() {
           <Table title="" header={["Brukernavn"]} body={[{ key: info.user.username, values: [info.user.username] }]} />
           <Table title="" header={["Bruker-ID"]} body={[{ key: info.user.id, values: [info.user.id] }]} />
           <Table title="" header={["Google-ID"]} body={[{ key: info.user.googleId, values: [info.user.googleId] }]} />
-          <Table title="" header={["E-post"]} body={[{ key: info.email, values: [info.email] }]} />
+          <Table title="" header={["ntfy-ID"]} body={[{ key: info.topic, values: [info.topic] }]} />
           <ChampionshipTable competitorName="Sjåfør" competitors={info.driverGuess} />
           <ChampionshipTable competitorName="Konstruktør" competitors={info.constructorGuess} />
           <FlagTable flags={info.flagGuess} />
           <PlaceGuessTable placeGuess={info.placeGuess} />
           <NotifiedTable notifiedCount={info.notifiedCount} />
-          <EmailPreferenceTable preferences={info.emailPreferences} />
+          <GuessReminderPreferenceTable preferences={info.guessReminderpreferences} />
         </div>
         : ''}
     </>
