@@ -12,7 +12,7 @@ function RankCompetitors(props) {
 
   function confirmGuess(event) {
     event.preventDefault();
-    guessHandler(competitors.map(comp => comp.competitor));
+    guessHandler(competitors.map(comp => comp.id));
   }
 
   useEffect(() => {
@@ -105,7 +105,7 @@ function RankCompetitors(props) {
           {competitors.map((competitor, i) =>
             <li
               ref={el => itemRefs.current[i] = el}
-              key={competitor.competitor}
+              key={competitor.id}
               className={'item-wrapper' + (transitions ? '' : ' disable-transitions')}
               draggable="true"
               onDragStart={el => dragStart(i, el)}
@@ -113,7 +113,7 @@ function RankCompetitors(props) {
               onDragEnd={dragEnd}
             >
               <div className="number">{i + 1}</div>
-              <div className="item">{competitor.competitor}</div>
+              <div className="item">{competitor.name}</div>
               {competitor.color ?
                 <span className="circle" style={{ backgroundColor: competitor.color }}></span> : ''}
             </li>
