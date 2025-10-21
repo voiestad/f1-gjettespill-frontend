@@ -28,7 +28,7 @@ function Bingo() {
     axios.get('/api/public/bingo')
       .then(res => setBingoBoardData(res.data))
       .catch(err => {
-        if (err.status === 403) {
+        if (err.status === 404) {
           setError(<p>Årets bingo er ikke tilgjenglig enda</p>);
         } else {
           console.error(err);

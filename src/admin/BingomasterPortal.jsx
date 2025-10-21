@@ -29,7 +29,7 @@ export function BingoMasterPortalChangeBingo() {
   const { year } = useParams();
   const [yearExist, setYearExist] = useState(null);
   const [bingoCard, setBingoCard] = useState(null);
-  const [isBingoCard, setNoBingoCard] = useState(null);
+  const [isBingoCard, setIsBingoCard] = useState(null);
   const { token, headerName } = useContext(CsrfTokenContext);
 
   function loadBingoCard() {
@@ -39,10 +39,14 @@ export function BingoMasterPortalChangeBingo() {
         if (res.data.indexOf(parseInt(year)) != -1) {
           axios.get(`/api/public/bingo/${year}`)
             .then(res => {
-              setNoBingoCard(res.data.length !== 0);
+              setIsBingoCard(true);
               setBingoCard(res.data);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+              if (err.status === 404) {
+                setIsBingoCard(false);
+              }
+            });
         }
       })
       .catch(err => console.error(err));
