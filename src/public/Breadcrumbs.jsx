@@ -208,18 +208,10 @@ function getSettingsPath(segments) {
     case "info": return "Brukerinformasjon";
     case "username": return "Endre brukernavn";
     case "delete": return "Slett bruker";
-    case "mail": return getMailPath(segments);
+    case "reminders": return "Påminnelser";
     case "referral": return "Inviter brukere";
     default: return null;
   };
-}
-
-function getMailPath(segments) {
-  const segment = segments.next();
-  if (segment.done) {
-    return "Påminnelser";
-  }
-  return "Verifiser e-post";
 }
 
 function getStatsPath(segments) {

@@ -34,7 +34,7 @@ function Privacy() {
         </p>
         <h4>Påminnelser</h4>
         <p>
-          Dersom du velger å melde deg på for å få påminnelser på via ntfy, kan du lese hvordan personvern håndteres
+          Dersom du velger å melde deg på for å få påminnelser via <Link to="https://ntfy.sh/">ntfy</Link>, kan du lese hvordan personvern håndteres
           i selve ntfy <Link to="https://ntfy.f1gjettespill.no/docs/privacy/">her</Link>. Kort oppsummert er det svært 
           begrenset hvilken data som lagres. For at hver enkelt skal kunne få påminnelser utfra om man selv har gjettet
           eller ikke, knyttes en ID for din personlige kanal til brukeren din, den legger du inn i ntfy. 

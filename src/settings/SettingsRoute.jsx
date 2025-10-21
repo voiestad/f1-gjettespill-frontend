@@ -1,12 +1,11 @@
 import { Routes, Route } from 'react-router';
 import {
   DeleteAccount,
-  Mail,
   ReferralCode,
+  Reminders,
   Settings,
   UserInformation,
-  Username,
-  VerificationCode
+  Username
 } from './';
 import { ProtectedRoute } from '../components';
 
@@ -19,11 +18,8 @@ function SettingsRoute() {
           <Route index element={<Settings />} />
           <Route path="delete" element={<DeleteAccount />} />
           <Route path="info" element={<UserInformation />} />
-          <Route path="mail">
-            <Route index element={<Mail />} />
-            <Route path="verification" element={<VerificationCode />} />
-          </Route>
           <Route path="referral" element={<ReferralCode />} />
+          <Route path="reminders" element={<Reminders />} />
         </Route>
         <Route path="username" element={<Username />} />
 
