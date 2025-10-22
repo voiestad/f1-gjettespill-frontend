@@ -83,8 +83,8 @@ function SeasonCutoff() {
         : ''}
       {raceCutoffs ?
         raceCutoffs.map(cutoff =>
-          <form key={cutoff.id} onSubmit={e => updateRaceCutoff(e, cutoff.id)}>
-            <label>{cutoff.position} {cutoff.name} {cutoff.id}<br />
+          <form key={cutoff.race.id} onSubmit={e => updateRaceCutoff(e, cutoff.race.id)}>
+            <label>{cutoff.race.position} {cutoff.race.name} {cutoff.race.id}<br />
               <input type="datetime-local" defaultValue={cutoff.cutoff} name="cutoff" />
               <input type="submit" value="Sett frist" />
             </label>
