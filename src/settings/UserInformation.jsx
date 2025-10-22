@@ -75,7 +75,7 @@ function UserInformation() {
           <FlagTable flags={info.flagGuess} />
           <PlaceGuessTable placeGuess={info.placeGuess} />
           <NotifiedTable notifiedCount={info.notifiedCount} />
-          <GuessReminderPreferenceTable preferences={info.guessReminderpreferences} />
+          <GuessReminderPreferenceTable preferences={info.guessReminderPreferences} />
         </div>
         : ''}
     </>
