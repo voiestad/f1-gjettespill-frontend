@@ -7,8 +7,8 @@ function GuessesTable(props) {
   const { title, guesses } = props;
   const header = ["Navn", "Gjettet", "Startet"];
   const body = guesses.map((row) => ({
-    key: row.user,
-    values: [row.user, row.driver, row.position]
+    key: row.username,
+    values: [row.username, row.driver, row.position]
   }));
   return <Table title={title} header={header} body={body} />;
 }
@@ -18,7 +18,7 @@ function RaceGuess() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/public/race-guess')
+    axios.get('/api/public/race-guess?raceId=1269')
       .then(res => setGuesses(res.data))
       .catch(err => {
         if (err.status === 403) {
