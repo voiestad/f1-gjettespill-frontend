@@ -20,7 +20,10 @@ function User() {
         year: year
       }
     })
-      .then(res => setUserData(res.data))
+      .then(res => {
+        setUserData(res.data);
+        setError(null);
+      })
       .catch(err => {
         if (err.status === 403) {
           setError(<ErrorGuessingNotAvailableYet />);
