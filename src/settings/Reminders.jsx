@@ -72,14 +72,19 @@ function Reminders() {
       headers: {
         [headerName]: token
       }
-    }).catch(err => alert('Fikk ikke sendt varsling. Vennligst prøv igjen'));
+    }).then(res => {
+      event.target.value = "Sendt!";
+      setTimeout(() => event.target.value = "Send testvarsling", 1000);
+    })
+    .catch(err => alert('Fikk ikke sendt varsling. Vennligst prøv igjen'));
   }
 
   async function copyTopic(event) {
     event.preventDefault();
     try {
       await window.navigator.clipboard.writeText(preferences.topic);
-      alert("Kanal kopiert!");
+      event.target.innerHTML = "Kopiert!";
+      setTimeout(() => event.target.innerHTML = "Kopier kanal", 1000);
     } catch (err) {
       alert("Greide ikke å kopiere kanalen.");
     }
@@ -89,7 +94,8 @@ function Reminders() {
     event.preventDefault();
     try {
       await window.navigator.clipboard.writeText("https://ntfy.f1gjettespill.no");
-      alert("Lenke kopiert!");
+      event.target.innerHTML = "Kopiert!";
+      setTimeout(() => event.target.innerHTML = "Kopier server-lenke", 1000);
     } catch (err) {
       alert("Greide ikke å kopiere lenken.");
     }
@@ -108,16 +114,17 @@ function Reminders() {
           <>
             <h4>Instruksjoner for oppsett:</h4>
             <p>
-
-              1. Last ned app eller bruk nettleser: <br />
+              1. Last ned app eller bruk nettleser <br />
+              (kun varslinger på nettleser når nettsiden er oppe): <br />
               <Link to="https://apps.apple.com/us/app/ntfy/id1625396347">IOS</Link> <br />
               <Link to="https://play.google.com/store/apps/details?id=io.heckel.ntfy">Android</Link> <br />
               <Link to="https://ntfy.f1gjettespill.no">Nettleser</Link> <br /><br />
               2. Trykk på "+" for å legge til kanalen <br /><br />
-              3. Legg inn ID-en til kanalen: <br />
+              3. Legg inn ID-en til kanalen: <br /><br />
               {preferences.topic} <br /><br />
               <button onClick={copyTopic}>Kopier kanal</button> <br /><br />
-              4. Trykk på "Choose another server" og legg inn lenken: <br />
+              4. Trykk på "Choose another server" og legg inn lenken <br />
+              (ikke nødvendig i nettleser): <br /><br />
               https://ntfy.f1gjettespill.no <br /><br />
               <button onClick={copyUrl}>Kopier server-lenke</button> <br /><br />
               5. Trykk på "Subscribe" <br /><br />
