@@ -40,6 +40,7 @@ function Privacy() {
           eller ikke, knyttes en ID for din personlige kanal til brukeren din, den legger du inn i ntfy. 
           Preferansene for når man ønsker påminnelser blir brukt til å sende påminnelser på riktig tidspunkt. 
           I tillegg lagres det også hvor mange ganger en påminnelse blir sendt ut for hvert løp for å sende riktig antall påminnelser.
+          Dataen for hvor mange ganger man får en påminnelse slettes når resultatene fra løpet har kommet.
         </p>
         <h4>Gjettedata</h4>
         <p>
