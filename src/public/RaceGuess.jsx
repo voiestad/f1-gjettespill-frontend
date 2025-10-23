@@ -18,7 +18,7 @@ function RaceGuess() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/public/race-guess?raceId=1269')
+    axios.get('/api/public/race-guess')
       .then(res => setGuesses(res.data))
       .catch(err => {
         if (err.status === 403) {
