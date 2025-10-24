@@ -7,6 +7,7 @@ function RacePicker(props) {
   const [years, setYears] = useState(null);
 
   function changeYear(year) {
+    setRaceId("");
     setYear(year);
     axios.get(`/api/public/race/list/${year}`, {
       params: {

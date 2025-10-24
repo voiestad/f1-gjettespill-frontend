@@ -1,7 +1,8 @@
 import { Link, Outlet, useNavigate, useParams } from 'react-router';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ErrorNotFound, ErrorUnknown } from '../../error';
+import { CsrfTokenContext } from '../../components';
 
 export function SeasonChooseYear() {
   const [years, setYears] = useState();
@@ -32,7 +33,9 @@ export function SeasonAdd() {
   const [end, setEnd] = useState(null);
   const [loader, setLoader] = useState(false);
   const [noRaces, setNoRaces] = useState(false);
+  const { token, headerName } = useContext(CsrfTokenContext);
   const navigate = useNavigate();
+
   function addSeason(event) {
     event.preventDefault();
     if (!year || ((!start || !end) && !noRaces)) {
@@ -40,30 +43,24 @@ export function SeasonAdd() {
       return;
     }
     setLoader(true);
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/admin/season/add', {}, {
+      params: {
+        year: year,
+        start: start,
+        end: end
+      },
+      headers: {
+        [headerName]: token
+      }
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/add', {}, {
-          params: {
-            year: year,
-            start: start,
-            end: end
-          },
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => {
-            navigate('/admin/season');
-          })
-          .catch(err => {
-            console.error(err);
-            alert(err.response.data);
-            setLoader(false);
-          });
+        navigate('/admin/season');
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        alert(err.response.data);
+        setLoader(false);
+      });
   }
 
   return (

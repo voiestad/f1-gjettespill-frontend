@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Countdown from './Countdown';
 import { ErrorGuessNotAllowedYet } from '../error';
+import { CsrfTokenContext } from '../components';
 
 function FlagSliders(props) {
   const { yellow: initialYellow, red: initialRed, safetyCar: initialSafetyCar } = props.flags;
@@ -10,28 +11,23 @@ function FlagSliders(props) {
   const [yellow, setYellow] = useState(initialYellow);
   const [red, setRed] = useState(initialRed);
   const [safetyCar, setSafetyCar] = useState(initialSafetyCar);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function guessHandler(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
+    axios.post('/api/guess/flag', {}, {
+      params: {
+        yellow: yellow,
+        red: red,
+        safetyCar: safetyCar
+      },
+      headers: {
+        [headerName]: token
+      }
+    })
       .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/guess/flag', {}, {
-          params: {
-            yellow: yellow,
-            red: red,
-            safetyCar: safetyCar
-          },
-          headers: {
-            [headerName]: token
-          }
-        })
-          .then(res => {
-            alert('Gjetningen din ble lagret');
-            navigate('/guess');
-          })
-          .catch(err => console.error(err));
+        alert('Gjetningen din ble lagret');
+        navigate('/guess');
       })
       .catch(err => console.error(err));
   }

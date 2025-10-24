@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { CsrfTokenContext } from '../../components';
 
 export function SeasonCompetitors() {
   const { year } = useParams();
@@ -11,7 +12,6 @@ export function SeasonCompetitors() {
       <div className="linkList">
         <Link to={`/admin/season/${year}/competitors/constructors`}>Konstruktører</Link>
         <Link to={`/admin/season/${year}/competitors/drivers`}>Sjåfører</Link>
-        <Link to={`/admin/season/${year}/competitors/alias`}>Alternative navn</Link>
       </div>
     </>
   )
@@ -22,6 +22,7 @@ export function SeasonConstructors() {
   const [constructors, setConstructors] = useState(null);
   const [positions, setPositions] = useState(null);
   const [newConstructor, setNewConstructor] = useState("");
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function loadConstructors() {
     axios.get(`/api/admin/season/competitors/constructors/list/${year}`)
@@ -38,30 +39,24 @@ export function SeasonConstructors() {
 
   function changePos(event, constructor, newPosition) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/constructors/move', {},
-          {
-            params: {
-              year: year,
-              constructor: constructor,
-              newPosition: newPosition
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadConstructors();
-          })
-          .catch(err => {
-            alert('Kunne ikke endre plass');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/constructors/move', {},
+      {
+        params: {
+          year: year,
+          constructor: constructor,
+          newPosition: newPosition
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadConstructors();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre plass');
+        console.error(err);
+      })
   }
 
   function changeColor(event, constructor) {
@@ -70,30 +65,24 @@ export function SeasonConstructors() {
     if (!color) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/constructors/add-color', {},
-          {
-            params: {
-              year: year,
-              constructor: constructor,
-              color: color
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadConstructors();
-          })
-          .catch(err => {
-            alert('Kunne ikke endre farge');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/constructors/add-color', {},
+      {
+        params: {
+          year: year,
+          constructor: constructor,
+          color: color
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadConstructors();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre farge');
+        console.error(err);
+      })
   }
 
   function deleteConstructor(event, constructor) {
@@ -101,29 +90,23 @@ export function SeasonConstructors() {
     if (!confirm("Er du sikker på at du ville slette konstruktøren?")) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/constructors/delete', {},
-          {
-            params: {
-              year: year,
-              constructor: constructor
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadConstructors();
-          })
-          .catch(err => {
-            alert('Kunne ikke slette konstruktør');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/constructors/delete', {},
+      {
+        params: {
+          year: year,
+          constructor: constructor
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadConstructors();
+      })
+      .catch(err => {
+        alert('Kunne ikke slette konstruktør');
+        console.error(err);
+      })
   }
 
   function updatePos(index, value) {
@@ -137,30 +120,46 @@ export function SeasonConstructors() {
     if (!newConstructor) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/constructors/add', {},
-          {
-            params: {
-              year: year,
-              constructor: newConstructor
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadConstructors();
-            setNewConstructor("");
-          })
-          .catch(err => {
-            alert('Kunne ikke legge til konstruktør');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/constructors/add', {},
+      {
+        params: {
+          year: year,
+          constructor: newConstructor
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadConstructors();
+        setNewConstructor("");
+      })
+      .catch(err => {
+        alert('Kunne ikke legge til konstruktør');
+        console.error(err);
+      })
+  }
+
+  function renameConstructor(event, constructor) {
+    event.preventDefault();
+    const name = new FormData(event.target).get('name');
+    axios.post('/api/admin/season/competitors/constructors/rename', {},
+      {
+        params: {
+          constructor: constructor,
+          name: name
+        },
+        headers: {
+          [headerName]: token
+        }
+      })
+      .then(res => {
+        loadConstructors();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre navn på konstruktør');
+        console.error(err);
+      })
   }
 
   return (
@@ -174,27 +173,31 @@ export function SeasonConstructors() {
       </form>
       {constructors ?
         constructors.map((constructor, index) =>
-          <div key={constructor.competitor}>
-            <p>{index + 1}. {constructor.competitor}</p>
+          <div key={constructor.id}>
+            <p>{index + 1}. {constructor.name} - {constructor.id}</p>
             <form>
               {positions[index]}<br />
               <input type="range" min="1" max={constructors.length} value={positions[index]}
                 onChange={e => updatePos(index, e.target.value)} />
               <br />
               <input type="submit" value="Endre plass"
-                onClick={e => changePos(e, constructor.competitor, positions[index])} />
+                onClick={e => changePos(e, constructor.id, positions[index])} />
             </form>
             <br />
-            <form onSubmit={e => changeColor(e, constructor.competitor)}>
+            <form onSubmit={e => changeColor(e, constructor.id)}>
               {constructor.color ?
-              <span className="circle" style={{backgroundColor: constructor.color}} />
-              : ''}
+                <span className="circle" style={{ backgroundColor: constructor.color }} />
+                : ''}
               <input type="text" pattern="^#[0-9A-Fa-f]{6}$" placeholder="#ffffff" name="color" defaultValue={constructor.color ? constructor.color : ''} />
               <input type="submit" value="Velg farge" />
             </form>
+            <form onSubmit={e => renameConstructor(e, constructor.id)}>
+              <input type="text" placeholder="Nytt navn" name="name" />
+              <input type="submit" value="Endre navn" />
+            </form>
             <form>
               <input type="submit" value="&#128465;"
-                onClick={e => deleteConstructor(e, constructor.competitor)} />
+                onClick={e => deleteConstructor(e, constructor.id)} />
             </form>
           </div>
         )
@@ -209,7 +212,8 @@ export function SeasonDrivers() {
   const [newDriver, setNewDriver] = useState("");
   const [drivers, setDrivers] = useState(null);
   const [constructors, setConstructors] = useState(null);
-  
+  const { token, headerName } = useContext(CsrfTokenContext);
+
   function loadConstructors() {
     axios.get(`/api/admin/season/competitors/constructors/list/${year}`)
       .then(res => setConstructors(res.data))
@@ -232,30 +236,24 @@ export function SeasonDrivers() {
 
   function changePos(event, driver, newPosition) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/drivers/move', {},
-          {
-            params: {
-              year: year,
-              driver: driver,
-              newPosition: newPosition
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadDrivers();
-          })
-          .catch(err => {
-            alert('Kunne ikke endre plass');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/drivers/move', {},
+      {
+        params: {
+          year: year,
+          driver: driver,
+          newPosition: newPosition
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadDrivers();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre plass');
+        console.error(err);
+      })
   }
 
   function changeTeam(event, driver) {
@@ -264,30 +262,24 @@ export function SeasonDrivers() {
     if (!team) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/drivers/set-team', {},
-          {
-            params: {
-              year: year,
-              driver: driver,
-              team: team
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadDrivers();
-          })
-          .catch(err => {
-            alert('Kunne ikke endre lag');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/drivers/set-team', {},
+      {
+        params: {
+          year: year,
+          driver: driver,
+          team: team
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadDrivers();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre lag');
+        console.error(err);
+      })
   }
 
   function deleteDriver(event, driver) {
@@ -295,29 +287,23 @@ export function SeasonDrivers() {
     if (!confirm("Er du sikker på at du ville slette sjåføren?")) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/drivers/delete', {},
-          {
-            params: {
-              year: year,
-              driver: driver
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadDrivers();
-          })
-          .catch(err => {
-            alert('Kunne ikke slette sjåføren');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/drivers/delete', {},
+      {
+        params: {
+          year: year,
+          driver: driver
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadDrivers();
+      })
+      .catch(err => {
+        alert('Kunne ikke slette sjåføren');
+        console.error(err);
+      })
   }
 
   function updatePos(index, value) {
@@ -331,30 +317,46 @@ export function SeasonDrivers() {
     if (!newDriver) {
       return;
     }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/drivers/add', {},
-          {
-            params: {
-              year: year,
-              driver: newDriver
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadDrivers();
-            setNewDriver("");
-          })
-          .catch(err => {
-            alert('Kunne ikke legge til sjåfør');
-            console.error(err);
-          })
+    axios.post('/api/admin/season/competitors/drivers/add', {},
+      {
+        params: {
+          year: year,
+          driver: newDriver
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadDrivers();
+        setNewDriver("");
+      })
+      .catch(err => {
+        alert('Kunne ikke legge til sjåfør');
+        console.error(err);
+      })
+  }
+
+  function renameDriver(event, driver) {
+    event.preventDefault();
+    const name = new FormData(event.target).get('name');
+    axios.post('/api/admin/season/competitors/drivers/rename', {},
+      {
+        params: {
+          driver: driver,
+          name: name
+        },
+        headers: {
+          [headerName]: token
+        }
+      })
+      .then(res => {
+        loadDrivers();
+      })
+      .catch(err => {
+        alert('Kunne ikke endre navn på sjåfør');
+        console.error(err);
+      })
   }
 
   return (
@@ -368,168 +370,36 @@ export function SeasonDrivers() {
       </form>
       {constructors && drivers ?
         drivers.map((driver, index) =>
-          <div key={driver.competitor}>
-            <p>{index + 1}. {driver.competitor}</p>
+          <div key={driver.id}>
+            <p>{index + 1}. {driver.name} - {driver.id}</p>
             <form>
               {positions[index]}<br />
               <input type="range" min="1" max={drivers.length} value={positions[index]}
                 onChange={e => updatePos(index, e.target.value)} />
               <br />
               <input type="submit" value="Endre plass"
-                onClick={e => changePos(e, driver.competitor, positions[index])} />
+                onClick={e => changePos(e, driver.id, positions[index])} />
             </form>
             <br />
-            <form onSubmit={e => changeTeam(e, driver.competitor)}>
-              <select name="team" defaultValue={driver.value ? driver.value : ''}>
+            <form onSubmit={e => changeTeam(e, driver.id)}>
+              <select name="team" defaultValue={driver.team ? driver.team.id : ''}>
                 <option value="">Velg lag</option>
-                {constructors.map(constructor => 
-                  <option key={constructor.competitor}>{constructor.competitor}</option>
+                {constructors.map(constructor =>
+                  <option key={constructor.id} value={constructor.id}>{constructor.name}</option>
                 )}
               </select>
               <input type="submit" value="Sett lag" />
             </form>
+            <form onSubmit={e => renameDriver(e, driver.id)}>
+              <input type="text" placeholder="Nytt navn" name="name" />
+              <input type="submit" value="Endre navn" />
+            </form>
             <form>
               <input type="submit" value="&#128465;"
-                onClick={e => deleteDriver(e, driver.competitor)} />
+                onClick={e => deleteDriver(e, driver.id)} />
             </form>
           </div>
         )
-        : ''}
-    </>
-  )
-}
-
-export function SeasonAlias() {
-  const { year } = useParams();
-  const [drivers, setDrivers] = useState(null);
-  const [aliases, setAliases] = useState(null);
-  const [alias, setAlias] = useState("");
-  const [driver, setDriver] = useState("");
-
-  function loadDrivers() {
-    axios.get(`/api/admin/season/competitors/drivers/list/${year}`)
-      .then(res => setDrivers(res.data))
-      .catch(err => console.error(err));
-  }
-
-  function loadAliases() {
-    axios.get(`/api/admin/season/competitors/alias/list/${year}`)
-      .then(res => setAliases(res.data))
-      .catch(err => console.error(err));
-  }
-
-  useEffect(() => {
-    loadDrivers();
-    loadAliases();
-  }, []);
-
-  function addAlias(event) {
-    event.preventDefault();
-    if (!alias || !driver) {
-      return;
-    }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/alias/add', {},
-          {
-            params: {
-              year: year,
-              driver: driver,
-              alternativeName: alias
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadAliases();
-          })
-          .catch(err => {
-            alert('Kunne ikke legge til alternativt navn');
-            console.error(err);
-          })
-      })
-      .catch(err => console.error(err));
-  }
-
-  function deleteAlias(event, driver, driverAlias) {
-    event.preventDefault();
-    if (!driver || !driverAlias) {
-      return;
-    }
-    if (!confirm("Er du sikker på at du vil slette det alternative navnet?")) {
-      return;
-    }
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/admin/season/competitors/alias/delete', {},
-          {
-            params: {
-              year: year,
-              driver: driver,
-              alternativeName: driverAlias
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadAliases();
-          })
-          .catch(err => {
-            alert('Kunne ikke legge til alternativt navn');
-            console.error(err);
-          })
-      })
-      .catch(err => console.error(err));
-  }
-
-  return (
-    <>
-      <title>{`Alternative navn ${year}`}</title>
-      <h2>{`Alternative navn ${year}`}</h2>
-      {drivers && aliases ?
-        <>
-          <form>
-            <select onChange={e => setDriver(e.target.value)}>
-              <option value="">Velg sjåfør</option>
-              {drivers.map(driver =>
-                <option key={driver.competitor} value={driver.competitor}>{driver.competitor}</option>
-              )}
-            </select>
-            <input type="text" placeholder="Alternativt navn" required onChange={e => setAlias(e.target.value)} />
-            <input type="submit" value="Legg til alternativt navn" onClick={addAlias} />
-          </form>
-          <div className="tables">
-            <table>
-              <thead>
-                <tr>
-                  <th>Alias</th>
-                  <th>Sjåfør</th>
-                  <th>Slett</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(aliases).map(driverAlias =>
-                  <tr key={driverAlias}>
-                    <td>{driverAlias}</td>
-                    <td>{aliases[driverAlias]}</td>
-                    <td>
-                      <form>
-                        <input type="submit" value="&#128465;"
-                          onClick={e => deleteAlias(e, aliases[driverAlias], driverAlias)} />
-                      </form>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </>
         : ''}
     </>
   )

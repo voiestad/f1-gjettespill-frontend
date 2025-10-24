@@ -15,10 +15,10 @@ function ChooseDriver(props) {
       <form>
         <ul className="container">
           {drivers.map((driver, i) =>
-            <li key={driver.competitor} onClick={e => setSelected(driver.competitor)}
-              className={(driver.competitor === selected ? 'selected ' : '') + 'item-wrapper'}>
+            <li key={driver.id} onClick={e => setSelected(driver.id)}
+              className={(driver.id === selected ? 'selected ' : '') + 'item-wrapper'}>
               <div className="number">{i + 1}</div>
-              <div className="item">{driver.competitor}</div>
+              <div className="item">{driver.name}</div>
               {driver.color ?
                 <span className="circle" style={{ backgroundColor: driver.color }}></span> : ''}
             </li>

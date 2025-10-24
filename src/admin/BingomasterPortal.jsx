@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router';
 import axios from 'axios';
 import { ErrorNotFound } from '../error';
+import { CsrfTokenContext } from '../components';
 
 export function BingomasterPortalChooseYear() {
   const [years, setYears] = useState(null);
@@ -28,7 +29,8 @@ export function BingoMasterPortalChangeBingo() {
   const { year } = useParams();
   const [yearExist, setYearExist] = useState(null);
   const [bingoCard, setBingoCard] = useState(null);
-  const [isBingoCard, setNoBingoCard] = useState(null);
+  const [isBingoCard, setIsBingoCard] = useState(null);
+  const { token, headerName } = useContext(CsrfTokenContext);
 
   function loadBingoCard() {
     axios.get('/api/public/year/list')
@@ -37,10 +39,14 @@ export function BingoMasterPortalChangeBingo() {
         if (res.data.indexOf(parseInt(year)) != -1) {
           axios.get(`/api/public/bingo/${year}`)
             .then(res => {
-              setNoBingoCard(res.data.length !== 0);
+              setIsBingoCard(true);
               setBingoCard(res.data);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+              if (err.status === 404) {
+                setIsBingoCard(false);
+              }
+            });
         }
       })
       .catch(err => console.error(err));
@@ -48,87 +54,69 @@ export function BingoMasterPortalChangeBingo() {
 
   function addBingo(event) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/bingomaster/add-card', {},
-          {
-            params: {
-              year: year
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            loadBingoCard();
-          })
-          .catch(err => {
-            alert('Kunne ikke legg til bingo');
-            console.error(err);
-          })
+    axios.post('/api/bingomaster/add-card', {},
+      {
+        params: {
+          year: year
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        loadBingoCard();
+      })
+      .catch(err => {
+        alert('Kunne ikke legg til bingo');
+        console.error(err);
+      })
   }
 
   function updateSquare(event, id) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/bingomaster/set', {},
-          {
-            params: {
-              year: year,
-              id: id,
-              text: new FormData(event.target).get('text')
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            const submitButton = event.target.getElementsByTagName('input')[0];
-            submitButton.value = "Lagret!";
-            setTimeout(() => submitButton.value = "Sett ny tekst", 1000);
-          })
-          .catch(err => {
-            alert('Kunne ikke endre tekst på rute');
-            console.error(err);
-          })
+    axios.post('/api/bingomaster/set', {},
+      {
+        params: {
+          year: year,
+          id: id,
+          text: new FormData(event.target).get('text')
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        const submitButton = event.target.getElementsByTagName('input')[0];
+        submitButton.value = "Lagret!";
+        setTimeout(() => submitButton.value = "Sett ny tekst", 1000);
+      })
+      .catch(err => {
+        alert('Kunne ikke endre tekst på rute');
+        console.error(err);
+      })
   }
-  
+
   function markSquare(event, id) {
     event.preventDefault();
-    axios.get('/api/public/csrf-token')
-      .then(res => {
-        const headerName = res.data.headerName;
-        const token = res.data.token;
-        axios.post('/api/bingomaster/mark', {},
-          {
-            params: {
-              year: year,
-              id: id
-            },
-            headers: {
-              [headerName]: token
-            }
-          })
-          .then(res => {
-            const bingoCardCopy = Array.of(... bingoCard);
-            bingoCardCopy[id].marked = !bingoCardCopy[id].marked;
-            setBingoCard(bingoCardCopy);
-          })
-          .catch(err => {
-            alert('Kunne ikke endre markering på rute');
-            console.error(err);
-          })
+    axios.post('/api/bingomaster/mark', {},
+      {
+        params: {
+          year: year,
+          id: id
+        },
+        headers: {
+          [headerName]: token
+        }
       })
-      .catch(err => console.error(err));
+      .then(res => {
+        const bingoCardCopy = Array.of(...bingoCard);
+        bingoCardCopy[id].marked = !bingoCardCopy[id].marked;
+        setBingoCard(bingoCardCopy);
+      })
+      .catch(err => {
+        alert('Kunne ikke endre markering på rute');
+        console.error(err);
+      })
   }
 
   useEffect(() => {
@@ -140,7 +128,7 @@ export function BingoMasterPortalChangeBingo() {
         yearExist != null
           ? (yearExist ?
             <>
-              <title>Bingo {year}</title>
+              <title>{`Bingo ${year}`}</title>
               <h2>Bingo {year}</h2>
               {isBingoCard != null ?
                 <>
@@ -154,7 +142,7 @@ export function BingoMasterPortalChangeBingo() {
                         </form>
                         <form>
                           <input type="submit" value={square.marked ? 'Fjern markering' : 'Marker'}
-                          onClick={e => markSquare(e, square.id)} />
+                            onClick={e => markSquare(e, square.id)} />
                         </form>
                       </div>
                     )
