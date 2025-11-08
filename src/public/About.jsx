@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import logo from '../assets/logo.svg';
+import logo from '../assets/voiestad_logo.svg';
 
 function About() {
   return (
