@@ -3,11 +3,13 @@ import { CsrfTokenContext, ThemeContext } from '../components'
 import axios from 'axios'
 import { useLocation, Link, useNavigate } from 'react-router'
 import Breadcrumbs from './Breadcrumbs'
+import logo from '../assets/logo.svg';
 
 function Logo() {
   return (
     <>
       <Link id="logo" to="/">
+        <img src={logo} alt="" width="45" height="45" />
         <h1>F1 Gjettespill</h1>
       </Link>
     </>

@@ -216,7 +216,8 @@ div {
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
-	display: inline-block;
+	display: inline-flex;
+	gap: 8px;
 }
 
 #logo:hover {
@@ -681,7 +682,7 @@ h3 {
 }
 
 #v-logo {
-	background-color: rgb(187, 0, 31);
+	background-color: var(--color-accent);
 	border-radius: 50%;
 	width: 100px;
 	height: 100px;
