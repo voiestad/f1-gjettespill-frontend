@@ -13,6 +13,7 @@ export {
   LogView
 } from './Logging';
 export {
+  ManageRace,
   SeasonAdd,
   SeasonChooseCategory,
   SeasonChooseYear,

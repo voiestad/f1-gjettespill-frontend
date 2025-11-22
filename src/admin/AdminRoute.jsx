@@ -8,6 +8,7 @@ import {
   LogChooseCategory,
   LogChooseDate,
   LogView,
+  ManageRace,
   SeasonAdd,
   SeasonChooseCategory,
   SeasonChooseYear,
@@ -20,7 +21,6 @@ import {
   SeasonResults,
   SeasonRoute
 } from './';
-import { StatsRace } from '../public';
 import axios from 'axios';
 import { Outlet, Route, Routes } from 'react-router';
 import { useState, useEffect } from 'react';
@@ -90,7 +90,7 @@ function AdminRoute() {
               <Route index element={<SeasonChooseCategory />} />
               <Route path="manage">
                 <Route index element={<SeasonManageRaces />} />
-                <Route path=":raceId" element={<StatsRace />} />
+                <Route path=":raceId" element={<ManageRace />} />
               </Route>
               <Route path="cutoff" element={<SeasonCutoff />} />
               <Route path="competitors">

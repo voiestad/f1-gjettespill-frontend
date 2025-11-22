@@ -21,11 +21,11 @@ function SummaryTable(props) {
     },
     {
       key: "winner",
-      values: [<a href="#winner">1.plass</a>, summary?.winner.pos, summary?.winner.value]
+      values: [<a href="#winner">1. plass</a>, summary?.winner.pos, summary?.winner.value]
     },
     {
       key: "tenth",
-      values: [<a href="#tenth">10.plass</a>, summary?.tenth.pos, summary?.tenth.value]
+      values: [<a href="#tenth">10. plass</a>, summary?.tenth.pos, summary?.tenth.value]
     },
     {
       key: "total",
@@ -96,10 +96,10 @@ function UserStats(props) {
           <FlagTable flagGuesses={flagGuesses} />
         </div>
         <div id="winner">
-          <DriverPlaceTable title="1.plass" placeGuesses={winnerGuesses} />
+          <DriverPlaceTable title="1. plass" placeGuesses={winnerGuesses} />
         </div>
         <div id="tenth">
-          <DriverPlaceTable title="10.plass" placeGuesses={tenthGuesses} />
+          <DriverPlaceTable title="10. plass" placeGuesses={tenthGuesses} />
         </div>
       </div>
     </>

@@ -41,10 +41,10 @@ function GuessTenth() {
 
   return (
     <>
-      <title>Gjett 10.plass</title>
+      <title>Gjett 10. plass</title>
       {data ?
         <>
-          <h2>Gjett 10.plass i {data.race.name}</h2>
+          <h2>Gjett 10. plass i {data.race.name}</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
         </>
