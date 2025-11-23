@@ -168,7 +168,6 @@ export function SeasonManageRaces() {
 }
 
 export function ManageRace() {
-  const { token, headerName } = useContext(CsrfTokenContext);
   const [drivers, setDrivers] = useState([]);
   const [constructors, setConstructors] = useState([]);
   const [startingGrid, setStartingGrid] = useState([]);
@@ -176,8 +175,10 @@ export function ManageRace() {
   const [driverStandings, setDriverStandings] = useState([]);
   const [constructorStandings, setConstructorStandings] = useState([]);
   const [name, setName] = useState("")
-  const { raceId, year } = useParams();
   const [error, setError] = useState(null);
+  const { raceId, year } = useParams();
+  const { token, headerName } = useContext(CsrfTokenContext);
+
   useEffect(() => {
     axios.get(`/api/admin/season/competitors/drivers/list/${year}`)
       .then(res => setDrivers(res.data))
@@ -217,21 +218,26 @@ export function ManageRace() {
     const driverStandingsPoints = formData.getAll('driverStandingsPoints')
     const constructorStandingsId = formData.getAll('constructorStandingsId')
     const constructorStandingsPoints = formData.getAll('constructorStandingsPoints')
+
     const raceResultReq = raceResultId.map((id, i) => {
       return { position: raceResultPosition[i], driver: id, points: raceResultPoints[i], finishingPosition: i + 1 }
     });
+    
     const driverStandingsReq = driverStandingsId.map((id, i) => {
       return { position: i + 1, driver: id, points: driverStandingsPoints[i] }
     });
+    
     const constructorStandingsReq = constructorStandingsId.map((id, i) => {
       return { position: i + 1, constructor: id, points: constructorStandingsPoints[i] }
     });
+    
     const req = {
       raceId: raceId,
       raceResult: raceResultReq,
       driverStandings: driverStandingsReq,
       constructorStandings: constructorStandingsReq
     };
+  
     axios.put("/api/admin/season/manage/addRaceResult", req,
       {
         headers: {
@@ -249,10 +255,9 @@ export function ManageRace() {
       })
   }
 
-  function StartingGridTable(props) {
-    const { grid } = props;
+  function StartingGridTable() {
     const header = ["Plass", "Sjåfør"];
-    const body = grid.map((row) => ({
+    const body = startingGrid.map((row) => ({
       key: row.name,
       values: [row.position, row.name]
     }));
@@ -318,7 +323,7 @@ export function ManageRace() {
 
       <form onSubmit={changeResults}>
         <div className="tables">
-          <StartingGridTable grid={startingGrid} />
+          <StartingGridTable />
           <RaceResultsTable />
           <button type="button" onClick={() => setRaceResult([...raceResult, { position: raceResult.length + 1, id: null, points: 0 }])}>Legg til rad</button>
           <DriverStandingsTable />
@@ -326,7 +331,7 @@ export function ManageRace() {
           <ConstructorsStandingsTable />
           <button type="button" onClick={() => setConstructorStandings([...constructorStandings, { position: constructorStandings.length + 1, id: null, points: 0 }])}>Legg til rad</button>
         </div>
-        <input type="submit" value="Endre resultater" id="submit-button"/>
+        <input type="submit" value="Endre resultater" id="submit-button" />
       </form>
     </>
   )
