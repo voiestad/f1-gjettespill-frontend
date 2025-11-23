@@ -22,11 +22,11 @@ function SummaryTable(props) {
     },
     {
       key: "winner",
-      values: [user1?.winner.value, user1?.winner.pos, "1.plass", user2?.winner.pos, user2?.winner.value]
+      values: [user1?.winner.value, user1?.winner.pos, "1. plass", user2?.winner.pos, user2?.winner.value]
     },
     {
       key: "tenth",
-      values: [user1?.tenth.value, user1?.tenth.pos, "10.plass", user2?.tenth.pos, user2?.tenth.value]
+      values: [user1?.tenth.value, user1?.tenth.pos, "10. plass", user2?.tenth.pos, user2?.tenth.value]
     },
     {
       key: "total",
@@ -253,9 +253,9 @@ function Compare() {
           <ChampionshipTable title="Konstruktører" compName="Konstruktør" user1={userGuesses.user1.userScores.constructorsGuesses}
             user2={userGuesses.user2.userScores.constructorsGuesses} />
           <FlagTable user1={userGuesses.user1.userScores.flagGuesses} user2={userGuesses.user2.userScores.flagGuesses} />
-          <DriverPlaceTable title="1.plass" user1={userGuesses.user1.userScores.winnerGuesses}
+          <DriverPlaceTable title="1. plass" user1={userGuesses.user1.userScores.winnerGuesses}
             user2={userGuesses.user2.userScores.winnerGuesses} />
-          <DriverPlaceTable title="10.plass" user1={userGuesses.user1.userScores.tenthGuesses}
+          <DriverPlaceTable title="10. plass" user1={userGuesses.user1.userScores.tenthGuesses}
             user2={userGuesses.user2.userScores.tenthGuesses} />
         </div>
         : ''}

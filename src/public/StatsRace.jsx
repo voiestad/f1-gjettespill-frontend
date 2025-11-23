@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import { ErrorNotFound, ErrorUnknown } from '../error';
+import { ErrorNotFound } from '../error';
 import { translateFlag, translateSession } from '../util/translator';
 import Table from '../util/Table';
 
