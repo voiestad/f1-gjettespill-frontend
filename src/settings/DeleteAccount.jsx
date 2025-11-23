@@ -27,7 +27,6 @@ function DeleteAccount() {
         }
       })
       .then(res => {
-        console.log(res.data);
         alert('Brukeren din ble slettet');
         navigate('/');
       })

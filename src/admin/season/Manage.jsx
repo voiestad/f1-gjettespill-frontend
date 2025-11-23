@@ -195,7 +195,6 @@ export function ManageRace() {
     axios.get(`/api/public/stats/race/${raceId}`)
       .then(res => {
         const data = res.data;
-        console.log(data);
         setStartingGrid(res.data.startingGrid);
         setRaceResult(res.data.raceResult);
         setDriverStandings(res.data.driverStandings);
