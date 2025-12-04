@@ -114,10 +114,6 @@ function DropdownMenu(props) {
 
   useEffect(() => {
     reloadHeaderState();
-    const interval = setInterval(() => {
-      reloadHeaderState();
-    }, 10 * 1000);
-    return () => clearInterval(interval);
   }, []);
 
   function logout() {
@@ -141,8 +137,8 @@ function DropdownMenu(props) {
           ref={linksRef}
           style={{ maxHeight: '0px' }}
         >
-          {headerState && headerState.isAbleToGuess ? <Link to="/guess">Gjett</Link> : ''}
-          {headerState && headerState.isRaceGuess ? <Link to="/race-guess">Gjettet på løp</Link> : ''}
+          <Link to="/guess">Gjett</Link>
+          <Link to="/race-guess">Gjettet på løp</Link>
           <DropdownSection category="Resultater" linksRef={linksRef}>
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>

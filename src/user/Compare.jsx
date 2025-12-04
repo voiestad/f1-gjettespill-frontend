@@ -21,8 +21,8 @@ function SummaryTable(props) {
       values: [user1?.flag.value, user1?.flag.pos, "Antall", user2?.flag.pos, user2?.flag.value]
     },
     {
-      key: "winner",
-      values: [user1?.winner.value, user1?.winner.pos, "1. plass", user2?.winner.pos, user2?.winner.value]
+      key: "first",
+      values: [user1?.first.value, user1?.first.pos, "1. plass", user2?.first.pos, user2?.first.value]
     },
     {
       key: "tenth",
@@ -161,6 +161,71 @@ function DriverPlaceTable(props) {
   return <Table title={title} header={header} body={body} />;
 }
 
+function QualifyingTable(props) {
+  const { title, user1, user2 } = props;
+  const placeGuesses = [];
+  let i = 0;
+  let j = 0;
+  while (true) {
+    if (i >= user1.length && j >= user2.length) {
+      break;
+    }
+    const row = {
+      points1: 0,
+      points2: 0,
+      qualifyingPos1: null,
+      qualifyingPos2: null,
+      driver1: null,
+      driver2: null,
+    };
+    let set1 = false;
+    let set2 = false;
+    if (i < user1.length && j < user2.length) {
+      if (user1[i].racePos === user2[j].racePos) {
+        set1 = true;
+        set2 = true;
+      } else if (user1[i].racePos < user2[j].racePos) {
+        set1 = true;
+      } else {
+        set2 = true;
+      }
+    } else if (i < user1.length) {
+      set1 = true;
+    } else {
+      set2 = true;
+    }
+    if (set1) {
+      row.points1 = user1[i].points;
+      row.qualifyingPos1 = user1[i].qualifyingPos;
+      row.driver1 = user1[i].driver;
+      row.raceName = user1[i].raceName;
+      row.racePos = user1[i].racePos;
+      i++;
+    }
+    if (set2) {
+      row.points2 = user2[j].points;
+      row.qualifyingPos2 = user2[j].qualifyingPos;
+      row.driver2 = user2[j].driver;
+      row.raceName = user2[j].raceName;
+      row.racePos = user2[j].racePos;
+      j++;
+    }
+    placeGuesses.push(row);
+  }
+  const header = ["Poeng", "Plass", "Gjettet", "Løp", "Gjettet", "Plass", "Poeng"];
+  const body = placeGuesses.map((row) => ({
+    key: row.raceName,
+    values: [row.points1,
+    row.qualifyingPos1,
+    row.driver1,
+    `${row.racePos}. ${row.raceName}`,
+    row.driver2,
+    row.qualifyingPos2,
+    row.points2]
+  }));
+  return <Table title={title} header={header} body={body} />;
+}
+
 function Compare() {
   const [users, setUsers] = useState(null);
   const [raceId, setRaceId] = useState(null);
@@ -253,10 +318,12 @@ function Compare() {
           <ChampionshipTable title="Konstruktører" compName="Konstruktør" user1={userGuesses.user1.userScores.constructorsGuesses}
             user2={userGuesses.user2.userScores.constructorsGuesses} />
           <FlagTable user1={userGuesses.user1.userScores.flagGuesses} user2={userGuesses.user2.userScores.flagGuesses} />
-          <DriverPlaceTable title="1. plass" user1={userGuesses.user1.userScores.winnerGuesses}
-            user2={userGuesses.user2.userScores.winnerGuesses} />
+          <DriverPlaceTable title="1. plass" user1={userGuesses.user1.userScores.firstGuesses}
+            user2={userGuesses.user2.userScores.firstGuesses} />
           <DriverPlaceTable title="10. plass" user1={userGuesses.user1.userScores.tenthGuesses}
             user2={userGuesses.user2.userScores.tenthGuesses} />
+          <QualifyingTable title="Pole" user1={userGuesses.user1.userScores.poleGuesses}
+            user2={userGuesses.user2.userScores.poleGuesses} />
         </div>
         : ''}
     </>

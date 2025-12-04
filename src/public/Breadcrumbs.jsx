@@ -195,6 +195,7 @@ function getGuessPath(segments) {
     case "tenth": return "10. plass";
     case "first": return "1. plass";
     case "flag": return "Antall";
+    case "pole": return "Pole";
     default: return null;
   };
 }

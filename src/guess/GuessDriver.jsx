@@ -6,14 +6,15 @@ import { useNavigate } from 'react-router';
 import { ErrorGuessNotAllowedYet } from "../error";
 import { CsrfTokenContext } from "../components";
 
-function GuessTenth() {
+function GuessDriver(props) {
+  const { title, category } = props;
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
-    axios.get('/api/guess/tenth')
+    axios.get(`/api/guess/${category}`)
       .then(res => {
         setData(res.data);
       })
@@ -24,7 +25,7 @@ function GuessTenth() {
   }, []);
 
   function guessHandler(driver) {
-    axios.post('/api/guess/tenth', {}, {
+    axios.post(`/api/guess/${category}`, {}, {
       params: {
         driver: driver
       },
@@ -41,10 +42,10 @@ function GuessTenth() {
 
   return (
     <>
-      <title>Gjett 10. plass</title>
+      <title>{title}</title>
       {data ?
         <>
-          <h2>Gjett 10. plass i {data.race.name}</h2>
+          <h2>{title} i {data.race.name}</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
         </>
@@ -54,4 +55,4 @@ function GuessTenth() {
   )
 }
 
-export default GuessTenth
+export default GuessDriver

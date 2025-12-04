@@ -20,12 +20,16 @@ function SummaryTable(props) {
       values: [<a href="#flag">Antall</a>, summary?.flag.pos, summary?.flag.value]
     },
     {
-      key: "winner",
-      values: [<a href="#winner">1. plass</a>, summary?.winner.pos, summary?.winner.value]
+      key: "first",
+      values: [<a href="#first">1. plass</a>, summary?.first.pos, summary?.first.value]
     },
     {
       key: "tenth",
       values: [<a href="#tenth">10. plass</a>, summary?.tenth.pos, summary?.tenth.value]
+    },
+    {
+      key: "pole",
+      values: [<a href="#pole">Pole</a>, summary?.pole.pos, summary?.pole.value]
     },
     {
       key: "total",
@@ -78,9 +82,22 @@ function DriverPlaceTable(props) {
   return <Table title={title} header={header} body={body} />;
 }
 
+function QualifyingGuesses(props) {
+  const { title, qualifyingGuesses } = props;
+  const header = ["Løp", "Gjettet", "Plass", "Poeng"];
+  const body = qualifyingGuesses.map(row => ({
+    key: row.raceName,
+    values: [`${row.racePos}. ${row.raceName}`,
+    row.driver,
+    row.qualifyingPos,
+    row.points]
+  }));
+  return <Table title={title} header={header} body={body} />;
+}
+
 function UserStats(props) {
   const { userScores, summary } = props.userData;
-  const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, winnerGuesses, tenthGuesses } = userScores;
+  const { user, year: y, raceId, racePos, driversGuesses, constructorsGuesses, flagGuesses, firstGuesses, tenthGuesses, poleGuesses } = userScores;
   return (
     <>
       <h2>Statistikk {user.username} {y} </h2>
@@ -95,11 +112,14 @@ function UserStats(props) {
         <div id="flag">
           <FlagTable flagGuesses={flagGuesses} />
         </div>
-        <div id="winner">
-          <DriverPlaceTable title="1. plass" placeGuesses={winnerGuesses} />
+        <div id="first">
+          <DriverPlaceTable title="1. plass" placeGuesses={firstGuesses} />
         </div>
         <div id="tenth">
           <DriverPlaceTable title="10. plass" placeGuesses={tenthGuesses} />
+        </div>
+        <div id="pole">
+          <QualifyingGuesses title="Pole" qualifyingGuesses={poleGuesses} />
         </div>
       </div>
     </>
