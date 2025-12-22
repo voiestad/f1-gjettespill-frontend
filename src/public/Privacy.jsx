@@ -73,7 +73,7 @@ function Privacy() {
         </p>
         <h4>Rett til sletting</h4>
         <p>
-          Brukeren din kan når som helst slettes <Link to="/settings/delete">her</Link>. Da vil e-post bli fjernet,
+          Brukeren din kan når som helst slettes <Link to="/settings/delete">her</Link>. Da vil preferanser bli fjernet,
           brukernavn anonymisert og OpenID fjernet. All gjettedataen vil forbli lagret for å bevare integriteten
           av statistikken, men dataen vil ikke lengre være tilknyttet dine personopplysinger på noe som helst vis.
         </p>
