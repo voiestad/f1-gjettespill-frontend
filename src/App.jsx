@@ -22,6 +22,7 @@ import { ErrorNotFound } from './error';
 import { Compare, MyProfile, User, UserList } from './user'
 import { BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
 import { BingoMasterPortalChangeBingo, BingomasterPortalChooseYear } from './admin/BingomasterPortal';
+import { CreateLeague } from './league';
 
 const AdminRoute = lazy(() => import('./admin/AdminRoute'));
 const SettingsRoute = lazy(() => import('./settings/SettingsRoute'));
@@ -68,6 +69,9 @@ function App() {
                   </Route>
                 </Route>
                 <Route path="guess/*" element={<GuessRoute />} />
+                <Route path="league">
+                  <Route path="add" element={<CreateLeague />} />
+                </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
                 </Route>

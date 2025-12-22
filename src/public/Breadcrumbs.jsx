@@ -78,6 +78,7 @@ function getNameForPath(path) {
     case "bingo": return getBingoPath(segments);
     case "login": return "Innlogging";
     case "github": return "GitHub";
+    case "league": return getLeaguePath(segments);
     default: return null;
   };
 }
@@ -241,6 +242,17 @@ function getBingoPath(segments) {
     return "Administrer bingo";
   }
 	return nextSegment.value;
+}
+
+function getLeaguePath(segments) {
+  const segment = segments.next();
+  if (segment.done) {
+    return "Liga";
+  }
+  switch (segment.value) {
+    case "add": return "Lage liga";
+    default: return null;
+  };
 }
 
 export default Breadcrumbs
