@@ -43,8 +43,8 @@ function About() {
         </p>
         <h3>Utvikler</h3>
         <p>
-          Nettsiden er utviklet og styres av Vebjørn Øiestad. Henvendelser angående nettsiden kan sendes inn via
-          kontaktskjemaet <Link to="/contact">her</Link>.
+          Nettsiden er utviklet og styres av Vebjørn Øiestad. For henvendelser angående nettsiden ligger
+          kontaktinformasjon <Link to="/contact">her</Link>.
         </p>
         <br />
         <p id="v-logo">
