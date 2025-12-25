@@ -9,7 +9,6 @@ function Username() {
   const [isNewUser, setIsNewUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [username, setUsername] = useState(null);
-  const [referralCode, setReferralCode] = useState(null);
   const [hasChanged, setHasChanged] = useState(false);
   const { token, headerName } = useContext(CsrfTokenContext);
   const navigate = useNavigate();
@@ -22,23 +21,7 @@ function Username() {
       })
       .catch(err => console.error(err));
   }, []);
-  function validateContent(event) {
-    const validNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    let value = event.target.value;
-    let newVal = "";
-    let counter = 0;
-    for (let c of value) {
-      if (counter == 19) {
-        break;
-      }
-      if (c in validNumbers) {
-        newVal += c;
-        counter++;
-      }
-    }
-    event.target.value = newVal;
-    setReferralCode(newVal);
-  }
+
   function logout(event) {
     event.preventDefault();
     axios.post('/api/logout', {}, {
@@ -57,7 +40,6 @@ function Username() {
       {
         params: {
           username: username,
-          referralCode: referralCode
         },
         headers: {
           [headerName]: token
@@ -83,14 +65,6 @@ function Username() {
             <>
               <form onSubmit={changeUsername}>
                 <input type="text" required placeholder="Brukernavn" autoComplete="off" onChange={e => setUsername(e.target.value)} /><br /><br />
-                {isNewUser ?
-                  <label>Invitasjonskode<br />
-                    <div className="pin-container">
-                      <input id="pin-input19" type="text" className="pin-input" inputMode="numeric"
-                        autoComplete="off" onChange={validateContent} />
-                    </div>
-                  </label>
-                  : ''}
                 <input type="submit" value="Bekreft brukernavn" />
               </form>
               {isNewUser ?
