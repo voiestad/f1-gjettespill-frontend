@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ErrorUnknown } from '../error'
 import Table from '../util/Table';
 import { translateCategory } from '../util/translator';
 
@@ -16,30 +15,44 @@ export function DiffTable(props) {
 
 function Score() {
   const [scoringTables, setScoringTables] = useState(null);
-  const [error, setError] = useState(null);
   const [categories, setCategories] = useState(null);
-  useEffect(() => {
-    axios.get('/api/public/category/list')
-      .then(res => setCategories(res.data))
-      .catch(err => console.error(err));
-    axios.get('/api/public/score')
+  const [years, setYears] = useState([]);
+
+  function changeYear(year) {
+    axios.get(`/api/public/score/${year}`)
       .then(res => {
         setScoringTables(res.data)
       })
       .catch(err => {
-        if (err.status === 404) {
-          setError(<p>Poengberegningen for dette året er ikke tilgjenglig enda.</p>);
-        } else {
-          setError(<ErrorUnknown />);
-          console.error(err);
+        setScoringTables(null)
+      })
+  }
+
+  useEffect(() => {
+    axios.get('/api/public/category/list')
+      .then(res => setCategories(res.data))
+      .catch(err => console.error(err));
+    axios.get('/api/public/year/list')
+      .then(res => {
+        setYears(res.data);
+        if (res.data.length) {
+          changeYear(res.data[0]);
         }
       })
+      .catch(err => console.error(err));
   }, []);
 
   return (
     <>
       <title>Poengberegning</title>
       <h2>Poengberegning</h2>
+      <label>Velg år:
+        <br />
+        <select onChange={(e) => changeYear(e.target.value)}>
+          {years.map((year) => <option key={year} value={year}>{year}</option>)}
+        </select>
+      </label>
+      <br />
       {scoringTables && categories ?
         <div className="tables">
           {categories.map(category =>
@@ -48,7 +61,6 @@ function Score() {
         </div>
         :
         ''}
-      {error ? error : ''}
     </>
   )
 }
