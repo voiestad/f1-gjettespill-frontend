@@ -77,6 +77,7 @@ function getNameForPath(path) {
     case "stats": return getStatsPath(segments);
     case "bingo": return getBingoPath(segments);
     case "login": return "Innlogging";
+    case "logged-in": return "Innlogging";
     case "github": return "GitHub";
     case "league": return getLeaguePath(segments);
     default: return null;
@@ -251,8 +252,13 @@ function getLeaguePath(segments) {
   }
   switch (segment.value) {
     case "add": return "Lage liga";
-    default: return null;
+    case "invitations": return "Invitasjoner";
   };
+  const nextSegment = segments.next();
+  if (nextSegment.done) {
+    return "Ligaside";
+  }
+  return "Innstillinger";
 }
 
 export default Breadcrumbs

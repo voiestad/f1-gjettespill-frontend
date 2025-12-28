@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 import { CsrfTokenContext } from '../components';
 
-export function CreateLeague() {
+function CreateLeague() {
   const [leagueName, setLeagueName] = useState("");
   const [error, setError] = useState(null);
   const { token, headerName } = useContext(CsrfTokenContext);
@@ -56,3 +56,5 @@ export function CreateLeague() {
     </>
   )
 }
+
+export default CreateLeague

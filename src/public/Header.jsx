@@ -148,6 +148,7 @@ function DropdownMenu(props) {
           <DropdownSection category="Andre" linksRef={linksRef}>
             <Link to="/bingo">Bingo</Link>
           </DropdownSection>
+          <Link to="/league">Liga</Link>
           {headerState && headerState.isLoggedIn ?
             <DropdownSection category="Profil" linksRef={linksRef}>
               <Link to="/user/myprofile">Min Profil</Link>
