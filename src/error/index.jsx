@@ -69,3 +69,12 @@ export function ErrorUnknown() {
     </>
   )
 }
+
+export function ErrorNotMember() {
+  return (
+    <>
+      <h2>Du er ikke medlem av denne ligaen...</h2>
+      <Link to="/">Tilbake til hjem</Link>
+    </>
+  )
+}

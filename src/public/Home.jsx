@@ -70,9 +70,11 @@ function Home() {
       {guessers ?
         <>
           <h3>Årets deltakere:</h3>
-          <ul>
-            {guessers.map(guesser => <li>{guesser}</li>)}
-          </ul>
+          <div className="userListWrapper">
+            <ul className="userList">
+              {guessers.map(guesser => <li key={guesser.id}>{guesser.username}</li>)}
+            </ul>
+          </div>
         </>
         : ''}
       {leaderboard ?

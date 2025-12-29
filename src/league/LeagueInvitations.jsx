@@ -71,6 +71,9 @@ function LeagueInvitations() {
   }
 
   function invite() {
+    if (!inviteLeague || ! inviteUser) {
+      return;
+    }
     axios.put("/api/league/invite", {}, {
       params: {
         leagueId: inviteLeague,

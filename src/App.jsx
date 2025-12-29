@@ -56,7 +56,7 @@ function App() {
               </Route>
               <Route path="league">
                 <Route index element={<ChooseLeague />} />
-                <Route path=":league" element={<LeaguePage />} />
+                <Route path=":leagueId" element={<LeaguePage />} />
               </Route>
               <Route path="user">
                 <Route index element={<UserList />} />
@@ -76,7 +76,7 @@ function App() {
                 <Route path="league">
                   <Route path="add" element={<CreateLeague />} />
                   <Route path="invitations" element={<LeagueInvitations />} />
-                  <Route path=":league/settings" element={<LeagueSettings />} />
+                  <Route path=":leagueId/settings" element={<LeagueSettings />} />
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
