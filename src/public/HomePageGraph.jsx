@@ -22,6 +22,22 @@ Chart.register(
 
 function HomePageGraph(properties) {
   const { graph } = properties;
+  const xValues = graph[0].scores.map((_, i) => i);
+  const userScores = [];
+  const colors = ["#f7d000", "purple", "red", "green", "blue", "orange"];
+  for (let i = 0; i < graph.length; i++) {
+    userScores.push({
+      data: graph[i].scores,
+      borderColor: colors[i % colors.length],
+      backgroundColor: colors[i % colors.length],
+      fill: false,
+      label: graph[i].name
+    });
+  }
+  const data = {
+    labels: xValues,
+    datasets: userScores
+  };
   const chartStyle = {
     display: "flex",
     maxWidth: "800px",
@@ -80,7 +96,7 @@ function HomePageGraph(properties) {
   return (
     <>
       <div style={chartStyle}>
-        <Line redraw={false} height={null} width={null} data={graph} options={options} />
+        <Line redraw={false} height={null} width={null} data={data} options={options} />
       </div>
     </>
   )

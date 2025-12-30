@@ -1,19 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect, lazy } from 'react';
-import { Link } from 'react-router';
-import Table from '../util/Table';
+import Leaderboard from './Leaderboard';
 const HomePageGraph = lazy(() => import('./HomePageGraph'));
-
-function Leaderboard(props) {
-  const header = ["Plass", "Navn", "Poeng"];
-  const body = props.leaderboard.map((row) => ({
-    key: row.guesser.id,
-    values: [row.rank,
-    <Link to={`/user/${row.guesser.id}`}>{row.guesser.username}</Link>,
-    row.guesser.points]
-  }));
-  return <Table title="Rangering" header={header} body={body} />;
-}
 
 function Home() {
   const [message, setMessage] = useState(null);
@@ -33,29 +21,25 @@ function Home() {
     axios.get('/api/public/home')
       .then(res => {
         if (res.data.leaderboard === null) {
-          setMessage("Sesongen starter snart");
+          setGuessers(res.data.guessers);
+          let cutoff = null;
+          if (res.data.cutoff) {
+            const date = new Date(res.data.cutoff);
+            
+            cutoff = new Intl.DateTimeFormat("nb-NO", {
+              day: "numeric",
+              month: "long",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false
+            }).format(date);
+          }
+          setMessage(<>Sesongen starter snart.{cutoff ? <><br />Det er mulig å gjette frem til {cutoff}.</> : ''}</>);
           return;
         }
+        setMessage(null);
         setLeaderboard(res.data.leaderboard);
-        setGuessers(res.data.guessers);
-        const graphData = res.data.graph;
-        const xValues = graphData[0].scores.map((_, i) => i);
-        const userScores = [];
-        const colors = ["#f7d000", "purple", "red", "green", "blue", "orange"];
-        for (let i = 0; i < graphData.length; i++) {
-          userScores.push({
-            data: graphData[i].scores,
-            borderColor: colors[i % colors.length],
-            backgroundColor: colors[i % colors.length],
-            fill: false,
-            label: graphData[i].name
-          });
-        }
-        const data = {
-          labels: xValues,
-          datasets: userScores
-        };
-        setGraph(data);
+        setGraph(res.data.graph);
       })
       .catch(err => console.error(err));
   }
@@ -65,7 +49,7 @@ function Home() {
       <title>F1 Gjettespill</title>
       <h2>Velkommen til F1 Gjettespill!</h2>
       {message ?
-        <h3>{message}</h3>
+        <p>{message}</p>
         : ''}
       {guessers ?
         <>

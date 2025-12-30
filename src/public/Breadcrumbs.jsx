@@ -212,7 +212,6 @@ function getSettingsPath(segments) {
     case "username": return "Endre brukernavn";
     case "delete": return "Slett bruker";
     case "reminders": return "Påminnelser";
-    case "referral": return "Inviter brukere";
     default: return null;
   };
 }

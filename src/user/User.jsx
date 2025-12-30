@@ -25,6 +25,7 @@ function User() {
         setError(null);
       })
       .catch(err => {
+        setUserData(null);
         if (err.status === 403) {
           setError(<ErrorGuessingNotAvailableYet />);
         } else if (err.status === 404 || err.status === 400) {

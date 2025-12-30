@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy } from 'react';
 import { useParams, Link } from 'react-router';
 import { ErrorNotFound, ErrorUnknown } from '../error';
-import Table from '../util/Table';
+import Leaderboard from '../public/Leaderboard';
+const HomePageGraph = lazy(() => import('../public/HomePageGraph'));
 
 function LeaguePage() {
   const { leagueId } = useParams();
@@ -46,6 +47,12 @@ function LeaguePage() {
               </div>
             </>
             : ''}
+          {league.leaderboard ?
+            <div className="tables">
+              <Leaderboard leaderboard={league.leaderboard} />
+            </div>
+            : ''}
+          {league.graph ? <HomePageGraph graph={league.graph} /> : ''}
           {league.membershipStatus !== "NOT_MEMBER" ? <Link to={`/league/${leagueId}/settings`}>Innstillinger</Link> : ''}
         </> : <title>Ligaside</title>}
 
