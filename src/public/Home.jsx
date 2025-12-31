@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect, lazy } from 'react';
+import { Link } from 'react-router';
 import Leaderboard from './Leaderboard';
 const HomePageGraph = lazy(() => import('./HomePageGraph'));
 
@@ -56,7 +57,7 @@ function Home() {
           <h3>Årets deltakere:</h3>
           <div className="userListWrapper">
             <ul className="userList">
-              {guessers.map(guesser => <li key={guesser.id}>{guesser.username}</li>)}
+              {guessers.map(guesser => <li key={guesser.id}><Link to={`/user/${guesser.id}`}>{guesser.username}</Link></li>)}
             </ul>
           </div>
         </>

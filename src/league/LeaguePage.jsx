@@ -42,7 +42,7 @@ function LeaguePage() {
               <h3>Medlemmer:</h3>
               <div className="userListWrapper">
                 <ul className="userList">
-                  {league.members.map(member => <li key={member.id}>{member.username}</li>)}
+                  {league.members.map(member => <li key={member.id}><Link to={`/user/${member.id}`}>{member.username}</Link></li>)}
                 </ul>
               </div>
             </>
