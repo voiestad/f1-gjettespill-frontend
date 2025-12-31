@@ -28,10 +28,6 @@ function About() {
           poengene eksakt blir beregnet kan du se <Link to="/score">her</Link>.<br /><br />
           Vinneren er den som har flest poeng når sesongen er over.
         </p>
-        <h3>Invitasjon</h3>
-        <p>
-          Inntil videre er det kun mulig å lage bruker hvis man får en invitasjonskode fra en eksisterende bruker.
-        </p>
         <h3>Kommersielle aktiviteter</h3>
         <p>
           Nettsiden er kun ment for å ha det gøy. F1 Gjettespill driver ikke med kommersielle aktiviteter
