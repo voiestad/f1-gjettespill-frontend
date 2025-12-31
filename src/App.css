@@ -82,6 +82,22 @@ h2 {
 	text-align: center;
 }
 
+.userList li {
+	margin: 8px 0;
+}
+
+.userList {
+	display: inline-block;
+	text-align: left;
+	list-style-position: outside;
+	padding-left: 1.2em;
+	margin-top: 0;
+}
+
+.userListWrapper {
+	text-align: center;
+}
+
 /* Header */
 
 header {

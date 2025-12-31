@@ -8,7 +8,7 @@ function Privacy() {
       <div className="paragraph">
         <p>
           Dette er en personvernerklæring for F1 Gjettespill og gjelder for <Link to="/">f1gjettespill.no</Link>. Nettsiden
-          styres av Vebjørn Øiestad og alle spørsmål angående nettsiden kan sendes inn via kontaktskjemaet <Link to="/contact">her</Link>.
+          styres av Vebjørn Øiestad og alle spørsmål angående nettsiden kan sendes inn <Link to="/contact">her</Link>.
         </p>
         <h3>Personopplysninger som samles inn</h3>
         <h4>Krevd</h4>

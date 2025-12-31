@@ -8,7 +8,6 @@ function Settings() {
       <div className="linkList">
         <Link to="/settings/info">Se brukerinformasjon</Link>
         <Link to="/settings/reminders">Påminnelser</Link>
-        <Link to="/settings/referral">Inviter brukere</Link>
         <Link to="/settings/username">Endre brukernavn</Link>
         <Link to="/settings/delete">Slett bruker</Link>
       </div>

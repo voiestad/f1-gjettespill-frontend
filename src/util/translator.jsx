@@ -16,6 +16,7 @@ export function translateCategory(category) {
 		case "DRIVER" : return "Sjåfør";
 		case "CONSTRUCTOR" : return "Konstruktør";
 		case "FLAG" : return "Antall";
+		case "POLE" : return "Pole";
 	}
 }
 

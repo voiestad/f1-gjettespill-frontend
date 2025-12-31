@@ -10,7 +10,7 @@ function About() {
         <h3>Hva er F1 Gjettespill?</h3>
         <p>
           F1 Gjettespill går ut på at deltakerne gjetter på sluttresultatene av Formel 1 sesongen.
-          I tillegg gjettes det på hvem som kommer på første- og tiendeplass i hvert løp gjennom året.
+          I tillegg gjettes det på hvem som kommer på pole, førsteplass og tiendeplass i grand prix gjennom året.
           Vinneren for året er den som har flest poeng når sesongen er over.
         </p>
         <h3>Hvordan funker F1 Gjettespill?</h3>
@@ -20,16 +20,13 @@ function About() {
           sikkerhetsbiler (inkludert virtuelle sikkerthetsbiler) det kommer til å være i løpet av sesongen.
           Gjetningene kan endres så mye man ønsker frem til testingen som foregår før sesongen starter 
           (pre-season testing).<br /><br />
-          Man kan også gjette på hvem man tror kommer på første- og tiendeplass i hvert løp. Dette kan man gjøre
-          fra startoppstillingen for løpet er klar frem til 5 minutter før løpet starter. Her er det også mulig å endre
+          Man kan også gjette på hvem man tror kommer på pole, første- og tiendeplass i hver grand prix. 
+          Dette kan man gjøre fra startoppstillingen for løpet er klar frem til 1 time før løpet starter for tiendeplass.
+          For pole og førsteplass er fristen tre døgn før fristen for tiendeplass. Her er det også mulig å endre
           på gjetningene sine så lenge det er mulig å gjette.<br /><br />
           Poengene man får blir beregnet basert på hvor langt unna gjetningen var det reelle resultatet. Hvordan
           poengene eksakt blir beregnet kan du se <Link to="/score">her</Link>.<br /><br />
           Vinneren er den som har flest poeng når sesongen er over.
-        </p>
-        <h3>Invitasjon</h3>
-        <p>
-          Inntil videre er det kun mulig å lage bruker hvis man får en invitasjonskode fra en eksisterende bruker.
         </p>
         <h3>Kommersielle aktiviteter</h3>
         <p>

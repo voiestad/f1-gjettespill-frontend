@@ -77,7 +77,9 @@ function getNameForPath(path) {
     case "stats": return getStatsPath(segments);
     case "bingo": return getBingoPath(segments);
     case "login": return "Innlogging";
+    case "logged-in": return "Innlogging";
     case "github": return "GitHub";
+    case "league": return getLeaguePath(segments);
     default: return null;
   };
 }
@@ -195,6 +197,7 @@ function getGuessPath(segments) {
     case "tenth": return "10. plass";
     case "first": return "1. plass";
     case "flag": return "Antall";
+    case "pole": return "Pole";
     default: return null;
   };
 }
@@ -209,7 +212,6 @@ function getSettingsPath(segments) {
     case "username": return "Endre brukernavn";
     case "delete": return "Slett bruker";
     case "reminders": return "Påminnelser";
-    case "referral": return "Inviter brukere";
     default: return null;
   };
 }
@@ -240,6 +242,22 @@ function getBingoPath(segments) {
     return "Administrer bingo";
   }
 	return nextSegment.value;
+}
+
+function getLeaguePath(segments) {
+  const segment = segments.next();
+  if (segment.done) {
+    return "Liga";
+  }
+  switch (segment.value) {
+    case "add": return "Lage liga";
+    case "invitations": return "Invitasjoner";
+  };
+  const nextSegment = segments.next();
+  if (nextSegment.done) {
+    return "Ligaside";
+  }
+  return "Innstillinger";
 }
 
 export default Breadcrumbs

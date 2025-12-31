@@ -1,5 +1,4 @@
 export { default as DeleteAccount } from './DeleteAccount';
-export { default as ReferralCode } from './ReferralCode';
 export { default as Reminders } from './Reminders';
 export { default as Settings } from './Settings';
 export { default as UserInformation } from './UserInformation';
