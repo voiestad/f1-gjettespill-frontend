@@ -10,8 +10,32 @@ function LeagueSettings() {
   const { leagueId } = useParams();
   const [leagueName, setLeagueName] = useState("");
   const [message, setMessage] = useState(null);
+  const [newOwner, setNewOwner] = useState("");
+  const [members, setMembers] = useState(null);
   const navigate = useNavigate();
   const { token, headerName } = useContext(CsrfTokenContext);
+
+  useEffect(() => {
+    axios.get(`/api/public/league/membership/${leagueId}`)
+      .then(res => setMembership(res.data))
+      .catch(err => {
+        console.error(err);
+        if (err.status === 404 || err.status === 400) {
+          setError(<ErrorNotFound />);
+        } else {
+          setError(<ErrorUnknown />);
+        }
+      })
+    axios.get(`/api/public/league/members`, {
+      params: {
+        leagueId: leagueId
+      }
+    })
+      .then(res => setMembers(res.data))
+      .catch(err => {
+        console.error(err);
+      })
+  }, []);
 
   function validateLeagueName(e) {
     let value = e.target.value;
@@ -27,7 +51,7 @@ function LeagueSettings() {
     setLeagueName(result);
   }
 
-  function createLeague(e) {
+  function renameLeague(e) {
     e.preventDefault();
     if (!leagueName) {
       return;
@@ -48,19 +72,6 @@ function LeagueSettings() {
       setMessage(err.response.data);
     })
   }
-
-  useEffect(() => {
-    axios.get(`/api/public/league/membership/${leagueId}`)
-      .then(res => setMembership(res.data))
-      .catch(err => {
-        console.error(err);
-        if (err.status === 404 || err.status === 400) {
-          setError(<ErrorNotFound />);
-        } else {
-          setError(<ErrorUnknown />);
-        }
-      })
-  }, []);
 
   function leaveLeague() {
     if (!confirm('Er du sikker på at du vil forlate ligaen?')) {
@@ -100,6 +111,26 @@ function LeagueSettings() {
       });
   }
 
+  function transferOwnership(e) {
+    e.preventDefault();
+    if (!newOwner) {
+      return;
+    }
+    axios.post("/api/league/transferOwnership", {}, {
+      params: {
+        userId: newOwner,
+        leagueId: leagueId
+      },
+      headers: {
+        [headerName]: token
+      }
+    }).then(res => {
+      navigate("/");
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
   return (
     <>
       <title>Ligainstillinger</title>
@@ -110,13 +141,30 @@ function LeagueSettings() {
             <input type="submit" onClick={leaveLeague} value="Forlat liga" />
             {membership === "OWNER" ?
               <>
-                <input type="submit" onClick={deleteLeague} value="Slett liga" />
-
-                <form>
+                <br /><br />
+                <form onSubmit={renameLeague}>
                   <input type="text" placeholder="Liganavn" onChange={validateLeagueName} value={leagueName} /><br />
-                  <input type="submit" value="Endre liganavn" onClick={createLeague} />
+                  <input type="submit" value="Endre liganavn" />
                 </form>
                 {message ? <p>{message}</p> : ''}
+
+                {members ? <form onSubmit={transferOwnership}>
+                  <br />
+                  <label>
+                    <select onChange={e => setNewOwner(e.target.value)}>
+                      <option value="">Velg bruker</option>
+                      {members.map(u =>
+                        <option key={u.id} value={u.id}>
+                          {u.username}
+                        </option>)}
+                    </select>
+                    <br />
+                  </label>
+                  <input type="submit" value="Overfør eierskap" />
+                </form> : ''}
+                <br />
+                <input type="submit" onClick={deleteLeague} value="Slett liga" />
+
               </> : ''}
           </> :
           <>
