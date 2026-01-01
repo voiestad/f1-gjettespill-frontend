@@ -9,6 +9,14 @@ function Home() {
   const [leaderboard, setLeaderboard] = useState(null);
   const [graph, setGraph] = useState(null);
   const [guessers, setGuessers] = useState(null);
+  const [year, setYear] = useState(null);
+  const [years, setYears] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/public/year/list')
+      .then(res => setYears(res.data))
+      .catch(err => console.error(err))
+  }, []);
 
   useEffect(() => {
     loadContent();
@@ -16,17 +24,20 @@ function Home() {
       loadContent();
     }, 20 * 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [year])
 
   function loadContent() {
-    axios.get('/api/public/home')
+    axios.get(`/api/public/home${year ? `?year=${year}` : ''}`)
       .then(res => {
+        if (!year) {
+          setYear(res.data.year);
+        }
         if (res.data.leaderboard === null) {
           setGuessers(res.data.guessers);
           let cutoff = null;
           if (res.data.cutoff) {
             const date = new Date(res.data.cutoff);
-            
+
             cutoff = new Intl.DateTimeFormat("nb-NO", {
               day: "numeric",
               month: "long",
@@ -36,11 +47,14 @@ function Home() {
             }).format(date);
           }
           setMessage(<>Sesongen starter snart.{cutoff ? <><br />Det er mulig å gjette frem til {cutoff}.</> : ''}</>);
+          setLeaderboard(null);
+          setGraph(null);
           return;
         }
         setMessage(null);
+        setGuessers(null);
         setLeaderboard(res.data.leaderboard);
-        setGraph(res.data.graph);
+        setGraph(res.data.graph.length ? res.data.graph : null);
       })
       .catch(err => console.error(err));
   }
@@ -68,6 +82,11 @@ function Home() {
         </div>
         : ''}
       {graph ? <HomePageGraph graph={graph} /> : ''}
+      {year ? <label>
+        Velg år: <select onChange={(e) => setYear(e.target.value)} defaultValue={year}>
+          {years.map((year) => <option key={year} value={year}>{year}</option>)}
+        </select>
+      </label> : ''}
     </>
   )
 }
