@@ -4,7 +4,7 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   function redirectToLogin() {
     const parameter = rememberMe ? "?remember_me" : "";
-    window.location.href = `/oauth2/authorization/google${parameter}`;
+    window.location.href = `/api/oauth2/authorization/google${parameter}`;
   }
   return (
     <>
