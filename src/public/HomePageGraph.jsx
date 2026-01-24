@@ -24,14 +24,43 @@ function HomePageGraph(properties) {
   const { graph } = properties;
   const xValues = graph[0].scores.map((_, i) => i);
   const userScores = [];
-  const colors = ["#f7d000", "purple", "red", "green", "blue", "orange"];
-  for (let i = 0; i < graph.length; i++) {
+  const colors = [
+    "#DC3912", // red
+    "#109618", // green
+    "#3366CC", // blue
+    "#FF9900", // orange
+    "#0099C6", // cyan
+    "#DD4477", // pink
+    "#66AA00", // lime
+    "#B82E2E", // dark red
+    "#316395", // steel blue
+    "#994499", // violet
+    "#22AA99", // teal
+    "#AAAA11", // olive
+    "#6633CC", // indigo
+    "#E67300", // burnt orange
+    "#8B0707", // maroon
+    "#651067", // plum
+    "#329262", // forest green
+    "#5574A6", // slate blue
+    "#3B3EAC"  // deep blue
+  ];
+  let i = 0;
+  for (const user of graph) {
+    let color = colors[i % colors.length]
+    if (user.name === "Elina") {
+      color = "#f7d000"; // yellow
+    } else if (user.name === "Frida Seselje") {
+      color = "#990099"; // purple
+    } else {
+      i++;
+    }
     userScores.push({
-      data: graph[i].scores,
-      borderColor: colors[i % colors.length],
-      backgroundColor: colors[i % colors.length],
+      data: user.scores,
+      borderColor: color,
+      backgroundColor: color,
       fill: false,
-      label: graph[i].name
+      label: user.name
     });
   }
   const data = {
