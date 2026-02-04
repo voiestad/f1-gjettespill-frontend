@@ -260,6 +260,7 @@ div {
 	font-weight: bold;
 	margin: 0;
 	padding-left: 5px;
+	padding-bottom: 5px;
 	color: var(--color-offwhite-darkest);
 }
 
@@ -355,16 +356,28 @@ footer a:hover {
 input[type=button],
 input[type=submit],
 input[type=reset],
+select,
 button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 	background-color: var(--color-accent);
 	border: none;
 	color: var(--color-offwhite);
-	padding: 16px 32px;
+	padding: 12px 24px;
 	margin: 8px;
 	text-decoration: none;
 	font-weight: bold;
 	cursor: pointer;
 	border-radius: 12px;
+}
+
+select {
+	padding: 12px 36px 12px 24px !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath d='M5.5 7.5l4.5 4.5 4.5-4.5'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	background-size: 20px;
 }
 
 input[type=range] {

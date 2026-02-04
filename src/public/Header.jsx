@@ -1,4 +1,6 @@
-import { useState, useEffect, useContext, useRef } from 'react'
+import {
+  useState, useEffect, useContext, useRef, Children, isValidElement, cloneElement,
+} from 'react'
 import { CsrfTokenContext, ThemeContext } from '../components'
 import axios from 'axios'
 import { useLocation, Link, useNavigate } from 'react-router'
@@ -35,7 +37,7 @@ function HamburgerMenu(props) {
 }
 
 function DropdownSection(props) {
-  const { category, linksRef, children } = props;
+  const { category, linksRef, children, updateSelectable } = props;
   const [isActive, setActive] = useState(false);
   const subMenuRef = useRef(null);
   function toggleSubMenu() {
@@ -54,16 +56,24 @@ function DropdownSection(props) {
     } else {
       subMenu.style.maxHeight = "";
     }
+    updateSelectable();
   }, [isActive]);
   return (
     <>
       <div className="dropdown-section">
-        <button className="dropdown-button" onClick={toggleSubMenu}>{category} &#x25BC;</button>
+        <button className="dropdown-button selectable" onClick={toggleSubMenu}>{category} &#x25BC;</button>
         <div
           className={isActive ? 'active' : ''}
           ref={subMenuRef}
         >
-          {children}
+          {Children.map(children, child =>
+            isValidElement(child)
+              ? cloneElement(child, {
+                className: `${child.props.className ?? ''} ${isActive ? 'selectable' : ''
+                  }`.trim()
+              })
+              : child
+          )}
         </div>
       </div>
     </>
@@ -82,9 +92,24 @@ function DropdownMenu(props) {
   const { isMenuActive, setActive } = props;
   const linksRef = useRef(null);
   const navigate = useNavigate();
+  const [headerState, setHeaderState] = useState(null);
+
+  function updateSelectable() {
+    const links = linksRef.current;
+
+    links.querySelectorAll('a, button').forEach(el => {
+      const classList = el.classList;
+      if (isMenuActive && classList.contains("selectable")) {
+        el.removeAttribute('tabindex');
+      } else {
+        el.setAttribute('tabindex', '-1');
+      }
+    });
+  }
 
   useEffect(() => {
     const links = linksRef.current;
+    updateSelectable();
     if (!isMenuActive && links.style.maxHeight == "0px") {
       return;
     }
@@ -99,9 +124,8 @@ function DropdownMenu(props) {
         links.style.maxHeight = 0;
       }, 10);
     }
-  }, [isMenuActive]);
+  }, [isMenuActive, headerState]);
 
-  const [headerState, setHeaderState] = useState(null);
   function reloadHeaderState() {
     axios.get('/api/public/header')
       .then(res => setHeaderState(res.data))
@@ -137,33 +161,33 @@ function DropdownMenu(props) {
           ref={linksRef}
           style={{ maxHeight: '0px' }}
         >
-          <Link to="/guess">Gjett</Link>
-          <Link to="/race-guess">Gjettet på løp</Link>
-          <DropdownSection category="Resultater" linksRef={linksRef}>
+          <Link to="/guess" className="selectable">Gjett</Link>
+          <Link to="/race-guess" className="selectable">Gjettet på løp</Link>
+          <DropdownSection category="Resultater" linksRef={linksRef} updateSelectable={updateSelectable}>
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>
             <Link to="/score">Poengberegning</Link>
             <Link to="https://app.voiestad.no/f1-old">Resultater før 2025</Link>
           </DropdownSection>
-          <DropdownSection category="Andre" linksRef={linksRef}>
+          <DropdownSection category="Andre" linksRef={linksRef} updateSelectable={updateSelectable}>
             <Link to="/bingo">Bingo</Link>
           </DropdownSection>
-          <Link to="/league">Liga</Link>
+          <Link to="/league" className="selectable">Liga</Link>
           {headerState && headerState.isLoggedIn ?
-            <DropdownSection category="Profil" linksRef={linksRef}>
+            <DropdownSection category="Profil" linksRef={linksRef} updateSelectable={updateSelectable}>
               <Link to="/user/myprofile">Min Profil</Link>
               <Link to="/settings">Innstillinger</Link>
               <Link onClick={logout}>Logg ut</Link>
             </DropdownSection>
             : ''
           }
-          <button className="dropdown-button" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
-          {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : ''}
+          <button className="dropdown-button selectable" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
+          {headerState && headerState.isAdmin ? <Link to="/admin" className="selectable">Admin Portal</Link> : ''}
           {headerState && headerState.isAdmin && headerState.ongoingRace ?
-            <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`}>
+            <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`} className="selectable">
               Registrer flagg
             </Link> : ''}
-          {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login">Logg inn</Link> : ''}
+          {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login" className="selectable">Logg inn</Link> : ''}
         </div>
       </div>
     </>
