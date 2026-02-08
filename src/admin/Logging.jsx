@@ -71,7 +71,6 @@ export function LogChooseCategory() {
       <h2>Logging</h2>
       <div className="linkList">
         <Link to="/admin/log/info">Info</Link>
-        <Link to="/admin/log/importer">Importer</Link>
         <Link to="/admin/log/error">Error</Link>
       </div>
     </>
