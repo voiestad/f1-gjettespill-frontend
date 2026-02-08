@@ -10,7 +10,6 @@ function AdminPortal() {
       <Link to="/admin/season">Administrer sesonger</Link>
       <Link to="/admin/bingo">Administrer bingomasters</Link>
       <Link to="/admin/log">Logg</Link>
-      <Link to="/admin/backup">Sikkerhetskopi</Link>
     </div>
     </>
   )

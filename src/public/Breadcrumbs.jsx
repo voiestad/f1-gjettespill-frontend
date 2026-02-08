@@ -94,7 +94,6 @@ function getAdminPath(segments) {
     case "season": return getSeasonPath(segments);
     case "bingo": return "Bingo";
     case "log": return getLogPath(segments);
-    case "backup": return "Sikkerhetskopi";
     default: return null;
   };
 }

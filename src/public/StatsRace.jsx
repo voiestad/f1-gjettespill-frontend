@@ -17,10 +17,10 @@ function StartingGridTable(props) {
 
 function ResultsTable(props) {
   const { title, competitorName, results } = props;
-  const header = ["Plass", competitorName, "Poeng"];
+  const header = ["Plass", competitorName];
   const body = results.map((row) => ({
     key: row.name,
-    values: [row.position, row.name, row.points]
+    values: [row.position, row.name]
   }));
   return <Table title={title} header={header} body={body} />;
 }

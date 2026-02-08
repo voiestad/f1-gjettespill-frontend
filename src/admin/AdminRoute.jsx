@@ -1,7 +1,6 @@
 import {
   AdminBingomasters,
   AdminPortal,
-  Backup,
   FlagChooseRace,
   FlagChooseYear,
   FlagRegister,
@@ -67,7 +66,6 @@ function AdminRoute() {
       <Routes>
         <Route element={<AdminProtectRoute />}>
           <Route index element={<AdminPortal />} />
-          <Route path="backup" element={<Backup />} />
           <Route path="bingo" element={<AdminBingomasters />} />
           <Route path="flag">
             <Route index element={<FlagChooseYear />} />

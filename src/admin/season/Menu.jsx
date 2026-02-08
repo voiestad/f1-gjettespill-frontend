@@ -29,25 +29,20 @@ export function SeasonChooseYear() {
 
 export function SeasonAdd() {
   const [year, setYear] = useState(null);
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
   const [loader, setLoader] = useState(false);
-  const [noRaces, setNoRaces] = useState(false);
   const { token, headerName } = useContext(CsrfTokenContext);
   const navigate = useNavigate();
 
   function addSeason(event) {
     event.preventDefault();
-    if (!year || ((!start || !end) && !noRaces)) {
-      alert('Alle verdiene må være satt')
+    if (!year) {
+      alert('År må være satt')
       return;
     }
     setLoader(true);
     axios.post('/api/admin/season/add', {}, {
       params: {
-        year: year,
-        start: start,
-        end: end
+        year: year
       },
       headers: {
         [headerName]: token
@@ -73,20 +68,6 @@ export function SeasonAdd() {
             <label>År<br />
               <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
                 onChange={e => setYear(e.target.value)} />
-              <br />
-            </label>
-            <label>Start<br />
-              <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
-                onChange={e => setStart(e.target.value)} />
-              <br />
-            </label>
-            <label>Slutt<br />
-              <input type="number" min="1" max="10000" pattern="[0-9]*" inputMode="numeric"
-                onChange={e => setEnd(e.target.value)} />
-              <br />
-            </label>
-            <label>Uten løp<br />
-              <input type="checkbox" onChange={() => setNoRaces((noRaces) => !noRaces)} />
               <br />
             </label>
             <input type="submit" value="Legg til" onClick={addSeason} />

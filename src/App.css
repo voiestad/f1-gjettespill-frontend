@@ -640,6 +640,8 @@ h3 {
 }
 
 .item-wrapper {
+	font-size: smaller;
+	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	margin: 0;
@@ -675,12 +677,6 @@ h3 {
 
 .item {
 	width: 175px;
-}
-
-@media (max-width: 600px) {
-	.item-wrapper {
-		font-size: smaller;
-	}
 }
 
 .paragraph p {
