@@ -1,6 +1,7 @@
 /* Themes */
 :root {
 	--color-accent: rgb(187, 0, 31);
+	--color-accent-disabled: rgba(187, 0, 31, 0.3);
 	--color-offwhite: #f4f4f4;
 	--color-offwhite-darker: #e1e1e1;
 	--color-offwhite-darkest: #c2c2c2;
@@ -370,6 +371,16 @@ button {
 	font-weight: bold;
 	cursor: pointer;
 	border-radius: 12px;
+}
+
+input[type=button][disabled],
+input[type=submit][disabled],
+input[type=reset][disabled],
+select[disabled],
+button[disabled] {
+	background-color: var(--color-accent-disabled);
+	color: var(--color-offwhite-darkest);
+	cursor: not-allowed;
 }
 
 select {

@@ -1,4 +1,4 @@
-export { default as DeleteAccount } from './DeleteAccount';
+export { default as Account } from './Account';
 export { default as Reminders } from './Reminders';
 export { default as Settings } from './Settings';
 export { default as UserInformation } from './UserInformation';

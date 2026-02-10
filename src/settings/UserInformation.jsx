@@ -68,7 +68,11 @@ function UserInformation() {
         <div className="tables">
           <Table title="" header={["Brukernavn"]} body={[{ key: info.user.username, values: [info.user.username] }]} />
           <Table title="" header={["Bruker-ID"]} body={[{ key: info.user.id, values: [info.user.id] }]} />
-          <Table title="" header={["Google-ID"]} body={[{ key: info.user.googleId, values: [info.user.googleId] }]} />
+          <Table title="" header={["Innlogging", "ID"]}
+            body={[
+              { key: "google", values: ["Google", info.user.providers.google] },
+              { key: "apple", values: ["Apple", info.user.providers.apple] }
+            ]} />
           <Table title="" header={["ntfy-ID"]} body={[{ key: info.topic, values: [info.topic] }]} />
           <ChampionshipTable competitorName="Sjåfør" competitors={info.driverGuess} />
           <ChampionshipTable competitorName="Konstruktør" competitors={info.constructorGuess} />

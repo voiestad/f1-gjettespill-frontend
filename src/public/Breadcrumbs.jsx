@@ -209,7 +209,7 @@ function getSettingsPath(segments) {
   switch (segment.value) {
     case "info": return "Brukerinformasjon";
     case "username": return "Endre brukernavn";
-    case "delete": return "Slett bruker";
+    case "account": return "Konto";
     case "reminders": return "Påminnelser";
     default: return null;
   };

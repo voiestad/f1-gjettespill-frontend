@@ -134,11 +134,10 @@ function DropdownMenu(props) {
   const { pathname } = useLocation();
   useEffect(() => {
     setActive(false);
+    if (pathname === '/') {
+      reloadHeaderState();
+    }
   }, [pathname]);
-
-  useEffect(() => {
-    reloadHeaderState();
-  }, []);
 
   function logout() {
     axios.post('/api/logout', {}, {
