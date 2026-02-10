@@ -139,6 +139,10 @@ function DropdownMenu(props) {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    reloadHeaderState();
+  }, []);
+
   function logout() {
     axios.post('/api/logout', {}, {
       headers: {

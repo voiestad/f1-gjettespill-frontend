@@ -99,7 +99,7 @@ function Account() {
       <title>Konto</title>
       {info &&
         <div className="tables">
-          <Table title="Tilkoblede kontoer" header={["Innlogging", "ID"]}
+          <Table title="Tilkoblede kontoer" header={["Innlogging", "Handling"]}
             body={[
               {
                 key: "google", values: [
