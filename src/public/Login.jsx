@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
-  function redirectToLogin() {
+  function redirectToLogin(provider) {
     const parameter = rememberMe ? "?remember_me" : "";
-    window.location.href = `/api/oauth2/authorization/google${parameter}`;
+    window.location.href = `/api/oauth2/authorization/${provider}${parameter}`;
   }
   return (
     <>
@@ -15,7 +15,8 @@ function Login() {
         Husk meg <input type="checkbox" onChange={() => setRememberMe((rememberMe) => !rememberMe)}/>
       </label>
       <br /><br />
-      <button onClick={redirectToLogin}>Logg inn med Google</button>
+      <button onClick={() => redirectToLogin("google")}>Logg inn med Google</button>
+      <button onClick={() => redirectToLogin("apple")}>Logg inn med Apple</button>
     </>
   )
 }

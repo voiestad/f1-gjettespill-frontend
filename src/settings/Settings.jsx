@@ -9,7 +9,7 @@ function Settings() {
         <Link to="/settings/info">Se brukerinformasjon</Link>
         <Link to="/settings/reminders">Påminnelser</Link>
         <Link to="/settings/username">Endre brukernavn</Link>
-        <Link to="/settings/delete">Slett bruker</Link>
+        <Link to="/settings/account">Konto</Link>
       </div>
     </>
   )

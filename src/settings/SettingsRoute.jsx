@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router';
 import {
-  DeleteAccount,
+  Account,
   Reminders,
   Settings,
   UserInformation,
@@ -15,7 +15,7 @@ function SettingsRoute() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route index element={<Settings />} />
-          <Route path="delete" element={<DeleteAccount />} />
+          <Route path="account" element={<Account />} />
           <Route path="info" element={<UserInformation />} />
           <Route path="reminders" element={<Reminders />} />
         </Route>
