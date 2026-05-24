@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { lazy } from 'react';
 import './App.css';
 import {
@@ -11,8 +11,8 @@ import {
   Home,
   LoggedIn,
   Login,
+  More,
   Privacy,
-  RaceGuess,
   Score,
   StatsChooseRace,
   StatsChooseYear,
@@ -23,6 +23,7 @@ import { Compare, MyProfile, User, UserList } from './user'
 import { BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
 import { BingoMasterPortalChangeBingo, BingomasterPortalChooseYear } from './admin/BingomasterPortal';
 import { ChooseLeague, CreateLeague, LeagueInvitations, LeaguePage, LeagueSettings } from './league';
+import { GuessChooseCategory } from './guess';
 
 const AdminRoute = lazy(() => import('./admin/AdminRoute'));
 const SettingsRoute = lazy(() => import('./settings/SettingsRoute'));
@@ -42,10 +43,12 @@ function App() {
               <Route path="bingo" element={<Bingo />} />
               <Route path="contact" element={<Contact />} />
               <Route path="github" element={<GitHub />} />
+              <Route path="guess" element={<GuessChooseCategory />} />
               <Route path="logged-in" element={<LoggedIn />} />
               <Route path="login" element={<Login />} />
+              <Route path="more" element={<More />} />
               <Route path="privacy" element={<Privacy />} />
-              <Route path="race-guess" element={<RaceGuess />} />
+              <Route path="race-guess" element={<Navigate to="/guess" replace />} />
               <Route path="score" element={<Score />} />
               <Route path="stats">
                 <Route index element={<StatsChooseYear />} />

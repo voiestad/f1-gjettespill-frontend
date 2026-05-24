@@ -164,8 +164,7 @@ function DropdownMenu(props) {
           ref={linksRef}
           style={{ maxHeight: '0px' }}
         >
-          <Link to="/guess" className="selectable">Gjett</Link>
-          <Link to="/race-guess" className="selectable">Gjettet på løp</Link>
+          <Link to="/guess" className="selectable">Gjetting</Link>
           <DropdownSection category="Resultater" linksRef={linksRef} updateSelectable={updateSelectable}>
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>
@@ -189,8 +188,8 @@ function DropdownMenu(props) {
           {headerState && headerState.isAdmin && headerState.ongoingRace ?
             <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`} className="selectable">
               Registrer flagg
-            </Link> : ''}
-          {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login" className="selectable">Logg inn</Link> : ''}
+            </Link> : null}
+          {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login" className="selectable">Logg inn</Link> : null}
         </div>
       </div>
     </>
