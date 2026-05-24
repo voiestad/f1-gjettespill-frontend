@@ -43,8 +43,18 @@ export function ErrorNotLoggedIn() {
   const { pathname } = useLocation();
   return (
     <>
-      <h2>Du må være logget inn for å bruke denne siden...</h2>
-      <Link onClick={e => localStorage.setItem("redirectAfterLogin", pathname)} to="/login">Logg inn</Link>
+      <h2>Du må være innlogget for å bruke denne siden...</h2>
+      <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login">Logg inn</Link>
+    </>
+  )
+}
+
+export function ErrorLoginNeedToGuess() {
+  const { pathname } = useLocation();
+  return (
+    <>
+      <h2>Du må være innlogget for å gjette...</h2>
+      <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login">Logg inn</Link>
     </>
   )
 }

@@ -10,7 +10,6 @@ function GuessRoute() {
   return (
     <>
       <Routes>
-        <Route index element={<GuessChooseCategory />} />
         <Route path="driver" element={<RankingDrivers />} />
         <Route path="constructor" element={<RankingConstructors />} />
         <Route path="flag" element={<GuessFlags />} />
