@@ -11,9 +11,9 @@
 	--color-bg: var(--color-offwhite);
 	--color-fg: #333333;
 	--color-shadow: rgba(0, 0, 0, 0.15);
-	--color-table-border: #bebebe;
-	--color-table-odd: #ffffff;
-	--color-table-even: #ececec;
+	--color-table-border: #515151;
+	--color-table-odd: #fafafa;
+	--color-table-even: #eeeeee;
 	--color-border: var(--color-offwhite-darkest);
 }
 
@@ -21,7 +21,7 @@
 	--color-bg: #1d1d1d;
 	--color-fg: #f4f4f4;
 	--color-shadow: rgba(0, 0, 0, 0.15);
-	--color-table-border: #414141;
+	--color-table-border: #7c7c7c;
 	--color-table-odd: #212121;
 	--color-table-even: #313131;
 	--color-border: #a3a3a3;
@@ -31,7 +31,7 @@
 	--color-bg: black;
 	--color-fg: var(--color-offwhite);
 	--color-shadow: rgba(0, 0, 0, 0);
-	--color-table-border: #414141;
+	--color-table-border: #656565;
 	--color-table-odd: #000000;
 	--color-table-even: #131313;
 	--color-border: #3f3f3f;
@@ -559,7 +559,9 @@ input[type='radio']:checked:after {
 
 table {
 	border-collapse: collapse;
-	box-shadow: 0 0 20px var(--color-shadow);
+	border-radius: 8px;
+    overflow: hidden;
+	outline: 1px solid var(--color-table-border);
 }
 
 thead th {
@@ -567,15 +569,8 @@ thead th {
 	color: var(--color-offwhite);
 }
 
-th {
-	position: sticky;
-	top: 0;
-}
-
 tbody tr {
 	border-bottom: 1px solid var(--color-table-border);
-	border-left: 1px solid var(--color-table-border);
-	border-right: 1px solid var(--color-table-border);
 }
 
 tbody tr:nth-of-type(even) {
@@ -586,15 +581,18 @@ tbody tr:nth-of-type(odd) {
 	background-color: var(--color-table-odd);
 }
 
-tbody tr:last-of-type {
-	border-bottom: 2px solid var(--color-accent);
+tbody tr:first-child {
+    border-top: 1px solid var(--color-table-border);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
 }
 
 th,
 td {
 	text-align: center;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding: 4px 10px;
 }
 
 .tables {
@@ -611,13 +609,13 @@ h3 {
 }
 
 @media (max-width: 600px) {
-
 	th,
 	td {
-		width: 5px;
-		font-size: 14px;
-		padding-left: 5px;
-		padding-right: 5px;
+		font-size: 16px;
+		padding: 4px 5px;
+	}
+	table {
+		border-radius: 4px;
 	}
 }
 
@@ -845,6 +843,7 @@ h3 {
 		th,
 		td {
 			font-size: 14px !important;
+			padding: 4px 5px !important;
 		}
 	}
 }
