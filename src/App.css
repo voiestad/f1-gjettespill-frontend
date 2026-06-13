@@ -325,6 +325,7 @@ footer {
 	padding: 15px;
 	color: var(--color-offwhite);
 	text-align: center;
+	z-index: 10000;
 }
 
 footer p {
