@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { Link, useParams } from 'react-router';
 import axios from 'axios';
 import { CsrfTokenContext } from '../../components';
@@ -13,11 +13,11 @@ export function SeasonManageRaces() {
   const [newRaceName, setNewRaceName] = useState(null);
   const { token, headerName } = useContext(CsrfTokenContext);
 
-  function loadRaces() {
+  const loadRaces = useCallback(() => {
     axios.get(`/api/public/race/list/${year}`)
       .then(res => setRaces(res.data))
       .catch(err => console.error(err));
-  }
+  }, [year]);
 
   function addRace(event) {
     event.preventDefault();
@@ -31,7 +31,7 @@ export function SeasonManageRaces() {
           [headerName]: token
         }
       })
-      .then(res => {
+      .then(() => {
         loadRaces();
       })
       .catch(err => {
@@ -60,7 +60,7 @@ export function SeasonManageRaces() {
           [headerName]: token
         }
       })
-      .then(res => {
+      .then(() => {
         loadRaces();
       })
       .catch(err => {
@@ -87,7 +87,7 @@ export function SeasonManageRaces() {
           [headerName]: token
         }
       })
-      .then(res => {
+      .then(() => {
         loadRaces();
       })
       .catch(err => {
@@ -98,7 +98,8 @@ export function SeasonManageRaces() {
 
   useEffect(() => {
     loadRaces();
-  }, []);
+  }, [loadRaces]);
+
   return (
     <>
       <title>{`Løp ${year}`}</title>
@@ -125,7 +126,7 @@ export function SeasonManageRaces() {
                     <td>{race.position}</td>
                     <td><Link to={`/admin/season/${year}/manage/${race.id}`}>{race.name}</Link></td>
                     <td>{race.id}</td>
-                    <td><input type="radio" name="select" onClick={e => setSelectedRace(race.id)} /></td>
+                    <td><input type="radio" name="select" onClick={() => setSelectedRace(race.id)} /></td>
                   </tr>
                 )
                 : <></>}
@@ -318,6 +319,8 @@ export function ManageRace() {
   const [drivers, setDrivers] = useState([]);
   const [constructors, setConstructors] = useState([]);
   const [startingGrid, setStartingGrid] = useState([]);
+  const [startingGridSet, setStartingGridSet] = useState(null);
+  const [resultsSet, setResultsSet] = useState(null);
   const [raceResult, setRaceResult] = useState([]);
   const [driverStandings, setDriverStandings] = useState([]);
   const [constructorStandings, setConstructorStandings] = useState([]);
@@ -327,26 +330,28 @@ export function ManageRace() {
   const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
-    axios.get(`/api/admin/season/competitors/drivers/list/${year}`)
+    axios.get(`/api/admin/season/competitors/drivers/list/${year}?order=standings`)
       .then(res => setDrivers(res.data))
       .catch(err => {
         console.error(err);
         setError(<ErrorNotFound />);
       });
-    axios.get(`/api/admin/season/competitors/constructors/list/${year}`)
+    axios.get(`/api/admin/season/competitors/constructors/list/${year}?order=standings`)
       .then(res => setConstructors(res.data))
       .catch(err => {
         console.error(err);
         setError(<ErrorNotFound />);
       });
-  }, []);
+  }, [year]);
 
   useEffect(() => {
     axios.get(`/api/public/stats/race/${raceId}`)
       .then(res => {
         const data = res.data;
+        setStartingGridSet(res.data.startingGrid.length > 0);
         setStartingGrid(res.data.startingGrid.length > 0 ? res.data.startingGrid : drivers);
-        setRaceResult(res.data.raceResult.length > 0 ? res.data.raceResult : drivers);
+        setResultsSet(res.data.raceResult.length > 0 || res.data.driverStandings.length > 0 || res.data.constructorStandings.length > 0);
+        setRaceResult(res.data.raceResult.length > 0 ? res.data.raceResult : (res.data.startingGrid.length > 0 ? res.data.startingGrid : drivers));
         setDriverStandings(res.data.driverStandings.length > 0 ? res.data.driverStandings : drivers);
         setConstructorStandings(res.data.constructorStandings.length > 0 ? res.data.constructorStandings : constructors);
         setName(data.name);
@@ -355,7 +360,7 @@ export function ManageRace() {
         console.error(err);
         setError(<ErrorNotFound />);
       });
-  }, [drivers, constructors]);
+  }, [drivers, constructors, raceId]);
 
   function changeResults(e) {
     e.preventDefault();
@@ -379,10 +384,11 @@ export function ManageRace() {
           [headerName]: token
         }
       })
-      .then(res => {
+      .then(() => {
         const submitButton = document.getElementById('submit-button');
         submitButton.value = "Lagret!";
         setTimeout(() => submitButton.value = "Endre resultater", 1000);
+        setResultsSet(true);
       })
       .catch(err => {
         alert('Kunne ikke legge til resultater');
@@ -406,10 +412,11 @@ export function ManageRace() {
           [headerName]: token
         }
       })
-      .then(res => {
+      .then(() => {
         const submitButton = document.getElementById('submit-button-starting-grid');
         submitButton.value = "Lagret!";
         setTimeout(() => submitButton.value = "Endre resultater", 1000);
+        setStartingGridSet(true);
       })
       .catch(err => {
         alert('Kunne ikke legge til resultater');
@@ -424,7 +431,7 @@ export function ManageRace() {
       <title>{`Statistikk - ${name}`}</title>
       <h2>{name}</h2>
       <form onSubmit={changeStartingGrid}>
-        <h3>Startoppstilling</h3>
+        <h3>Startoppstilling{startingGridSet == false && " - ikke satt"}</h3>
         <Ranking
           selected={startingGrid}
           setSelected={setStartingGrid}
@@ -433,19 +440,19 @@ export function ManageRace() {
         <input type="submit" value="Endre startoppstilling" id="submit-button-starting-grid" />
       </form>
       <form onSubmit={changeResults}>
-        <h3>Løp</h3>
+        <h3>Løp{resultsSet == false && " - ikke satt"}</h3>
         <Ranking
           selected={raceResult}
           setSelected={setRaceResult}
           initialUnselected={drivers.filter(driver => !raceResult.map(driver => driver.id).includes(driver.id))}
         />
-        <h3>Sjåførmesterskap</h3>
+        <h3>Sjåførmesterskap{resultsSet == false && " - ikke satt"}</h3>
         <Ranking
           selected={driverStandings}
           setSelected={setDriverStandings}
           initialUnselected={drivers.filter(driver => !driverStandings.map(driver => driver.id).includes(driver.id))}
         />
-        <h3>Konstruktørmesterskap</h3>
+        <h3>Konstruktørmesterskap{resultsSet == false && " - ikke satt"}</h3>
         <Ranking
           selected={constructorStandings}
           setSelected={setConstructorStandings}
