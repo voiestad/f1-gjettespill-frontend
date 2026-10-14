@@ -13,7 +13,7 @@ Dette repoet er koden for frontenden til nettsiden. Koden for backenden ligger [
 **Vebjørn Øiestad**
 
 ## Krav
-* Node 20 eller nyere
+* Node 24 eller nyere
 
 ## Oppsett for Første Gang
 
