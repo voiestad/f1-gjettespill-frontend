@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 function ChooseLeague() {
   const [year, setYear] = useState(null);
@@ -10,26 +10,29 @@ function ChooseLeague() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/public/user/status')
-      .then(res => {
+    axios
+      .get("/api/public/user/status")
+      .then((res) => {
         setIsLoggedIn(res.data === "LOGGED_IN");
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
-    axios.get('/api/public/year/list')
-      .then(res => {
+    axios
+      .get("/api/public/year/list")
+      .then((res) => {
         setYears(res.data);
         if (res.data.length) {
           setYear(res.data[0]);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
-    axios.get(`/api/public/leagues`)
-      .then(res => setLeagues(res.data))
-      .catch(err => {
+    axios
+      .get(`/api/public/leagues`)
+      .then((res) => setLeagues(res.data))
+      .catch((err) => {
         console.error(err);
       });
   }, []);
@@ -39,52 +42,76 @@ function ChooseLeague() {
       return;
     }
     if (onlyMemberships) {
-      axios.get(`/api/public/league/memberships?year=${year}`)
-        .then(res => setLeagues(res.data))
-        .catch(err => {
+      axios
+        .get(`/api/public/league/memberships?year=${year}`)
+        .then((res) => setLeagues(res.data))
+        .catch((err) => {
           console.error(err);
         });
     } else {
-      axios.get(`/api/public/leagues?year=${year}`)
-        .then(res => setLeagues(res.data))
-        .catch(err => {
+      axios
+        .get(`/api/public/leagues?year=${year}`)
+        .then((res) => setLeagues(res.data))
+        .catch((err) => {
           console.error(err);
         });
     }
-  }, [year, onlyMemberships])
+  }, [year, onlyMemberships]);
 
   return (
     <>
       <title>Velg liga</title>
       <h2>Velg liga</h2>
-      {isLoggedIn ?
+      {isLoggedIn ? (
         <>
-          <Link to="/league/add">Lag en liga</Link><br /><br />
-          <Link to="/league/invitations">Invitasjoner</Link><br /><br />
-        </> : ''}
+          <Link to="/league/add">Lag en liga</Link>
+          <br />
+          <br />
+          <Link to="/league/invitations">Invitasjoner</Link>
+          <br />
+          <br />
+        </>
+      ) : (
+        ""
+      )}
       <label>
-        Velg år<br />
-        <select onChange={e => setYear(e.target.value)}>
-          {years.map((year) =>
-            <option key={year} value={year}>{year}</option>
-          )}
+        Velg år
+        <br />
+        <select onChange={(e) => setYear(e.target.value)}>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
         </select>
       </label>
-      {isLoggedIn ?
+      {isLoggedIn ? (
         <>
-          <br /><br />
+          <br />
+          <br />
           <label>
-            Kun egne ligaer<br />
-            <input type="checkbox" onChange={() => setOnlyMemberships((onlyMemberships) => !onlyMemberships)} />
+            Kun egne ligaer
+            <br />
+            <input
+              type="checkbox"
+              onChange={() =>
+                setOnlyMemberships((onlyMemberships) => !onlyMemberships)
+              }
+            />
           </label>
-        </> : ''}
+        </>
+      ) : (
+        ""
+      )}
       <div className="linkList">
-        {leagues.map((league) =>
-          <Link key={league.leagueId} to={`/league/${league.leagueId}`}>{league.leagueName}</Link>
-        )}
+        {leagues.map((league) => (
+          <Link key={league.leagueId} to={`/league/${league.leagueId}`}>
+            {league.leagueName}
+          </Link>
+        ))}
       </div>
     </>
-  )
+  );
 }
 
-export default ChooseLeague
+export default ChooseLeague;

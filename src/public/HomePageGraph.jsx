@@ -7,8 +7,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
 Chart.register(
   CategoryScale,
@@ -17,7 +17,7 @@ Chart.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 function HomePageGraph(properties) {
@@ -43,11 +43,11 @@ function HomePageGraph(properties) {
     "#651067", // plum
     "#329262", // forest green
     "#5574A6", // slate blue
-    "#3B3EAC"  // deep blue
+    "#3B3EAC", // deep blue
   ];
   let i = 0;
   for (const user of graph) {
-    let color = colors[i % colors.length]
+    let color = colors[i % colors.length];
     if (user.name === "Elina") {
       color = "#f7d000"; // yellow
     } else if (user.name === "Frida Seselje") {
@@ -60,12 +60,12 @@ function HomePageGraph(properties) {
       borderColor: color,
       backgroundColor: color,
       fill: false,
-      label: user.name
+      label: user.name,
     });
   }
   const data = {
     labels: xValues,
-    datasets: userScores
+    datasets: userScores,
   };
   const chartStyle = {
     display: "flex",
@@ -73,37 +73,37 @@ function HomePageGraph(properties) {
     maxHeight: "500px",
     margin: "0 auto",
     width: "100%",
-    height: "100%"
-  }
+    height: "100%",
+  };
   const chartColor = "grey";
   const options = {
     scales: {
       x: {
         title: {
           display: true,
-          text: "Løp"
+          text: "Løp",
         },
         grid: {
           color: chartColor,
-          borderColor: chartColor
+          borderColor: chartColor,
         },
         ticks: {
-          color: chartColor
-        }
+          color: chartColor,
+        },
       },
       y: {
         title: {
           display: true,
-          text: "Poeng"
+          text: "Poeng",
         },
         grid: {
           color: chartColor,
-          borderColor: chartColor
+          borderColor: chartColor,
         },
         ticks: {
-          color: chartColor
-        }
-      }
+          color: chartColor,
+        },
+      },
     },
     maintainAspectRatio: false,
     plugins: {
@@ -111,24 +111,30 @@ function HomePageGraph(properties) {
         display: true,
         position: "top",
         labels: {
-          color: chartColor
-        }
+          color: chartColor,
+        },
       },
       title: {
         display: true,
         text: "Utvikling gjennom sesongen",
-        color: chartColor
-      }
-    }
+        color: chartColor,
+      },
+    },
   };
 
   return (
     <>
       <div style={chartStyle}>
-        <Line redraw={false} height={null} width={null} data={data} options={options} />
+        <Line
+          redraw={false}
+          height={null}
+          width={null}
+          data={data}
+          options={options}
+        />
       </div>
     </>
-  )
+  );
 }
 
-export default HomePageGraph
+export default HomePageGraph;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -12,13 +12,22 @@ function Login() {
       <h2>Innlogging</h2>
       <br />
       <label>
-        Husk meg <input type="checkbox" onChange={() => setRememberMe((rememberMe) => !rememberMe)}/>
+        Husk meg{" "}
+        <input
+          type="checkbox"
+          onChange={() => setRememberMe((rememberMe) => !rememberMe)}
+        />
       </label>
-      <br /><br />
-      <button onClick={() => redirectToLogin("google")}>Logg inn med Google</button>
-      <button onClick={() => redirectToLogin("apple")}>Logg inn med Apple</button>
+      <br />
+      <br />
+      <button onClick={() => redirectToLogin("google")}>
+        Logg inn med Google
+      </button>
+      <button onClick={() => redirectToLogin("apple")}>
+        Logg inn med Apple
+      </button>
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;

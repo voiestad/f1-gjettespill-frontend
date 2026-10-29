@@ -1,15 +1,8 @@
-import { Routes, Route } from 'react-router';
-import {
-  Account,
-  Reminders,
-  Settings,
-  UserInformation,
-  Username
-} from './';
-import { ProtectedRoute } from '../components';
+import { Routes, Route } from "react-router";
+import { Account, Reminders, Settings, UserInformation, Username } from "./";
+import { ProtectedRoute } from "../components";
 
 function SettingsRoute() {
-
   return (
     <>
       <Routes>
@@ -20,10 +13,9 @@ function SettingsRoute() {
           <Route path="reminders" element={<Reminders />} />
         </Route>
         <Route path="username" element={<Username />} />
-
       </Routes>
     </>
-  )
+  );
 }
 
-export default SettingsRoute
+export default SettingsRoute;

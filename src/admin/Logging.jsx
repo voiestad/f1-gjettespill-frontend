@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
+import axios from "axios";
 
 function capitalize(word) {
   return word[0].toUpperCase() + word.substring(1);
@@ -11,13 +11,15 @@ export function LogView() {
   const [content, setContent] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/admin/log/file', {
-      params: {
-        type: logType,
-        date: date
-      }
-    }).then(res => setContent(res.data))
-      .catch(err => {
+    axios
+      .get("/api/admin/log/file", {
+        params: {
+          type: logType,
+          date: date,
+        },
+      })
+      .then((res) => setContent(res.data))
+      .catch((err) => {
         console.error(err);
         alert("Det oppstod en feil");
       });
@@ -25,14 +27,14 @@ export function LogView() {
   return (
     <>
       <title>{`${capitalize(logType)} log: ${date}`}</title>
-      <h2>{capitalize(logType)} log: {date}</h2>
+      <h2>
+        {capitalize(logType)} log: {date}
+      </h2>
       <div className="log">
-        <p>
-          {content ? content : ''}
-        </p>
+        <p>{content ? content : ""}</p>
       </div>
     </>
-  )
+  );
 }
 
 export function LogChooseDate() {
@@ -40,12 +42,14 @@ export function LogChooseDate() {
   const [dates, setDates] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/admin/log/list', {
-      params: {
-        type: logType
-      }
-    }).then(res => setDates(res.data))
-      .catch(err => {
+    axios
+      .get("/api/admin/log/list", {
+        params: {
+          type: logType,
+        },
+      })
+      .then((res) => setDates(res.data))
+      .catch((err) => {
         console.error(err);
         alert("Det oppstod en feil");
       });
@@ -55,13 +59,16 @@ export function LogChooseDate() {
       <title>{capitalize(logType)}</title>
       <h2>{capitalize(logType)}</h2>
       <div className="linkList">
-        {dates ?
-          dates.map(date =>
-            <Link key={date} to={`/admin/log/${logType}/${date}`}>{date}</Link>
-          ) : ''}
+        {dates
+          ? dates.map((date) => (
+              <Link key={date} to={`/admin/log/${logType}/${date}`}>
+                {date}
+              </Link>
+            ))
+          : ""}
       </div>
     </>
-  )
+  );
 }
 
 export function LogChooseCategory() {
@@ -74,5 +81,5 @@ export function LogChooseCategory() {
         <Link to="/admin/log/error">Error</Link>
       </div>
     </>
-  )
+  );
 }

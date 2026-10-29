@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
 
 function Countdown(props) {
   const { initialTimeLeft } = props;
@@ -8,7 +8,7 @@ function Countdown(props) {
   function refreshTime() {
     const timeLeft = timeLeftRef.current;
     if (timeLeft <= 0) {
-      setTime('Tiden er gått ut');
+      setTime("Tiden er gått ut");
       return;
     }
     const days = Math.floor(timeLeft / (24 * 3600));
@@ -16,7 +16,13 @@ function Countdown(props) {
     const minutes = Math.floor((timeLeft % 3600) / 60);
     const seconds = timeLeft % 60;
 
-    setTime(<>Tiden går ut om:<br />{days}d {hours}t {minutes}m {seconds}s</>);
+    setTime(
+      <>
+        Tiden går ut om:
+        <br />
+        {days}d {hours}t {minutes}m {seconds}s
+      </>,
+    );
     timeLeftRef.current--;
   }
 
@@ -27,11 +33,7 @@ function Countdown(props) {
     }, 1000);
   }, []);
 
-  return (
-    <>
-      {time ? time : ''}
-    </>
-  )
+  return <>{time ? time : ""}</>;
 }
 
-export default Countdown
+export default Countdown;

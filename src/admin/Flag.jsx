@@ -1,52 +1,58 @@
-import { useEffect, useState, useContext } from 'react';
-import { useParams, Link } from 'react-router';
-import axios from 'axios';
-import { translateFlag, translateSession } from '../util/translator';
-import { CsrfTokenContext } from '../components';
+import { useEffect, useState, useContext } from "react";
+import { useParams, Link } from "react-router";
+import axios from "axios";
+import { translateFlag, translateSession } from "../util/translator";
+import { CsrfTokenContext } from "../components";
 
 export function FlagChooseYear() {
   const [years, setYears] = useState(null);
   useEffect(() => {
-    axios.get('/api/public/year/list')
-      .then(res => setYears(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/public/year/list")
+      .then((res) => setYears(res.data))
+      .catch((err) => console.error(err));
   }, []);
   return (
     <>
       <title>Registrer flagg - Velg år</title>
       <h2>Registrer flagg - Velg år</h2>
       <div className="linkList">
-        {years ?
-          years.map(year =>
-            <Link key={year} to={`/admin/flag/${year}`}>{year}</Link>
-          ) : ''}
+        {years
+          ? years.map((year) => (
+              <Link key={year} to={`/admin/flag/${year}`}>
+                {year}
+              </Link>
+            ))
+          : ""}
       </div>
     </>
-  )
+  );
 }
 
 export function FlagChooseRace() {
   const [races, setRaces] = useState(null);
   const { year } = useParams();
   useEffect(() => {
-    axios.get(`/api/public/race/list/${year}`)
-      .then(res => setRaces(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get(`/api/public/race/list/${year}`)
+      .then((res) => setRaces(res.data))
+      .catch((err) => console.error(err));
   }, []);
   return (
     <>
       <title>Registrer flagg - Velg løp</title>
       <h2>Registrer flagg - Velg løp</h2>
       <div className="linkList">
-        {races ?
-          races.map(race =>
-            <Link key={race.position} to={`/admin/flag/${year}/${race.id}`}>
-              {race.position}. {race.name}
-            </Link>
-          ) : ''}
+        {races
+          ? races.map((race) => (
+              <Link key={race.position} to={`/admin/flag/${year}/${race.id}`}>
+                {race.position}. {race.name}
+              </Link>
+            ))
+          : ""}
       </div>
     </>
-  )
+  );
 }
 
 export function FlagRegister() {
@@ -62,117 +68,153 @@ export function FlagRegister() {
 
   function deleteFlag(event, id) {
     event.preventDefault();
-    if (!confirm('Er du sikker på at du vil slette denne?')) {
+    if (!confirm("Er du sikker på at du vil slette denne?")) {
       return;
     }
-    axios.post('/api/admin/flag/delete', {},
-      {
-        params: {
-          id: id
+    axios
+      .post(
+        "/api/admin/flag/delete",
+        {},
+        {
+          params: {
+            id: id,
+          },
+          headers: {
+            [headerName]: token,
+          },
         },
-        headers: {
-          [headerName]: token
-        }
-      })
-      .then(res => {
+      )
+      .then((res) => {
         loadFlags();
       })
-      .catch(err => {
-        alert('Flagg kunne ikke bli slettet');
+      .catch((err) => {
+        alert("Flagg kunne ikke bli slettet");
         console.error(err);
-      })
+      });
   }
 
   function registerFlag(event) {
     event.preventDefault();
     if (!selectedFlag) {
-      alert('Du må velge flagg');
+      alert("Du må velge flagg");
       return;
     }
-    axios.post('/api/admin/flag/add', {},
-      {
-        params: {
-          flag: selectedFlag,
-          round: selectedRound,
-          sessionType: selectedSession,
-          raceId: raceId,
+    axios
+      .post(
+        "/api/admin/flag/add",
+        {},
+        {
+          params: {
+            flag: selectedFlag,
+            round: selectedRound,
+            sessionType: selectedSession,
+            raceId: raceId,
+          },
+          headers: {
+            [headerName]: token,
+          },
         },
-        headers: {
-          [headerName]: token
-        }
-      })
-      .then(res => {
+      )
+      .then((res) => {
         setAddText("Lagret!");
         setTimeout(() => setAddText("Legg til"), 1000);
         loadFlags();
       })
-      .catch(err => {
-        alert('Flagg kunne ikke bli lagt til');
+      .catch((err) => {
+        alert("Flagg kunne ikke bli lagt til");
         console.error(err);
-      })
+      });
   }
 
   function loadFlags() {
-    axios.get(`/api/admin/flag/list/${raceId}`)
-      .then(res => setFlags(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get(`/api/admin/flag/list/${raceId}`)
+      .then((res) => setFlags(res.data))
+      .catch((err) => console.error(err));
   }
 
   useEffect(() => {
-    axios.get('/api/admin/flag/session-types')
-      .then(res => {
+    axios
+      .get("/api/admin/flag/session-types")
+      .then((res) => {
         setSessionTypes(res.data);
         setSelectedSession(res.data[0]);
       })
-      .catch(err => console.error(err));
-    axios.get('/api/admin/flag/types')
-      .then(res => setFlagTypes(res.data))
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
+    axios
+      .get("/api/admin/flag/types")
+      .then((res) => setFlagTypes(res.data))
+      .catch((err) => console.error(err));
     loadFlags();
   }, []);
   return (
     <>
       <title>{`Registrer flagg - ${raceId}`}</title>
       <h2>{`Registrer flagg - ${raceId}`}</h2>
-      {sessionTypes && flagTypes ?
+      {sessionTypes && flagTypes ? (
         <form>
-          <select onChange={e => setSelectedSession(e.target.value)}>
-            {sessionTypes.map(session =>
-              <option key={session} value={session}>{translateSession(session)}</option>
-            )}
+          <select onChange={(e) => setSelectedSession(e.target.value)}>
+            {sessionTypes.map((session) => (
+              <option key={session} value={session}>
+                {translateSession(session)}
+              </option>
+            ))}
           </select>
-          <br /><br />
+          <br />
+          <br />
           <div className="radio-buttons">
-            {flagTypes ?
-              flagTypes.map(type =>
-                <label key={type}>
-                  <input type="radio" checked={type === selectedFlag}
-                    onChange={e => setSelectedFlag(type)} required />
-                  {translateFlag(type)}
-                  <br />
-                </label>
-              ) : ''}
+            {flagTypes
+              ? flagTypes.map((type) => (
+                  <label key={type}>
+                    <input
+                      type="radio"
+                      checked={type === selectedFlag}
+                      onChange={(e) => setSelectedFlag(type)}
+                      required
+                    />
+                    {translateFlag(type)}
+                    <br />
+                  </label>
+                ))
+              : ""}
           </div>
           <br />
-          <label>Runde<br />
-            <input type="range" onChange={e => setSelectedRound(e.target.value)}
-              value={selectedRound} min="1" max="100" />
+          <label>
+            Runde
+            <br />
+            <input
+              type="range"
+              onChange={(e) => setSelectedRound(e.target.value)}
+              value={selectedRound}
+              min="1"
+              max="100"
+            />
             <br />
             {selectedRound}
             <br />
           </label>
           <input type="submit" value={addText} onClick={registerFlag} />
-          <br /><br />
+          <br />
+          <br />
         </form>
-        : ''}
+      ) : (
+        ""
+      )}
 
-      {flags ?
-        flags.map(flag =>
-          <form key={flag.id}>
-            <span>{translateFlag(flag.type)}</span> - <span>Runde: {flag.round}</span> - <span>{translateSession(flag.sessionType)}</span>
-            <input type="submit" value="&#128465;" onClick={e => deleteFlag(e, flag.id)} />
-          </form>
-        ) : ''}
+      {flags
+        ? flags.map((flag) => (
+            <form key={flag.id}>
+              <span>{translateFlag(flag.type)}</span> -{" "}
+              <span>Runde: {flag.round}</span> -{" "}
+              <span>{translateSession(flag.sessionType)}</span>
+              <input
+                type="submit"
+                value="&#128465;"
+                onClick={(e) => deleteFlag(e, flag.id)}
+              />
+            </form>
+          ))
+        : ""}
     </>
-  )
+  );
 }

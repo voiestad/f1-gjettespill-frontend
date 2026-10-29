@@ -1,12 +1,16 @@
-import { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import Countdown from './Countdown';
-import { ErrorGuessNotAllowedYet } from '../error';
-import { CsrfTokenContext } from '../components';
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import Countdown from "./Countdown";
+import { ErrorGuessNotAllowedYet } from "../error";
+import { CsrfTokenContext } from "../components";
 
 function FlagSliders(props) {
-  const { yellow: initialYellow, red: initialRed, safetyCar: initialSafetyCar } = props.flags;
+  const {
+    yellow: initialYellow,
+    red: initialRed,
+    safetyCar: initialSafetyCar,
+  } = props.flags;
   const navigate = useNavigate();
   const [yellow, setYellow] = useState(initialYellow);
   const [red, setRed] = useState(initialRed);
@@ -15,45 +19,79 @@ function FlagSliders(props) {
 
   function guessHandler(event) {
     event.preventDefault();
-    axios.post('/api/guess/flag', {}, {
-      params: {
-        yellow: yellow,
-        red: red,
-        safetyCar: safetyCar
-      },
-      headers: {
-        [headerName]: token
-      }
-    })
-      .then(res => {
-        alert('Gjetningen din ble lagret');
-        navigate('/guess');
+    axios
+      .post(
+        "/api/guess/flag",
+        {},
+        {
+          params: {
+            yellow: yellow,
+            red: red,
+            safetyCar: safetyCar,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        alert("Gjetningen din ble lagret");
+        navigate("/guess");
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
   return (
     <>
       <form>
-        <label>Antall gule flagg<br />
-          <input type="range" value={yellow} min={0} max={150} onChange={e => setYellow(e.target.value)} />
+        <label>
+          Antall gule flagg
+          <br />
+          <input
+            type="range"
+            value={yellow}
+            min={0}
+            max={150}
+            onChange={(e) => setYellow(e.target.value)}
+          />
           <br />
           <div>{yellow}</div>
-          <br /><br />
+          <br />
+          <br />
         </label>
-        <label>Antall røde flagg<br />
-          <input type="range" value={red} min={0} max={50} onChange={e => setRed(e.target.value)} />
+        <label>
+          Antall røde flagg
+          <br />
+          <input
+            type="range"
+            value={red}
+            min={0}
+            max={50}
+            onChange={(e) => setRed(e.target.value)}
+          />
           <br />
           <div>{red}</div>
-          <br /><br />
+          <br />
+          <br />
         </label>
-        <label>Antall sikkerhetsbiler<br />
-          <input type="range" value={safetyCar} min={0} max={100} onChange={e => setSafetyCar(e.target.value)} /><br />
-          <div>{safetyCar}</div><br /><br />
+        <label>
+          Antall sikkerhetsbiler
+          <br />
+          <input
+            type="range"
+            value={safetyCar}
+            min={0}
+            max={100}
+            onChange={(e) => setSafetyCar(e.target.value)}
+          />
+          <br />
+          <div>{safetyCar}</div>
+          <br />
+          <br />
         </label>
         <input type="submit" value="Send inn gjett" onClick={guessHandler} />
       </form>
     </>
-  )
+  );
 }
 
 function GuessFlags() {
@@ -61,11 +99,12 @@ function GuessFlags() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/guess/flag')
-      .then(res => {
+    axios
+      .get("/api/guess/flag")
+      .then((res) => {
         setData(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         setError(<ErrorGuessNotAllowedYet />);
       });
@@ -74,16 +113,18 @@ function GuessFlags() {
   return (
     <>
       <title>Gjett antall</title>
-      {data ?
+      {data ? (
         <>
           <h2>Gjett antall</h2>
           <Countdown initialTimeLeft={data.timeLeft} />
           <FlagSliders flags={data.flags} />
         </>
-        : ''}
-      {error ? error : ''}
+      ) : (
+        ""
+      )}
+      {error ? error : ""}
     </>
-  )
+  );
 }
 
-export default GuessFlags
+export default GuessFlags;

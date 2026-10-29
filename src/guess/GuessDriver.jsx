@@ -1,8 +1,8 @@
-import Countdown from "./Countdown"
-import axios from 'axios';
-import { useEffect, useState, useContext } from 'react';
+import Countdown from "./Countdown";
+import axios from "axios";
+import { useEffect, useState, useContext } from "react";
 import ChooseDriver from "./ChooseDriver";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 import { ErrorGuessNotAllowedYet } from "../error";
 import { CsrfTokenContext } from "../components";
 
@@ -14,45 +14,59 @@ function GuessDriver(props) {
   const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
-    axios.get(`/api/guess/${category}`)
-      .then(res => {
+    axios
+      .get(`/api/guess/${category}`)
+      .then((res) => {
         setData(res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         setError(<ErrorGuessNotAllowedYet />);
       });
   }, []);
 
   function guessHandler(driver) {
-    axios.post(`/api/guess/${category}`, {}, {
-      params: {
-        driver: driver
-      },
-      headers: {
-        [headerName]: token
-      }
-    })
-      .then(res => {
-        alert('Gjetningen din ble lagret');
-        navigate('/guess');
+    axios
+      .post(
+        `/api/guess/${category}`,
+        {},
+        {
+          params: {
+            driver: driver,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        alert("Gjetningen din ble lagret");
+        navigate("/guess");
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   return (
     <>
       <title>{title}</title>
-      {data ?
+      {data ? (
         <>
-          <h2>{title} i {data.race.name}</h2>
+          <h2>
+            {title} i {data.race.name}
+          </h2>
           <Countdown initialTimeLeft={data.timeLeft} />
-          <ChooseDriver initialSelected={data.selected} drivers={data.competitors} guessHandler={guessHandler} />
+          <ChooseDriver
+            initialSelected={data.selected}
+            drivers={data.competitors}
+            guessHandler={guessHandler}
+          />
         </>
-        : ''}
-      {error ? error : ''}
+      ) : (
+        ""
+      )}
+      {error ? error : ""}
     </>
-  )
+  );
 }
 
-export default GuessDriver
+export default GuessDriver;

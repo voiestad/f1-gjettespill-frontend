@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import { translateFlag } from '../util/translator';
-import Table from '../util/Table';
-import RacePicker from './RacePicker';
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import { translateFlag } from "../util/translator";
+import Table from "../util/Table";
+import RacePicker from "./RacePicker";
 
 function SummaryTable(props) {
   const { user1, user2 } = props;
@@ -10,51 +10,93 @@ function SummaryTable(props) {
   const body = [
     {
       key: "drivers",
-      values: [user1?.drivers.value, user1?.drivers.pos, "Sjåfører", user2?.drivers.pos, user2?.drivers.value]
+      values: [
+        user1?.drivers.value,
+        user1?.drivers.pos,
+        "Sjåfører",
+        user2?.drivers.pos,
+        user2?.drivers.value,
+      ],
     },
     {
       key: "constructors",
-      values: [user1?.constructors.value, user1?.constructors.pos, "Konstruktører", user2?.constructors.pos, user2?.constructors.value]
+      values: [
+        user1?.constructors.value,
+        user1?.constructors.pos,
+        "Konstruktører",
+        user2?.constructors.pos,
+        user2?.constructors.value,
+      ],
     },
     {
       key: "flag",
-      values: [user1?.flag.value, user1?.flag.pos, "Antall", user2?.flag.pos, user2?.flag.value]
+      values: [
+        user1?.flag.value,
+        user1?.flag.pos,
+        "Antall",
+        user2?.flag.pos,
+        user2?.flag.value,
+      ],
     },
     {
       key: "first",
-      values: [user1?.first.value, user1?.first.pos, "1. plass", user2?.first.pos, user2?.first.value]
+      values: [
+        user1?.first.value,
+        user1?.first.pos,
+        "1. plass",
+        user2?.first.pos,
+        user2?.first.value,
+      ],
     },
     {
       key: "tenth",
-      values: [user1?.tenth.value, user1?.tenth.pos, "10. plass", user2?.tenth.pos, user2?.tenth.value]
+      values: [
+        user1?.tenth.value,
+        user1?.tenth.pos,
+        "10. plass",
+        user2?.tenth.pos,
+        user2?.tenth.value,
+      ],
     },
     {
       key: "total",
-      values: [user1?.total.value, user1?.total.pos, "Totalt", user2?.total.pos, user2?.total.value]
+      values: [
+        user1?.total.value,
+        user1?.total.pos,
+        "Totalt",
+        user2?.total.pos,
+        user2?.total.value,
+      ],
     },
   ];
   return <Table title="Oppsummering" header={header} body={body} />;
 }
 
 function ChampionshipTable(props) {
-  const { title, compName, user1, user2 } = props
+  const { title, compName, user1, user2 } = props;
   const header = ["Poeng", "Gjettet", "Plass", compName, "Gjettet", "Poeng"];
   const body = user1.map((row, i) => ({
     key: row.competitor,
-    values: [row.points,
-    row.guessed,
-    row.pos,
-    row.competitor,
-    user2[i].guessed,
-    user2[i].points]
+    values: [
+      row.points,
+      row.guessed,
+      row.pos,
+      row.competitor,
+      user2[i].guessed,
+      user2[i].points,
+    ],
   }));
   return <Table title={title} header={header} body={body} />;
 }
 
 function FlagTable(props) {
   const { user1, user2 } = props;
-  user1.sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)));
-  user2.sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)));
+  user1.sort((a, b) =>
+    translateFlag(a.flag).localeCompare(translateFlag(b.flag)),
+  );
+  user2.sort((a, b) =>
+    translateFlag(a.flag).localeCompare(translateFlag(b.flag)),
+  );
   if (user1.length !== user2.length) {
     if (user1.length > user2.length) {
       for (let row of user1) {
@@ -62,7 +104,7 @@ function FlagTable(props) {
           guessed: null,
           points: 0,
           actual: row.actual,
-          flag: row.flag
+          flag: row.flag,
         });
       }
     } else {
@@ -71,21 +113,22 @@ function FlagTable(props) {
           guessed: null,
           points: 0,
           actual: row.actual,
-          flag: row.flag
+          flag: row.flag,
         });
       }
-
     }
   }
   const header = ["Poeng", "Gjettet", "Faktisk", "Type", "Gjettet", "Poeng"];
   const body = user1.map((row, i) => ({
     key: row.flag,
-    values: [row.points,
-    row.guessed,
-    row.actual,
-    translateFlag(row.flag),
-    user2[i].guessed,
-    user2[i].points]
+    values: [
+      row.points,
+      row.guessed,
+      row.actual,
+      translateFlag(row.flag),
+      user2[i].guessed,
+      user2[i].points,
+    ],
   }));
   return <Table title="Antall" header={header} body={body} />;
 }
@@ -145,18 +188,30 @@ function DriverPlaceTable(props) {
     }
     placeGuesses.push(row);
   }
-  const header = ["Poeng", "Plass", "Startet", "Gjettet", "Løp", "Gjettet", "Startet", "Plass", "Poeng"];
+  const header = [
+    "Poeng",
+    "Plass",
+    "Startet",
+    "Gjettet",
+    "Løp",
+    "Gjettet",
+    "Startet",
+    "Plass",
+    "Poeng",
+  ];
   const body = placeGuesses.map((row) => ({
     key: row.raceName,
-    values: [row.points1,
-    row.finishPos1,
-    row.startPos1,
-    row.driver1,
-    `${row.racePos}. ${row.raceName}`,
-    row.driver2,
-    row.startPos2,
-    row.finishPos2,
-    row.points2]
+    values: [
+      row.points1,
+      row.finishPos1,
+      row.startPos1,
+      row.driver1,
+      `${row.racePos}. ${row.raceName}`,
+      row.driver2,
+      row.startPos2,
+      row.finishPos2,
+      row.points2,
+    ],
   }));
   return <Table title={title} header={header} body={body} />;
 }
@@ -212,16 +267,26 @@ function QualifyingTable(props) {
     }
     placeGuesses.push(row);
   }
-  const header = ["Poeng", "Plass", "Gjettet", "Løp", "Gjettet", "Plass", "Poeng"];
+  const header = [
+    "Poeng",
+    "Plass",
+    "Gjettet",
+    "Løp",
+    "Gjettet",
+    "Plass",
+    "Poeng",
+  ];
   const body = placeGuesses.map((row) => ({
     key: row.raceName,
-    values: [row.points1,
-    row.qualifyingPos1,
-    row.driver1,
-    `${row.racePos}. ${row.raceName}`,
-    row.driver2,
-    row.qualifyingPos2,
-    row.points2]
+    values: [
+      row.points1,
+      row.qualifyingPos1,
+      row.driver1,
+      `${row.racePos}. ${row.raceName}`,
+      row.driver2,
+      row.qualifyingPos2,
+      row.points2,
+    ],
   }));
   return <Table title={title} header={header} body={body} />;
 }
@@ -237,17 +302,18 @@ function Compare() {
   const [userGuesses, setUserGuesses] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/public/user/list')
-      .then(res => setUsers(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/public/user/list")
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
   async function loadUser(id) {
     let res = await axios.get(`/api/public/user/${id}`, {
       params: {
         raceId: raceId,
-        year: year
-      }
+        year: year,
+      },
     });
     return res.data;
   }
@@ -258,7 +324,7 @@ function Compare() {
       let user2Data = await loadUser(user2.id);
       setUserGuesses({ user1: user1Data, user2: user2Data });
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
@@ -270,7 +336,7 @@ function Compare() {
   }, [raceId, year, user1, user2]);
 
   function getUserFromId(id) {
-    if (id === '') {
+    if (id === "") {
       setUserGuesses(null);
       return null;
     }
@@ -283,51 +349,92 @@ function Compare() {
 
   return (
     <>
-      <title>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</title>
-      <h2>{userGuesses ? `${user1.username} vs ${user2.username}` : 'Sammenlign brukere'}</h2>
+      <title>
+        {userGuesses
+          ? `${user1.username} vs ${user2.username}`
+          : "Sammenlign brukere"}
+      </title>
+      <h2>
+        {userGuesses
+          ? `${user1.username} vs ${user2.username}`
+          : "Sammenlign brukere"}
+      </h2>
       <RacePicker setRaceId={setRaceId} raceId={raceId} setYear={setYear} />
       <form>
         <br />
-        <label>Velg brukere:
+        <label>
+          Velg brukere:
           <br />
-          {users ?
+          {users ? (
             <>
-              <select onChange={e => setUser1(getUserFromId(e.target.value))}>
+              <select onChange={(e) => setUser1(getUserFromId(e.target.value))}>
                 <option value="">Velg bruker 1</option>
-                {users.map((user) =>
-                  <option key={user.id} value={user.id}>{user.username}</option>
-                )}
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.username}
+                  </option>
+                ))}
               </select>
               <br />
-              <select onChange={e => setUser2(getUserFromId(e.target.value))}>
+              <select onChange={(e) => setUser2(getUserFromId(e.target.value))}>
                 <option value="">Velg bruker 2</option>
-                {users.map((user) =>
-                  <option key={user.id} value={user.id}>{user.username}</option>
-                )}
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.username}
+                  </option>
+                ))}
               </select>
             </>
-            : ''}
+          ) : (
+            ""
+          )}
         </label>
-        <br /><br />
+        <br />
+        <br />
       </form>
-      {userGuesses ?
+      {userGuesses ? (
         <div className="tables big-tables">
-          <SummaryTable user1={userGuesses.user1.summary} user2={userGuesses.user2.summary} />
-          <ChampionshipTable title="Sjåfører" compName="Sjåfør" user1={userGuesses.user1.userScores.driversGuesses}
-            user2={userGuesses.user2.userScores.driversGuesses} />
-          <ChampionshipTable title="Konstruktører" compName="Konstruktør" user1={userGuesses.user1.userScores.constructorsGuesses}
-            user2={userGuesses.user2.userScores.constructorsGuesses} />
-          <FlagTable user1={userGuesses.user1.userScores.flagGuesses} user2={userGuesses.user2.userScores.flagGuesses} />
-          <DriverPlaceTable title="1. plass" user1={userGuesses.user1.userScores.firstGuesses}
-            user2={userGuesses.user2.userScores.firstGuesses} />
-          <DriverPlaceTable title="10. plass" user1={userGuesses.user1.userScores.tenthGuesses}
-            user2={userGuesses.user2.userScores.tenthGuesses} />
-          <QualifyingTable title="Pole" user1={userGuesses.user1.userScores.poleGuesses}
-            user2={userGuesses.user2.userScores.poleGuesses} />
+          <SummaryTable
+            user1={userGuesses.user1.summary}
+            user2={userGuesses.user2.summary}
+          />
+          <ChampionshipTable
+            title="Sjåfører"
+            compName="Sjåfør"
+            user1={userGuesses.user1.userScores.driversGuesses}
+            user2={userGuesses.user2.userScores.driversGuesses}
+          />
+          <ChampionshipTable
+            title="Konstruktører"
+            compName="Konstruktør"
+            user1={userGuesses.user1.userScores.constructorsGuesses}
+            user2={userGuesses.user2.userScores.constructorsGuesses}
+          />
+          <FlagTable
+            user1={userGuesses.user1.userScores.flagGuesses}
+            user2={userGuesses.user2.userScores.flagGuesses}
+          />
+          <DriverPlaceTable
+            title="1. plass"
+            user1={userGuesses.user1.userScores.firstGuesses}
+            user2={userGuesses.user2.userScores.firstGuesses}
+          />
+          <DriverPlaceTable
+            title="10. plass"
+            user1={userGuesses.user1.userScores.tenthGuesses}
+            user2={userGuesses.user2.userScores.tenthGuesses}
+          />
+          <QualifyingTable
+            title="Pole"
+            user1={userGuesses.user1.userScores.poleGuesses}
+            user2={userGuesses.user2.userScores.poleGuesses}
+          />
         </div>
-        : ''}
+      ) : (
+        ""
+      )}
     </>
-  )
+  );
 }
 
-export default Compare
+export default Compare;

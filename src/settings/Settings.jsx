@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from "react-router";
 
 function Settings() {
   return (
@@ -12,7 +12,7 @@ function Settings() {
         <Link to="/settings/account">Konto</Link>
       </div>
     </>
-  )
+  );
 }
 
-export default Settings
+export default Settings;

@@ -9,31 +9,37 @@ export default function More() {
   const { token, headerName } = useContext(CsrfTokenContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const themeNames = {
-    "light": "Lys",
-    "dark": "Mørk",
-    "oled": "Mørkere"
-  }
+    light: "Lys",
+    dark: "Mørk",
+    oled: "Mørkere",
+  };
 
   function reloadHeaderState() {
-    axios.get('/api/public/header')
-      .then(res => setHeaderState(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/public/header")
+      .then((res) => setHeaderState(res.data))
+      .catch((err) => console.error(err));
   }
   useEffect(() => {
     reloadHeaderState();
   }, []);
 
   function logout() {
-    axios.post('/api/logout', {}, {
-      headers: {
-        [headerName]: token
-      }
-    })
+    axios
+      .post(
+        "/api/logout",
+        {},
+        {
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
       .then(() => {
-        navigate('/');
+        navigate("/");
         reloadHeaderState();
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   return (
@@ -41,25 +47,36 @@ export default function More() {
       <title>Mer</title>
       <h2>Mer</h2>
       <div className="linkList">
-        {headerState && headerState.isAdmin ? <Link to="/admin">Admin Portal</Link> : null}
-        {headerState && headerState.isAdmin && headerState.ongoingRace ?
-          <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`}>
+        {headerState && headerState.isAdmin ? (
+          <Link to="/admin">Admin Portal</Link>
+        ) : null}
+        {headerState && headerState.isAdmin && headerState.ongoingRace ? (
+          <Link
+            to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`}
+          >
             Registrer flagg
-          </Link> : null}
+          </Link>
+        ) : null}
         <Link to="/bingo">Bingo</Link>
         <Link to="/stats">Statistikk</Link>
         <Link to="/user/compare">Sammenlign brukere</Link>
         <Link to="/score">Poengberegning</Link>
         <Link to="https://app.voiestad.no/f1-old">Resultater før 2025</Link>
         <button onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
-        {headerState && headerState.isLoggedIn ?
+        {headerState && headerState.isLoggedIn ? (
           <>
             <Link to="/settings">Innstillinger</Link>
             <Link onClick={logout}>Logg ut</Link>
           </>
-          : null
-        }
-        {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", "/more")} to="/login">Logg inn</Link> : null}
+        ) : null}
+        {headerState && !headerState.isLoggedIn ? (
+          <Link
+            onClick={() => localStorage.setItem("redirectAfterLogin", "/more")}
+            to="/login"
+          >
+            Logg inn
+          </Link>
+        ) : null}
       </div>
       <br />
       <div className="linkList">

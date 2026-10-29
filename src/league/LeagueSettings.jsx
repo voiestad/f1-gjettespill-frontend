@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import { CsrfTokenContext } from '../components';
-import { ErrorNotMember, ErrorUnknown } from '../error';
+import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router";
+import { CsrfTokenContext } from "../components";
+import { ErrorNotMember, ErrorUnknown } from "../error";
 
 function LeagueSettings() {
   const [membership, setMembership] = useState(null);
@@ -16,25 +16,27 @@ function LeagueSettings() {
   const { token, headerName } = useContext(CsrfTokenContext);
 
   useEffect(() => {
-    axios.get(`/api/public/league/membership/${leagueId}`)
-      .then(res => setMembership(res.data))
-      .catch(err => {
+    axios
+      .get(`/api/public/league/membership/${leagueId}`)
+      .then((res) => setMembership(res.data))
+      .catch((err) => {
         console.error(err);
         if (err.status === 404 || err.status === 400) {
           setError(<ErrorNotFound />);
         } else {
           setError(<ErrorUnknown />);
         }
+      });
+    axios
+      .get(`/api/public/league/members`, {
+        params: {
+          leagueId: leagueId,
+        },
       })
-    axios.get(`/api/public/league/members`, {
-      params: {
-        leagueId: leagueId
-      }
-    })
-      .then(res => setMembers(res.data))
-      .catch(err => {
+      .then((res) => setMembers(res.data))
+      .catch((err) => {
         console.error(err);
-      })
+      });
   }, []);
 
   function validateLeagueName(e) {
@@ -56,56 +58,69 @@ function LeagueSettings() {
     if (!leagueName) {
       return;
     }
-    axios.post("/api/league/rename", {}, {
-      params: {
-        leagueName: leagueName,
-        leagueId: leagueId,
-      },
-      headers: {
-        [headerName]: token
-      }
-    }).then(res => {
-      setLeagueName("");
-      setMessage("Nytt navn ble satt!");
-    }).catch(err => {
-      console.error(err)
-      setMessage(err.response.data);
-    })
+    axios
+      .post(
+        "/api/league/rename",
+        {},
+        {
+          params: {
+            leagueName: leagueName,
+            leagueId: leagueId,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        setLeagueName("");
+        setMessage("Nytt navn ble satt!");
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessage(err.response.data);
+      });
   }
 
   function leaveLeague() {
-    if (!confirm('Er du sikker på at du vil forlate ligaen?')) {
+    if (!confirm("Er du sikker på at du vil forlate ligaen?")) {
       return;
     }
-    axios.post('/api/league/leave', {}, {
-      params: {
-        leagueId: leagueId,
-      },
-      headers: {
-        [headerName]: token
-      }
-    })
-      .then(res => navigate("/"))
-      .catch(err => {
+    axios
+      .post(
+        "/api/league/leave",
+        {},
+        {
+          params: {
+            leagueId: leagueId,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => navigate("/"))
+      .catch((err) => {
         console.error(err);
         alert("Noe gikk galt");
       });
   }
 
   function deleteLeague() {
-    if (!confirm('Er du sikker på at du vil slette ligaen?')) {
+    if (!confirm("Er du sikker på at du vil slette ligaen?")) {
       return;
     }
-    axios.delete('/api/league/delete', {
-      params: {
-        leagueId: leagueId,
-      },
-      headers: {
-        [headerName]: token
-      }
-    })
-      .then(res => navigate("/"))
-      .catch(err => {
+    axios
+      .delete("/api/league/delete", {
+        params: {
+          leagueId: leagueId,
+        },
+        headers: {
+          [headerName]: token,
+        },
+      })
+      .then((res) => navigate("/"))
+      .catch((err) => {
         console.error(err);
         alert("Noe gikk galt");
       });
@@ -116,64 +131,94 @@ function LeagueSettings() {
     if (!newOwner) {
       return;
     }
-    axios.post("/api/league/transferOwnership", {}, {
-      params: {
-        userId: newOwner,
-        leagueId: leagueId
-      },
-      headers: {
-        [headerName]: token
-      }
-    }).then(res => {
-      navigate("/");
-    }).catch(err => {
-      console.error(err)
-    })
+    axios
+      .post(
+        "/api/league/transferOwnership",
+        {},
+        {
+          params: {
+            userId: newOwner,
+            leagueId: leagueId,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   return (
     <>
       <title>Ligainstillinger</title>
-      {membership ?
-        (membership !== "NOT_MEMBER" ?
+      {membership ? (
+        membership !== "NOT_MEMBER" ? (
           <>
             <h2>Ligainstillinger</h2>
             <input type="submit" onClick={leaveLeague} value="Forlat liga" />
-            {membership === "OWNER" ?
+            {membership === "OWNER" ? (
               <>
-                <br /><br />
+                <br />
+                <br />
                 <form onSubmit={renameLeague}>
-                  <input type="text" placeholder="Liganavn" onChange={validateLeagueName} value={leagueName} /><br />
+                  <input
+                    type="text"
+                    placeholder="Liganavn"
+                    onChange={validateLeagueName}
+                    value={leagueName}
+                  />
+                  <br />
                   <input type="submit" value="Endre liganavn" />
                 </form>
-                {message ? <p>{message}</p> : ''}
+                {message ? <p>{message}</p> : ""}
 
-                {members ? <form onSubmit={transferOwnership}>
-                  <br />
-                  <label>
-                    <select onChange={e => setNewOwner(e.target.value)}>
-                      <option value="">Velg bruker</option>
-                      {members.map(u =>
-                        <option key={u.id} value={u.id}>
-                          {u.username}
-                        </option>)}
-                    </select>
+                {members ? (
+                  <form onSubmit={transferOwnership}>
                     <br />
-                  </label>
-                  <input type="submit" value="Overfør eierskap" />
-                </form> : ''}
+                    <label>
+                      <select onChange={(e) => setNewOwner(e.target.value)}>
+                        <option value="">Velg bruker</option>
+                        {members.map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.username}
+                          </option>
+                        ))}
+                      </select>
+                      <br />
+                    </label>
+                    <input type="submit" value="Overfør eierskap" />
+                  </form>
+                ) : (
+                  ""
+                )}
                 <br />
-                <input type="submit" onClick={deleteLeague} value="Slett liga" />
-
-              </> : ''}
-          </> :
+                <input
+                  type="submit"
+                  onClick={deleteLeague}
+                  value="Slett liga"
+                />
+              </>
+            ) : (
+              ""
+            )}
+          </>
+        ) : (
           <>
             <ErrorNotMember />
-          </>) : ''}
+          </>
+        )
+      ) : (
+        ""
+      )}
 
-      {error ? error : ''}
+      {error ? error : ""}
     </>
-  )
+  );
 }
 
-export default LeagueSettings
+export default LeagueSettings;

@@ -1,16 +1,22 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { translateFlag, translateCategory } from '../util/translator';
-import Table from '../util/Table';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { translateFlag, translateCategory } from "../util/translator";
+import Table from "../util/Table";
 
 function ChampionshipTable(props) {
   const { competitorName, competitors } = props;
   const header = ["Plass", competitorName, "År"];
   const body = competitors.map((row) => ({
     key: `${row.year}-${row.competitor}`,
-    values: [row.position, row.competitor, row.year]
+    values: [row.position, row.competitor, row.year],
   }));
-  return <Table title={`Gjettet ${competitorName.toLowerCase()}`} header={header} body={body} />;
+  return (
+    <Table
+      title={`Gjettet ${competitorName.toLowerCase()}`}
+      header={header}
+      body={body}
+    />
+  );
 }
 
 function FlagTable(props) {
@@ -19,7 +25,7 @@ function FlagTable(props) {
     .sort((a, b) => translateFlag(a.flag).localeCompare(translateFlag(b.flag)))
     .map((row) => ({
       key: `${row.year}-${row.flag}`,
-      values: [translateFlag(row.flag), row.guessed, row.year]
+      values: [translateFlag(row.flag), row.guessed, row.year],
     }));
   return <Table title="Gjettet antall" header={header} body={body} />;
 }
@@ -28,7 +34,12 @@ function PlaceGuessTable(props) {
   const header = ["Type", "Gjettet", "Løp", "År"];
   const body = props.placeGuess.map((row) => ({
     key: `${row.year}-${row.category}-${row.raceName}`,
-    values: [translateCategory(row.category), row.driver, row.raceName, row.year]
+    values: [
+      translateCategory(row.category),
+      row.driver,
+      row.raceName,
+      row.year,
+    ],
   }));
   return <Table title="Gjettet løp" header={header} body={body} />;
 }
@@ -37,7 +48,7 @@ function NotifiedTable(props) {
   const header = ["Løp", "Antall påminnelser", "År"];
   const body = props.notifiedCount.map((row) => ({
     key: `${row.year}-${row.raceName}`,
-    values: [row.raceName, row.timesNotified, row.year]
+    values: [row.raceName, row.timesNotified, row.year],
   }));
   return <Table title="Påminnelser" header={header} body={body} />;
 }
@@ -46,7 +57,7 @@ function GuessReminderPreferenceTable(props) {
   const header = ["Timer før løp"];
   const body = props.preferences.map((preference) => ({
     key: preference,
-    values: [preference]
+    values: [preference],
   }));
   return <Table title="Preferanser påminnelser" header={header} body={body} />;
 }
@@ -55,35 +66,61 @@ function UserInformation() {
   const [info, setUserInfo] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/settings/info')
-      .then(res => setUserInfo(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/settings/info")
+      .then((res) => setUserInfo(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
   return (
     <>
       <title>Brukerinformasjon</title>
       <h2>Brukerinformasjon</h2>
-      {info ?
+      {info ? (
         <div className="tables">
-          <Table title="" header={["Brukernavn"]} body={[{ key: info.user.username, values: [info.user.username] }]} />
-          <Table title="" header={["Bruker-ID"]} body={[{ key: info.user.id, values: [info.user.id] }]} />
-          <Table title="" header={["Innlogging", "ID"]}
+          <Table
+            title=""
+            header={["Brukernavn"]}
+            body={[{ key: info.user.username, values: [info.user.username] }]}
+          />
+          <Table
+            title=""
+            header={["Bruker-ID"]}
+            body={[{ key: info.user.id, values: [info.user.id] }]}
+          />
+          <Table
+            title=""
+            header={["Innlogging", "ID"]}
             body={[
               { key: "google", values: ["Google", info.user.providers.google] },
-              { key: "apple", values: ["Apple", info.user.providers.apple] }
-            ]} />
-          <Table title="" header={["ntfy-ID"]} body={[{ key: info.topic, values: [info.topic] }]} />
-          <ChampionshipTable competitorName="Sjåfør" competitors={info.driverGuess} />
-          <ChampionshipTable competitorName="Konstruktør" competitors={info.constructorGuess} />
+              { key: "apple", values: ["Apple", info.user.providers.apple] },
+            ]}
+          />
+          <Table
+            title=""
+            header={["ntfy-ID"]}
+            body={[{ key: info.topic, values: [info.topic] }]}
+          />
+          <ChampionshipTable
+            competitorName="Sjåfør"
+            competitors={info.driverGuess}
+          />
+          <ChampionshipTable
+            competitorName="Konstruktør"
+            competitors={info.constructorGuess}
+          />
           <FlagTable flags={info.flagGuess} />
           <PlaceGuessTable placeGuess={info.placeGuess} />
           <NotifiedTable notifiedCount={info.notifiedCount} />
-          <GuessReminderPreferenceTable preferences={info.guessReminderPreferences} />
+          <GuessReminderPreferenceTable
+            preferences={info.guessReminderPreferences}
+          />
         </div>
-        : ''}
+      ) : (
+        ""
+      )}
     </>
-  )
+  );
 }
 
-export default UserInformation
+export default UserInformation;

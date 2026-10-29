@@ -1,41 +1,49 @@
-import { useState, useEffect } from 'react'
-import { useLocation, Link } from 'react-router'
+import { useState, useEffect } from "react";
+import { useLocation, Link } from "react-router";
 
 function Breadcrumbs() {
   const [breadcrumbs, setBreadcrumbs] = useState(null);
   const { pathname } = useLocation();
   useEffect(() => {
     getBreadcrumbs(pathname)
-      .then(res => setBreadcrumbs(res))
-      .catch(err => console.error(err));
+      .then((res) => setBreadcrumbs(res))
+      .catch((err) => console.error(err));
   }, [pathname]);
 
   return (
     <>
       <div style={{ margin: 0 }}>
         <ol className="breadcrumb">
-          {breadcrumbs ?
+          {breadcrumbs ? (
             breadcrumbs.map((crumb) => (
               <li key={crumb.text}>
-                {crumb.path ? <Link to={crumb.path}>{crumb.text}</Link> : <div>{crumb.text}</div>}
+                {crumb.path ? (
+                  <Link to={crumb.path}>{crumb.text}</Link>
+                ) : (
+                  <div>{crumb.text}</div>
+                )}
               </li>
-            )) : <li><div>Hjem</div></li>
-          }
+            ))
+          ) : (
+            <li>
+              <div>Hjem</div>
+            </li>
+          )}
         </ol>
       </div>
     </>
-  )
+  );
 }
 
 async function getBreadcrumbs(path) {
   const breadcrumbs = [];
   if (path === "/") {
-    breadcrumbs.push({ path: null, text: "Hjem" })
+    breadcrumbs.push({ path: null, text: "Hjem" });
     return breadcrumbs;
   }
   const subPaths = getSubPaths(path);
   subPaths.pop();
-  breadcrumbs.push({ path: "/", text: "Hjem" })
+  breadcrumbs.push({ path: "/", text: "Hjem" });
   for (const subPath of subPaths) {
     breadcrumbs.push({ path: subPath, text: getNameForPath(subPath) });
   }
@@ -63,25 +71,43 @@ function getNameForPath(path) {
   segments.next(); // First is always blank
   const segment = segments.next();
   switch (segment.value) {
-    case "admin": return getAdminPath(segments);
-    case "more": return "Mer";
-    case "user": return getUserPath(segments);
-    case "score": return "Poengberegning";
-    case "contact": return "Kontakt";
-    case "about": return "Om siden";
-    case "guess": return getGuessPath(segments);
-    case "error": return "Feil";
-    case "settings": return getSettingsPath(segments);
-    case "username": return "Velg brukernavn";
-    case "privacy": return "Personvernerklæring";
-    case "stats": return getStatsPath(segments);
-    case "bingo": return getBingoPath(segments);
-    case "login": return "Innlogging";
-    case "logged-in": return "Innlogging";
-    case "github": return "GitHub";
-    case "league": return getLeaguePath(segments);
-    default: return null;
-  };
+    case "admin":
+      return getAdminPath(segments);
+    case "more":
+      return "Mer";
+    case "user":
+      return getUserPath(segments);
+    case "score":
+      return "Poengberegning";
+    case "contact":
+      return "Kontakt";
+    case "about":
+      return "Om siden";
+    case "guess":
+      return getGuessPath(segments);
+    case "error":
+      return "Feil";
+    case "settings":
+      return getSettingsPath(segments);
+    case "username":
+      return "Velg brukernavn";
+    case "privacy":
+      return "Personvernerklæring";
+    case "stats":
+      return getStatsPath(segments);
+    case "bingo":
+      return getBingoPath(segments);
+    case "login":
+      return "Innlogging";
+    case "logged-in":
+      return "Innlogging";
+    case "github":
+      return "GitHub";
+    case "league":
+      return getLeaguePath(segments);
+    default:
+      return null;
+  }
 }
 
 function getAdminPath(segments) {
@@ -90,12 +116,17 @@ function getAdminPath(segments) {
     return "Admin portal";
   }
   switch (segment.value) {
-    case "flag": return getFlagPath(segments);
-    case "season": return getSeasonPath(segments);
-    case "bingo": return "Bingo";
-    case "log": return getLogPath(segments);
-    default: return null;
-  };
+    case "flag":
+      return getFlagPath(segments);
+    case "season":
+      return getSeasonPath(segments);
+    case "bingo":
+      return "Bingo";
+    case "log":
+      return getLogPath(segments);
+    default:
+      return null;
+  }
 }
 
 function getFlagPath(segments) {
@@ -131,7 +162,7 @@ function getSeasonPath(segments) {
   if (segment.done) {
     return "Sesong";
   }
-	const nextSegment = segments.next();
+  const nextSegment = segments.next();
   if (nextSegment.done) {
     const year = segment.value;
     if (year === "add") {
@@ -140,13 +171,19 @@ function getSeasonPath(segments) {
     return year;
   }
   switch (nextSegment.value) {
-    case "competitors": return getCompetitorsPath(segments);
-    case "points": return "Poengsystem";
-    case "results": return "Resultater";
-    case "cutoff": return "Frister";
-    case "manage": return getManagePath(segments);
-    default: return null;
-  };
+    case "competitors":
+      return getCompetitorsPath(segments);
+    case "points":
+      return "Poengsystem";
+    case "results":
+      return "Resultater";
+    case "cutoff":
+      return "Frister";
+    case "manage":
+      return getManagePath(segments);
+    default:
+      return null;
+  }
 }
 
 function getCompetitorsPath(segments) {
@@ -155,10 +192,13 @@ function getCompetitorsPath(segments) {
     return "Deltakere";
   }
   switch (segment.value) {
-    case "constructors": return "Konstruktører";
-    case "drivers": return "Sjåfører";
-    default: return null;
-  };
+    case "constructors":
+      return "Konstruktører";
+    case "drivers":
+      return "Sjåfører";
+    default:
+      return null;
+  }
 }
 
 function getManagePath(segments) {
@@ -175,7 +215,7 @@ function getUserPath(segments) {
     return "Brukere";
   }
 
-	const userProfile = segment.value;
+  const userProfile = segment.value;
   if (userProfile === "myprofile") {
     return "Min profil";
   }
@@ -191,14 +231,21 @@ function getGuessPath(segments) {
     return "Gjetting";
   }
   switch (segment.value) {
-    case "driver": return "Sjåførmesterskap";
-    case "constructor": return "Konstruktørmesterskap";
-    case "tenth": return "10. plass";
-    case "first": return "1. plass";
-    case "flag": return "Antall";
-    case "pole": return "Pole";
-    default: return null;
-  };
+    case "driver":
+      return "Sjåførmesterskap";
+    case "constructor":
+      return "Konstruktørmesterskap";
+    case "tenth":
+      return "10. plass";
+    case "first":
+      return "1. plass";
+    case "flag":
+      return "Antall";
+    case "pole":
+      return "Pole";
+    default:
+      return null;
+  }
 }
 
 function getSettingsPath(segments) {
@@ -207,12 +254,17 @@ function getSettingsPath(segments) {
     return "Innstillinger";
   }
   switch (segment.value) {
-    case "info": return "Brukerinformasjon";
-    case "username": return "Endre brukernavn";
-    case "account": return "Konto";
-    case "reminders": return "Påminnelser";
-    default: return null;
-  };
+    case "info":
+      return "Brukerinformasjon";
+    case "username":
+      return "Endre brukernavn";
+    case "account":
+      return "Konto";
+    case "reminders":
+      return "Påminnelser";
+    default:
+      return null;
+  }
 }
 
 function getStatsPath(segments) {
@@ -240,7 +292,7 @@ function getBingoPath(segments) {
   if (nextSegment.done) {
     return "Administrer bingo";
   }
-	return nextSegment.value;
+  return nextSegment.value;
 }
 
 function getLeaguePath(segments) {
@@ -249,9 +301,11 @@ function getLeaguePath(segments) {
     return "Liga";
   }
   switch (segment.value) {
-    case "add": return "Lage liga";
-    case "invitations": return "Invitasjoner";
-  };
+    case "add":
+      return "Lage liga";
+    case "invitations":
+      return "Invitasjoner";
+  }
   const nextSegment = segments.next();
   if (nextSegment.done) {
     return "Ligaside";
@@ -259,4 +313,4 @@ function getLeaguePath(segments) {
   return "Innstillinger";
 }
 
-export default Breadcrumbs
+export default Breadcrumbs;

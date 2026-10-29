@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useState, useEffect, lazy } from 'react';
-import { Link } from 'react-router';
-import Leaderboard from './Leaderboard';
-const HomePageGraph = lazy(() => import('./HomePageGraph'));
+import axios from "axios";
+import { useState, useEffect, lazy } from "react";
+import { Link } from "react-router";
+import Leaderboard from "./Leaderboard";
+const HomePageGraph = lazy(() => import("./HomePageGraph"));
 
 function Home() {
   const [message, setMessage] = useState(null);
@@ -13,9 +13,10 @@ function Home() {
   const [years, setYears] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/public/year/list')
-      .then(res => setYears(res.data))
-      .catch(err => console.error(err))
+    axios
+      .get("/api/public/year/list")
+      .then((res) => setYears(res.data))
+      .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
@@ -24,11 +25,12 @@ function Home() {
       loadContent();
     }, 20 * 1000);
     return () => clearInterval(interval);
-  }, [year])
+  }, [year]);
 
   function loadContent() {
-    axios.get(`/api/public/home${year ? `?year=${year}` : ''}`)
-      .then(res => {
+    axios
+      .get(`/api/public/home${year ? `?year=${year}` : ""}`)
+      .then((res) => {
         if (!year) {
           setYear(res.data.year);
         }
@@ -43,10 +45,22 @@ function Home() {
               month: "long",
               hour: "2-digit",
               minute: "2-digit",
-              hour12: false
+              hour12: false,
             }).format(date);
           }
-          setMessage(<>Sesongen starter snart.{cutoff ? <><br />Det er mulig å gjette frem til {cutoff}.</> : ''}</>);
+          setMessage(
+            <>
+              Sesongen starter snart.
+              {cutoff ? (
+                <>
+                  <br />
+                  Det er mulig å gjette frem til {cutoff}.
+                </>
+              ) : (
+                ""
+              )}
+            </>,
+          );
           setLeaderboard(null);
           setGraph(null);
           return;
@@ -56,39 +70,54 @@ function Home() {
         setLeaderboard(res.data.leaderboard);
         setGraph(res.data.graph.length ? res.data.graph : null);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   return (
     <>
       <title>F1 Gjettespill</title>
       <h2>Velkommen til F1 Gjettespill!</h2>
-      {message ?
-        <p>{message}</p>
-        : ''}
-      {guessers ?
+      {message ? <p>{message}</p> : ""}
+      {guessers ? (
         <>
           <h3>Årets deltakere:</h3>
           <div className="userListWrapper">
             <ul className="userList">
-              {guessers.map(guesser => <li key={guesser.id}><Link to={`/user/${guesser.id}`}>{guesser.username}</Link></li>)}
+              {guessers.map((guesser) => (
+                <li key={guesser.id}>
+                  <Link to={`/user/${guesser.id}`}>{guesser.username}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         </>
-        : ''}
-      {leaderboard ?
+      ) : (
+        ""
+      )}
+      {leaderboard ? (
         <div className="tables">
           <Leaderboard leaderboard={leaderboard} />
         </div>
-        : ''}
-      {graph ? <HomePageGraph graph={graph} /> : ''}
-      {year ? <label>
-        Velg år: <select onChange={(e) => setYear(e.target.value)} defaultValue={year}>
-          {years.map((year) => <option key={year} value={year}>{year}</option>)}
-        </select>
-      </label> : ''}
+      ) : (
+        ""
+      )}
+      {graph ? <HomePageGraph graph={graph} /> : ""}
+      {year ? (
+        <label>
+          Velg år:{" "}
+          <select onChange={(e) => setYear(e.target.value)} defaultValue={year}>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : (
+        ""
+      )}
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

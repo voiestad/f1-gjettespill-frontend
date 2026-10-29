@@ -1,16 +1,11 @@
-export { default as AdminBingomasters } from './AdminBingomasters';
-export { default as AdminPortal } from './AdminPortal';
-export { BingoMasterPortalChangeBingo, BingomasterPortalChooseYear } from './BingomasterPortal';
+export { default as AdminBingomasters } from "./AdminBingomasters";
+export { default as AdminPortal } from "./AdminPortal";
 export {
-  FlagChooseRace,
-  FlagChooseYear,
-  FlagRegister
-} from './Flag';
-export {
-  LogChooseDate,
-  LogChooseCategory,
-  LogView
-} from './Logging';
+  BingoMasterPortalChangeBingo,
+  BingomasterPortalChooseYear,
+} from "./BingomasterPortal";
+export { FlagChooseRace, FlagChooseYear, FlagRegister } from "./Flag";
+export { LogChooseDate, LogChooseCategory, LogView } from "./Logging";
 export {
   ManageRace,
   SeasonAdd,
@@ -23,5 +18,5 @@ export {
   SeasonManageRaces,
   SeasonPoints,
   SeasonResults,
-  SeasonRoute
-} from './season';
+  SeasonRoute,
+} from "./season";

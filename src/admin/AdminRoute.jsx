@@ -18,49 +18,45 @@ import {
   SeasonManageRaces,
   SeasonPoints,
   SeasonResults,
-  SeasonRoute
-} from './';
-import axios from 'axios';
-import { Outlet, Route, Routes } from 'react-router';
-import { useState, useEffect } from 'react';
-import { ErrorNotAdmin, ErrorUnknown } from '../error';
+  SeasonRoute,
+} from "./";
+import axios from "axios";
+import { Outlet, Route, Routes } from "react-router";
+import { useState, useEffect } from "react";
+import { ErrorNotAdmin, ErrorUnknown } from "../error";
 
 function AdminProtectRoute() {
   const [content, setContent] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/public/header')
-      .then(res => {
+    axios
+      .get("/api/public/header")
+      .then((res) => {
         if (!res.data.isAdmin) {
           setContent(
             <>
               <title>F1 Gjettespill</title>
               <ErrorNotAdmin />
-            </>
+            </>,
           );
         } else {
           setContent(<Outlet />);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         setContent(
           <>
             <title>F1 Gjettespill</title>
             <ErrorUnknown />
-          </>
+          </>,
         );
       });
-  }, [])
-  return (
-    <>
-      {content ? content : ''}
-    </>
-  )
+  }, []);
+  return <>{content ? content : ""}</>;
 }
 
 function AdminRoute() {
-
   return (
     <>
       <Routes>
@@ -103,7 +99,7 @@ function AdminRoute() {
         </Route>
       </Routes>
     </>
-  )
+  );
 }
 
-export default AdminRoute
+export default AdminRoute;

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router';
-import axios from 'axios';
-import { ErrorUnknown } from '../error';
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
+import axios from "axios";
+import { ErrorUnknown } from "../error";
 
 function StatsChooseRace() {
   const { year } = useParams();
@@ -9,9 +9,10 @@ function StatsChooseRace() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`/api/public/race/list/${year}`)
-      .then(res => setYears(res.data))
-      .catch(err => {
+    axios
+      .get(`/api/public/race/list/${year}`)
+      .then((res) => setYears(res.data))
+      .catch((err) => {
         console.error(err);
         setError(<ErrorUnknown />);
       });
@@ -19,21 +20,23 @@ function StatsChooseRace() {
   return (
     <>
       <title>Statistikk - Velg løp</title>
-      {races ?
+      {races ? (
         <>
           <h2>Velg løp</h2>
           <div className="linkList">
-            {races.map((race) =>
+            {races.map((race) => (
               <Link key={race.id} to={`/stats/${race.year}/${race.id}`}>
                 {race.position}. {race.name}
-                </Link>
-            )}
+              </Link>
+            ))}
           </div>
         </>
-        : ''}
-      {error ? error : ''}
+      ) : (
+        ""
+      )}
+      {error ? error : ""}
     </>
-  )
+  );
 }
 
-export default StatsChooseRace
+export default StatsChooseRace;

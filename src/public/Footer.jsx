@@ -1,4 +1,10 @@
-import { EllipsisIcon, HomeIcon, NotebookPenIcon, User2Icon, Users2Icon } from "lucide-react";
+import {
+  EllipsisIcon,
+  HomeIcon,
+  NotebookPenIcon,
+  User2Icon,
+  Users2Icon,
+} from "lucide-react";
 import { Link, useLocation } from "react-router";
 
 function Footer() {
@@ -14,10 +20,18 @@ function Footer() {
 
   return (
     <footer>
-      <p><Link to="/about">Om siden</Link></p>
-      <p><Link to="/github">GitHub</Link></p>
-      <p><Link to="/contact">Kontakt</Link></p>
-      <p><Link to="/privacy">Personvernerklæring</Link></p>
+      <p>
+        <Link to="/about">Om siden</Link>
+      </p>
+      <p>
+        <Link to="/github">GitHub</Link>
+      </p>
+      <p>
+        <Link to="/contact">Kontakt</Link>
+      </p>
+      <p>
+        <Link to="/privacy">Personvernerklæring</Link>
+      </p>
 
       {navItems.map(({ to, icon, label }) => (
         <div key={to} className={pathname === to ? "selected" : "not-selected"}>

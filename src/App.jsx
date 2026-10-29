@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
-import { lazy } from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { lazy } from "react";
+import "./App.css";
 import {
   About,
   Bingo,
@@ -16,18 +16,27 @@ import {
   Score,
   StatsChooseRace,
   StatsChooseYear,
-  StatsRace
-} from './public';
-import { ErrorNotFound } from './error';
-import { Compare, MyProfile, User, UserList } from './user'
-import { BingomasterRoute, ProtectedRoute, ScrollToTop } from './components';
-import { BingoMasterPortalChangeBingo, BingomasterPortalChooseYear } from './admin/BingomasterPortal';
-import { ChooseLeague, CreateLeague, LeagueInvitations, LeaguePage, LeagueSettings } from './league';
-import { GuessChooseCategory } from './guess';
+  StatsRace,
+} from "./public";
+import { ErrorNotFound } from "./error";
+import { Compare, MyProfile, User, UserList } from "./user";
+import { BingomasterRoute, ProtectedRoute, ScrollToTop } from "./components";
+import {
+  BingoMasterPortalChangeBingo,
+  BingomasterPortalChooseYear,
+} from "./admin/BingomasterPortal";
+import {
+  ChooseLeague,
+  CreateLeague,
+  LeagueInvitations,
+  LeaguePage,
+  LeagueSettings,
+} from "./league";
+import { GuessChooseCategory } from "./guess";
 
-const AdminRoute = lazy(() => import('./admin/AdminRoute'));
-const SettingsRoute = lazy(() => import('./settings/SettingsRoute'));
-const GuessRoute = lazy(() => import('./guess/GuessRoute'));
+const AdminRoute = lazy(() => import("./admin/AdminRoute"));
+const SettingsRoute = lazy(() => import("./settings/SettingsRoute"));
+const GuessRoute = lazy(() => import("./guess/GuessRoute"));
 
 function App() {
   return (
@@ -37,7 +46,7 @@ function App() {
         <Header />
         <main>
           <Routes>
-            <Route path="/" >
+            <Route path="/">
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
               <Route path="bingo" element={<Bingo />} />
@@ -48,7 +57,10 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="more" element={<More />} />
               <Route path="privacy" element={<Privacy />} />
-              <Route path="race-guess" element={<Navigate to="/guess" replace />} />
+              <Route
+                path="race-guess"
+                element={<Navigate to="/guess" replace />}
+              />
               <Route path="score" element={<Score />} />
               <Route path="stats">
                 <Route index element={<StatsChooseYear />} />
@@ -72,14 +84,20 @@ function App() {
                 <Route path="bingo">
                   <Route path="admin" element={<BingomasterRoute />}>
                     <Route index element={<BingomasterPortalChooseYear />} />
-                    <Route path=":year" element={<BingoMasterPortalChangeBingo />} />
+                    <Route
+                      path=":year"
+                      element={<BingoMasterPortalChangeBingo />}
+                    />
                   </Route>
                 </Route>
                 <Route path="guess/*" element={<GuessRoute />} />
                 <Route path="league">
                   <Route path="add" element={<CreateLeague />} />
                   <Route path="invitations" element={<LeagueInvitations />} />
-                  <Route path=":leagueId/settings" element={<LeagueSettings />} />
+                  <Route
+                    path=":leagueId/settings"
+                    element={<LeagueSettings />}
+                  />
                 </Route>
                 <Route path="user">
                   <Route path="myprofile" element={<MyProfile />} />
@@ -92,7 +110,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

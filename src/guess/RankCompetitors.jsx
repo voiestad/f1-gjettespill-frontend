@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 function RankCompetitors(props) {
   const { initialCompetitors, guessHandler } = props;
   const [competitors, setCompetitors] = useState(initialCompetitors);
-  const [transitions, setTransitions] = useState(false)
+  const [transitions, setTransitions] = useState(false);
   const itemRefs = useRef([]);
   const itemBoundsRef = useRef([]);
   const draggedIndexRef = useRef(null);
@@ -12,21 +12,25 @@ function RankCompetitors(props) {
 
   function confirmGuess(event) {
     event.preventDefault();
-    guessHandler(competitors.map(comp => comp.id));
+    guessHandler(competitors.map((comp) => comp.id));
   }
 
   useEffect(() => {
-    const heights = itemRefs.current.map(elem => elem.getBoundingClientRect().height);
+    const heights = itemRefs.current.map(
+      (elem) => elem.getBoundingClientRect().height,
+    );
     const max = Math.max(...heights);
     maxRef.current = max;
-    itemRefs.current.forEach(ref => {
+    itemRefs.current.forEach((ref) => {
       ref.style.height = `${max}px`;
       ref.style.zIndex = 1000;
     });
   }, []);
 
   function setItemBounds() {
-    itemBoundsRef.current = itemRefs.current.map((el) => el.getBoundingClientRect());
+    itemBoundsRef.current = itemRefs.current.map((el) =>
+      el.getBoundingClientRect(),
+    );
   }
 
   function findIndexOfCursor(y) {
@@ -41,7 +45,7 @@ function RankCompetitors(props) {
 
   function resetPositions() {
     itemRefs.current.forEach((el) => {
-      el.style.transform = '';
+      el.style.transform = "";
     });
   }
 
@@ -54,13 +58,16 @@ function RankCompetitors(props) {
       let offset = 0;
       if (index < draggedIndexRef.current && index >= currPosRef.current) {
         offset = boxHeight;
-      } else if (index > draggedIndexRef.current && index <= currPosRef.current) {
+      } else if (
+        index > draggedIndexRef.current &&
+        index <= currPosRef.current
+      ) {
         offset = -boxHeight;
       }
 
       el.style.transform = `translate3d(0px, ${offset}px, 0px)`;
     });
-  };
+  }
 
   function dragStart(index, event) {
     setTransitions(true);
@@ -102,27 +109,35 @@ function RankCompetitors(props) {
       <script async src="/DragDropTouch.js" />
       <form>
         <ul className="container">
-          {competitors.map((competitor, i) =>
+          {competitors.map((competitor, i) => (
             <li
-              ref={el => itemRefs.current[i] = el}
+              ref={(el) => (itemRefs.current[i] = el)}
               key={competitor.id}
-              className={'item-wrapper' + (transitions ? '' : ' disable-transitions')}
+              className={
+                "item-wrapper" + (transitions ? "" : " disable-transitions")
+              }
               draggable="true"
-              onDragStart={el => dragStart(i, el)}
+              onDragStart={(el) => dragStart(i, el)}
               onDragOver={dragOver}
               onDragEnd={dragEnd}
             >
               <div className="number">{i + 1}</div>
               <div className="item">{competitor.name}</div>
-              {competitor.color ?
-                <span className="circle" style={{ backgroundColor: competitor.color }}></span> : ''}
+              {competitor.color ? (
+                <span
+                  className="circle"
+                  style={{ backgroundColor: competitor.color }}
+                ></span>
+              ) : (
+                ""
+              )}
             </li>
-          )}
+          ))}
         </ul>
         <input type="submit" onClick={confirmGuess} value="Send inn gjett" />
       </form>
     </>
-  )
+  );
 }
 
-export default RankCompetitors
+export default RankCompetitors;

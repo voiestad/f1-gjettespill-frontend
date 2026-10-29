@@ -1,11 +1,17 @@
 import {
-  useState, useEffect, useContext, useRef, Children, isValidElement, cloneElement,
-} from 'react'
-import { CsrfTokenContext, ThemeContext } from '../components'
-import axios from 'axios'
-import { useLocation, Link, useNavigate } from 'react-router'
-import Breadcrumbs from './Breadcrumbs'
-import logo from '../assets/logo.svg';
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  Children,
+  isValidElement,
+  cloneElement,
+} from "react";
+import { CsrfTokenContext, ThemeContext } from "../components";
+import axios from "axios";
+import { useLocation, Link, useNavigate } from "react-router";
+import Breadcrumbs from "./Breadcrumbs";
+import logo from "../assets/logo.svg";
 
 function Logo() {
   return (
@@ -15,7 +21,7 @@ function Logo() {
         <h1>F1 Gjettespill</h1>
       </Link>
     </>
-  )
+  );
 }
 
 function HamburgerMenu(props) {
@@ -33,7 +39,7 @@ function HamburgerMenu(props) {
         </svg>
       </button>
     </>
-  )
+  );
 }
 
 function DropdownSection(props) {
@@ -61,34 +67,33 @@ function DropdownSection(props) {
   return (
     <>
       <div className="dropdown-section">
-        <button className="dropdown-button selectable" onClick={toggleSubMenu}>{category} &#x25BC;</button>
-        <div
-          className={isActive ? 'active' : ''}
-          ref={subMenuRef}
-        >
-          {Children.map(children, child =>
+        <button className="dropdown-button selectable" onClick={toggleSubMenu}>
+          {category} &#x25BC;
+        </button>
+        <div className={isActive ? "active" : ""} ref={subMenuRef}>
+          {Children.map(children, (child) =>
             isValidElement(child)
               ? cloneElement(child, {
-                className: `${child.props.className ?? ''} ${isActive ? 'selectable' : ''
-                  }`.trim()
-              })
-              : child
+                  className: `${child.props.className ?? ""} ${
+                    isActive ? "selectable" : ""
+                  }`.trim(),
+                })
+              : child,
           )}
         </div>
       </div>
     </>
-  )
+  );
 }
-
 
 function DropdownMenu(props) {
   const { token, headerName } = useContext(CsrfTokenContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const themeNames = {
-    "light": "Lys",
-    "dark": "Mørk",
-    "oled": "Mørkere"
-  }
+    light: "Lys",
+    dark: "Mørk",
+    oled: "Mørkere",
+  };
   const { isMenuActive, setActive } = props;
   const linksRef = useRef(null);
   const navigate = useNavigate();
@@ -97,12 +102,12 @@ function DropdownMenu(props) {
   function updateSelectable() {
     const links = linksRef.current;
 
-    links.querySelectorAll('a, button').forEach(el => {
+    links.querySelectorAll("a, button").forEach((el) => {
       const classList = el.classList;
       if (isMenuActive && classList.contains("selectable")) {
-        el.removeAttribute('tabindex');
+        el.removeAttribute("tabindex");
       } else {
-        el.setAttribute('tabindex', '-1');
+        el.setAttribute("tabindex", "-1");
       }
     });
   }
@@ -127,14 +132,15 @@ function DropdownMenu(props) {
   }, [isMenuActive, headerState]);
 
   function reloadHeaderState() {
-    axios.get('/api/public/header')
-      .then(res => setHeaderState(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/public/header")
+      .then((res) => setHeaderState(res.data))
+      .catch((err) => console.error(err));
   }
   const { pathname } = useLocation();
   useEffect(() => {
     setActive(false);
-    if (pathname === '/') {
+    if (pathname === "/") {
       reloadHeaderState();
     }
   }, [pathname]);
@@ -144,56 +150,101 @@ function DropdownMenu(props) {
   }, []);
 
   function logout() {
-    axios.post('/api/logout', {}, {
-      headers: {
-        [headerName]: token
-      }
-    })
-      .then(res => {
-        navigate('/');
+    axios
+      .post(
+        "/api/logout",
+        {},
+        {
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        navigate("/");
         reloadHeaderState();
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   return (
     <>
       <div id="links-container">
-        <div id="links"
-          className={isMenuActive ? 'active' : ''}
+        <div
+          id="links"
+          className={isMenuActive ? "active" : ""}
           ref={linksRef}
-          style={{ maxHeight: '0px' }}
+          style={{ maxHeight: "0px" }}
         >
-          <Link to="/guess" className="selectable">Gjetting</Link>
-          <DropdownSection category="Resultater" linksRef={linksRef} updateSelectable={updateSelectable}>
+          <Link to="/guess" className="selectable">
+            Gjetting
+          </Link>
+          <DropdownSection
+            category="Resultater"
+            linksRef={linksRef}
+            updateSelectable={updateSelectable}
+          >
             <Link to="/user/compare">Sammenlign brukere</Link>
             <Link to="/stats">Statistikk</Link>
             <Link to="/score">Poengberegning</Link>
             <Link to="https://app.voiestad.no/f1-old">Resultater før 2025</Link>
           </DropdownSection>
-          <DropdownSection category="Andre" linksRef={linksRef} updateSelectable={updateSelectable}>
+          <DropdownSection
+            category="Andre"
+            linksRef={linksRef}
+            updateSelectable={updateSelectable}
+          >
             <Link to="/bingo">Bingo</Link>
           </DropdownSection>
-          <Link to="/league" className="selectable">Liga</Link>
-          {headerState && headerState.isLoggedIn ?
-            <DropdownSection category="Profil" linksRef={linksRef} updateSelectable={updateSelectable}>
+          <Link to="/league" className="selectable">
+            Liga
+          </Link>
+          {headerState && headerState.isLoggedIn ? (
+            <DropdownSection
+              category="Profil"
+              linksRef={linksRef}
+              updateSelectable={updateSelectable}
+            >
               <Link to="/user/myprofile">Min Profil</Link>
               <Link to="/settings">Innstillinger</Link>
               <Link onClick={logout}>Logg ut</Link>
             </DropdownSection>
-            : ''
-          }
-          <button className="dropdown-button selectable" onClick={toggleTheme}>Tema: {themeNames[theme]}</button>
-          {headerState && headerState.isAdmin ? <Link to="/admin" className="selectable">Admin Portal</Link> : ''}
-          {headerState && headerState.isAdmin && headerState.ongoingRace ?
-            <Link to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`} className="selectable">
+          ) : (
+            ""
+          )}
+          <button className="dropdown-button selectable" onClick={toggleTheme}>
+            Tema: {themeNames[theme]}
+          </button>
+          {headerState && headerState.isAdmin ? (
+            <Link to="/admin" className="selectable">
+              Admin Portal
+            </Link>
+          ) : (
+            ""
+          )}
+          {headerState && headerState.isAdmin && headerState.ongoingRace ? (
+            <Link
+              to={`/admin/flag/${headerState.ongoingRace.year}/${headerState.ongoingRace.id}`}
+              className="selectable"
+            >
               Registrer flagg
-            </Link> : null}
-          {headerState && !headerState.isLoggedIn ? <Link onClick={() => localStorage.setItem("redirectAfterLogin", pathname)} to="/login" className="selectable">Logg inn</Link> : null}
+            </Link>
+          ) : null}
+          {headerState && !headerState.isLoggedIn ? (
+            <Link
+              onClick={() =>
+                localStorage.setItem("redirectAfterLogin", pathname)
+              }
+              to="/login"
+              className="selectable"
+            >
+              Logg inn
+            </Link>
+          ) : null}
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function Header() {
@@ -209,7 +260,7 @@ function Header() {
         </nav>
       </header>
     </>
-  )
+  );
 }
 
-export default Header
+export default Header;

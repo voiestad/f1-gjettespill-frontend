@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useState, useContext } from 'react';
-import { CsrfTokenContext } from '../components';
+import axios from "axios";
+import { useState, useContext } from "react";
+import { CsrfTokenContext } from "../components";
 
 function CreateLeague() {
   const [leagueName, setLeagueName] = useState("");
@@ -26,20 +26,27 @@ function CreateLeague() {
     if (!leagueName) {
       return;
     }
-    axios.put("/api/league", {}, {
-      params: {
-        leagueName: leagueName
-      },
-      headers: {
-        [headerName]: token
-      }
-    }).then(res => {
-      setLeagueName("");
-      setError("Ligaen din ble laget!");
-    }).catch(err => {
-      console.error(err)
-      setError(err.response.data);
-    })
+    axios
+      .put(
+        "/api/league",
+        {},
+        {
+          params: {
+            leagueName: leagueName,
+          },
+          headers: {
+            [headerName]: token,
+          },
+        },
+      )
+      .then((res) => {
+        setLeagueName("");
+        setError("Ligaen din ble laget!");
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(err.response.data);
+      });
   }
 
   return (
@@ -48,13 +55,19 @@ function CreateLeague() {
       <h2>Lag din egen liga</h2>
 
       <form>
-        <input type="text" placeholder="Liganavn" onChange={validateLeagueName} value={leagueName} /><br />
+        <input
+          type="text"
+          placeholder="Liganavn"
+          onChange={validateLeagueName}
+          value={leagueName}
+        />
+        <br />
         <input type="submit" value="Lag liga" onClick={createLeague} />
       </form>
 
-      {error ? <p>{error}</p> : ''}
+      {error ? <p>{error}</p> : ""}
     </>
-  )
+  );
 }
 
-export default CreateLeague
+export default CreateLeague;

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { ErrorGuessingNotAvailableYet, ErrorNotFound } from '../error';
-import axios from 'axios';
-import UserStats from './UserStats';
-import Placements from './Placements';
-import RacePicker from './RacePicker';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { ErrorGuessingNotAvailableYet, ErrorNotFound } from "../error";
+import axios from "axios";
+import UserStats from "./UserStats";
+import Placements from "./Placements";
+import RacePicker from "./RacePicker";
 
 function User() {
   const { id } = useParams();
@@ -14,17 +14,18 @@ function User() {
   const [year, setYear] = useState(null);
   const [placements, setPlacements] = useState(null);
   useEffect(() => {
-    axios.get(`/api/public/user/${id}`, {
-      params: {
-        raceId: raceId,
-        year: year
-      }
-    })
-      .then(res => {
+    axios
+      .get(`/api/public/user/${id}`, {
+        params: {
+          raceId: raceId,
+          year: year,
+        },
+      })
+      .then((res) => {
         setUserData(res.data);
         setError(null);
       })
-      .catch(err => {
+      .catch((err) => {
         setUserData(null);
         if (err.status === 403) {
           setError(<ErrorGuessingNotAvailableYet />);
@@ -33,24 +34,25 @@ function User() {
         } else {
           console.error(err);
         }
-      })
+      });
   }, [raceId, year]);
-   useEffect(() => {
-    axios.get(`/api/public/user/placements/${id}`)
-      .then(res => setPlacements(res.data))
-      .catch(err => {
+  useEffect(() => {
+    axios
+      .get(`/api/public/user/placements/${id}`)
+      .then((res) => setPlacements(res.data))
+      .catch((err) => {
         console.error(err);
-      })
+      });
   }, []);
   return (
     <>
-      <title>{placements ? placements.username : 'Laster bruker...'}</title>
-      {placements ? <Placements placements={placements} /> : ''}
+      <title>{placements ? placements.username : "Laster bruker..."}</title>
+      {placements ? <Placements placements={placements} /> : ""}
       <RacePicker setRaceId={setRaceId} raceId={raceId} setYear={setYear} />
-      {userData ? <UserStats userData={userData} /> : ''}
-      {error ? error : ''}
+      {userData ? <UserStats userData={userData} /> : ""}
+      {error ? error : ""}
     </>
   );
 }
 
-export default User
+export default User;
